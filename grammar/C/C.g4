@@ -115,7 +115,7 @@ function_direct_declarator
 // the declaration of a variable
 direct_declarator
     : IDENTIFIER
-    | direct_declarator '[' index ']'
+    | direct_declarator '[' expression ']'
     | direct_declarator '[' ']'
     ;
 
