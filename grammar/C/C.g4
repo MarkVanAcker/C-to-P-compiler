@@ -9,13 +9,69 @@ program
 statements
     : statement
     | statement statements
+    // If else while for
     ;
 
 // type of statements (need to add for while if (switch))
 statement
-    : assignment ';'
-    // | definition -> FUNCTIONS
+    : expression ';'
+    | definition '{' statements '}'
     | declaration ';'
+    |  '#include' include
+    | conditional_statement
+    | iteration_statement
+    | 'return' expression ';'
+    | ';'
+    ;
+
+
+definition
+    : declaration
+    ;
+
+include
+    : '\'' filename '\''
+    | '<' filename '>'
+    ;
+
+
+conditional_statement
+    : IF '(' condition ')' '{' statements '}'
+    | IF '(' condition ')'  statement
+    | IF '(' condition ')' '{' statements '}' else_statement
+    | IF '(' condition ')'  statement else_statement
+    // | switch
+    ;
+
+condition
+    :expression
+    ;
+
+else_statement
+    : ELSE '{' statements '}'
+    | ELSE statement
+    ;
+
+iteration_statement
+    : while_statement
+    | for_statement
+    ;
+
+while_statement
+    : WHILE '(' expression ')' statement
+    | WHILE '(' expression ')' '{' statements '}'
+    ;
+
+for_statement
+    : FOR '(' expression_statement expression_statement ')' statement
+    | FOR '(' expression_statement expression_statement expression ')' statement
+    | FOR '(' expression_statement expression_statement ')' '{' statements '}'
+    | FOR '(' expression_statement expression_statement expression ')' '{' statements '}'
+    ;
+
+expression_statement
+    : expression ';'
+    | ';'
     ;
 
 //declaration_list
@@ -30,8 +86,8 @@ statement
 //    | declarator_list ',' function_declarator
 //    ;
 
-//
-assignment
+// assignment expression
+assignment_expression
     : declaration assignment_operator expression
     | declarator assignment_operator expression
     ;
@@ -50,8 +106,15 @@ postfix_expression
 
 
 expression
-    : additive_expression
+    : comparison_expression
+    | postfix_expression assignment_operator expression
     ;
+
+comparison_expression
+    : additive_expression
+    | comparison_expression comparison_operator additive_expression
+    ;
+
 
 additive_expression
     : multiplicative_expression
@@ -66,14 +129,9 @@ multiplicative_expression
     ;
 
 
-//
-definition
-    : 'def'
-    ;
-
 // different types of declarations making difference between functions and varaibles (void)
 declaration
-    : declaration_specifier declarator  // char var en func (, ...)
+    : declaration_specifier declarator_list  // char var en func (, ...)
     ;
 
 // defines the type of the declaration ( CONST INT x)
@@ -84,14 +142,21 @@ declaration_specifier
     | type_qualifier declaration_specifier
     ;
 
+declarator_list
+    : initialise_declarator
+    | declarator_list ',' initialise_declarator
+    ;
+
+initialise_declarator
+    : declarator
+    | declarator '=' expression
+    ;
 
 
 // seperates pointer variable declaration and no pointer declaration
 declarator
     : pointer direct_declarator
     | direct_declarator
-    | declarator ',' pointer direct_declarator
-    | declarator ',' direct_declarator
     ;
 
 
@@ -126,6 +191,11 @@ parameter_declaration
 
 assignment_operator
     : '='
+    ;
+
+filename
+    : FILENAME
+    | IDENTIFIER '.' IDENTIFIER
     ;
 
 // integer for indexing
@@ -176,10 +246,15 @@ comparison_operator
 
 // LEXER
 
+WHILE: 'while';
+FOR: 'for';
+IF: 'if';
+ELSE: 'else';
 CHAR: 'char';
 FLOAT: 'float';
 INT: 'int';
 POINTER: '*';
+FILENAME: 'stdio.h';
 CONST: 'const';
 VOID: 'void';
 IDENTIFIER: ('_' | 'a'..'z'| 'A'..'Z')('_' | 'a'..'z'| 'A'..'Z')*; // could be changed to max 30 length

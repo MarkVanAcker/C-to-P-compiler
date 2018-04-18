@@ -1,14 +1,3 @@
-int test(){
-	return 1;
-}
-
-
-int f (int x, int y) {return 3;}
-
-
-void ff(int x){
-	int a = 5;
-}
 
 
 #include <stdio.h>
@@ -25,5 +14,12 @@ int  main () {
 	//int qwe = 3 = 5;
 	printf("%d",1==1);
 	printf("%d",1==2);
+	;
+	;
+	for (int i = 0; i <10; i=i+1){
+		int b = 5;
+	}
+
+
 	return 0;
 }
