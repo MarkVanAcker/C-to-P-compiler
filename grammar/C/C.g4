@@ -74,7 +74,6 @@ definition
 // different types of declarations making difference between functions and varaibles (void)
 declaration
     : declaration_specifier declarator  // char var en func (, ...)
-    | function_declaration_specifier function_declarator // void en char func (, ...)
     ;
 
 // defines the type of the declaration ( CONST INT x)
@@ -85,36 +84,23 @@ declaration_specifier
     | type_qualifier declaration_specifier
     ;
 
-// defines the type of the function declaration (VOID function() )
-function_declaration_specifier
-    : function_type_specifier
-    | function_type_specifier declaration_specifier
-    | type_qualifier
-    | type_qualifier declaration_specifier
-    ;
 
-// seperates pointer function declaration and no pointer declaration
-function_declarator
-    : pointer function_direct_declarator
-    | function_direct_declarator
-    ;
 
 // seperates pointer variable declaration and no pointer declaration
 declarator
     : pointer direct_declarator
     | direct_declarator
+    | declarator ',' pointer direct_declarator
+    | declarator ',' direct_declarator
     ;
 
-// the declarator of a function
-function_direct_declarator
-    : IDENTIFIER '(' parameter_list ')'
-    | IDENTIFIER '(' identifier_list ')'
-    | IDENTIFIER '(' ')'
-    ;
 
 // the declaration of a variable
 direct_declarator
     : IDENTIFIER
+    | IDENTIFIER '(' parameter_list ')'
+    | IDENTIFIER '(' identifier_list ')'
+    | IDENTIFIER '(' ')'
     | direct_declarator '[' expression ']'
     | direct_declarator '[' ']'
     ;
@@ -135,8 +121,7 @@ parameter_list
 // all possible type declarations (supporting void and passing functions as arg)
 parameter_declaration
 	: declaration_specifier declarator
-    | function_declaration_specifier function_declarator
-	| function_declaration_specifier
+	| declaration_specifier
 	;
 
 assignment_operator
@@ -159,13 +144,6 @@ value
 
 // types in c subset
 type_specifier
-    : CHAR
-    | FLOAT
-    | INT
-    ;
-
-// types and void for functions
-function_type_specifier
     : CHAR
     | FLOAT
     | INT
