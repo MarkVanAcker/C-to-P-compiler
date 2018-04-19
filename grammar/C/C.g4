@@ -9,13 +9,12 @@ program
 statements
     : statement
     | statement statements
-    // If else while for
     ;
 
 // type of statements (need to add for while if (switch))
 statement
     : expression ';'
-    | definition '{' statements '}'
+    | definition compound_statement
     | declaration ';'
     |  '#include' include
     | conditional_statement
@@ -24,6 +23,10 @@ statement
     | ';'
     ;
 
+compound_statement
+    : '{' '}'
+    | '{' statements '}'
+    ;
 
 definition
     : declaration
@@ -36,9 +39,9 @@ include
 
 
 conditional_statement
-    : IF '(' condition ')' '{' statements '}'
+    : IF '(' condition ')' compound_statement
     | IF '(' condition ')'  statement
-    | IF '(' condition ')' '{' statements '}' else_statement
+    | IF '(' condition ')' compound_statement else_statement
     | IF '(' condition ')'  statement else_statement
     // | switch
     ;
@@ -48,7 +51,7 @@ condition
     ;
 
 else_statement
-    : ELSE '{' statements '}'
+    : ELSE compound_statement
     | ELSE statement
     ;
 
@@ -59,14 +62,14 @@ iteration_statement
 
 while_statement
     : WHILE '(' expression ')' statement
-    | WHILE '(' expression ')' '{' statements '}'
+    | WHILE '(' expression ')' compound_statement
     ;
 
 for_statement
     : FOR '(' expression_statement expression_statement ')' statement
     | FOR '(' expression_statement expression_statement expression ')' statement
-    | FOR '(' expression_statement expression_statement ')' '{' statements '}'
-    | FOR '(' expression_statement expression_statement expression ')' '{' statements '}'
+    | FOR '(' expression_statement expression_statement ')' compound_statement
+    | FOR '(' expression_statement expression_statement expression ')' compound_statement
     ;
 
 expression_statement

@@ -24,8 +24,58 @@ class CVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CParser#assignment.
-    def visitAssignment(self, ctx:CParser.AssignmentContext):
+    # Visit a parse tree produced by CParser#compound_statement.
+    def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#definition.
+    def visitDefinition(self, ctx:CParser.DefinitionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#include.
+    def visitInclude(self, ctx:CParser.IncludeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#conditional_statement.
+    def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#condition.
+    def visitCondition(self, ctx:CParser.ConditionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#else_statement.
+    def visitElse_statement(self, ctx:CParser.Else_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#iteration_statement.
+    def visitIteration_statement(self, ctx:CParser.Iteration_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#while_statement.
+    def visitWhile_statement(self, ctx:CParser.While_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#for_statement.
+    def visitFor_statement(self, ctx:CParser.For_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#expression_statement.
+    def visitExpression_statement(self, ctx:CParser.Expression_statementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CParser#assignment_expression.
+    def visitAssignment_expression(self, ctx:CParser.Assignment_expressionContext):
         return self.visitChildren(ctx)
 
 
@@ -44,6 +94,11 @@ class CVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by CParser#comparison_expression.
+    def visitComparison_expression(self, ctx:CParser.Comparison_expressionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by CParser#additive_expression.
     def visitAdditive_expression(self, ctx:CParser.Additive_expressionContext):
         return self.visitChildren(ctx)
@@ -51,11 +106,6 @@ class CVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by CParser#multiplicative_expression.
     def visitMultiplicative_expression(self, ctx:CParser.Multiplicative_expressionContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CParser#definition.
-    def visitDefinition(self, ctx:CParser.DefinitionContext):
         return self.visitChildren(ctx)
 
 
@@ -69,23 +119,18 @@ class CVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CParser#function_declaration_specifier.
-    def visitFunction_declaration_specifier(self, ctx:CParser.Function_declaration_specifierContext):
+    # Visit a parse tree produced by CParser#declarator_list.
+    def visitDeclarator_list(self, ctx:CParser.Declarator_listContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CParser#function_declarator.
-    def visitFunction_declarator(self, ctx:CParser.Function_declaratorContext):
+    # Visit a parse tree produced by CParser#initialise_declarator.
+    def visitInitialise_declarator(self, ctx:CParser.Initialise_declaratorContext):
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by CParser#declarator.
     def visitDeclarator(self, ctx:CParser.DeclaratorContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CParser#function_direct_declarator.
-    def visitFunction_direct_declarator(self, ctx:CParser.Function_direct_declaratorContext):
         return self.visitChildren(ctx)
 
 
@@ -114,6 +159,11 @@ class CVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by CParser#filename.
+    def visitFilename(self, ctx:CParser.FilenameContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by CParser#index.
     def visitIndex(self, ctx:CParser.IndexContext):
         return self.visitChildren(ctx)
@@ -126,11 +176,6 @@ class CVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by CParser#type_specifier.
     def visitType_specifier(self, ctx:CParser.Type_specifierContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CParser#function_type_specifier.
-    def visitFunction_type_specifier(self, ctx:CParser.Function_type_specifierContext):
         return self.visitChildren(ctx)
 
 

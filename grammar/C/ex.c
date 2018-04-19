@@ -1,5 +1,1 @@
-int a;
-
-
-
-int main();
+int i = 5;
