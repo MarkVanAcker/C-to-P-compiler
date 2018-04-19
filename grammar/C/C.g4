@@ -77,17 +77,6 @@ expression_statement
     | ';'
     ;
 
-//declaration_list
-//    : declaration
-//    | declaration ',' declarator_list
-//    ;
-
-//declarator_list
-//    : declarator
-//    | function_declarator
-//    | declarator_list ',' declarator
-//    | declarator_list ',' function_declarator
-//    ;
 
 // assignment expression
 assignment_expression

@@ -2,12 +2,27 @@ from CVisitor import CVisitor
 from CParser import CParser
 from AST import ASTNode
 
+from AST import ToDot
+
 class CsubVisitor(CVisitor):
 
 
     def __init__(self,name="Program"):
         self.DOT = False
         self.AST = ASTNode(name)
+
+
+    def todot(self,node,child):
+
+
+        if(child.getChildCount() == 0):
+            self.file.write("\tNODE" + str(id(child)) + "[label=\"" + child.getText()+ "\"];\n")
+        else:
+            self.file.write("\tNODE" + str(id(child)) + "[label=\"" + CParser.ruleNames[child.getRuleIndex()]+ "\"];\n")
+        self.file.write("\tNODE"+str(id(node))+"->NODE"+str(id(child))+"\n")
+
+
+
 
 
     def todot_visit(self, tree):
@@ -30,77 +45,56 @@ class CsubVisitor(CVisitor):
 
         self.file.close()
 
-    def visitChildren(self, node):
 
-
-        result = self.defaultResult()
-        n = node.getChildCount()
-        for i in range(n):
-            if not self.shouldVisitNextChild(node, result):
-                return
-
-            c = node.getChild(i)
-
-            if self.DOT:
-                self.todot(node,c)
-
-            childResult = c.accept(self)
-
-            result = self.aggregateResult(result, childResult)
-
-
-
-
-        return result
 
 
     def aggregateResult(self, aggregate, nextResult):
         if nextResult is None or aggregate is None:
             return None
         else:
-            return aggregate+nextResult
+            return nextResult
 
 
     def visitTerminal(self, node):
-        return node.getText()
+        return ASTNode(node.getText(),node.getSymbol())
 
 
     def defaultResult(self):
         return ""
 
-    def TypeCheck(self,type):
 
-        if(type == "int"):
-            return True
-
-    def todot(self,node,child):
-
-
-        if(child.getChildCount() == 0):
-            self.file.write("\tNODE" + str(id(child)) + "[label=\"" + child.getText()+ "\"];\n")
-        else:
-            self.file.write("\tNODE" + str(id(child)) + "[label=\"" + CParser.ruleNames[child.getRuleIndex()]+ "\"];\n")
-        self.file.write("\tNODE"+str(id(node))+"->NODE"+str(id(child))+"\n")
-
-
-
-
-
-    #visitor inheritence
 
 
     # Visit a parse tree produced by CParser#program.
     def visitProgram(self, ctx:CParser.ProgramContext):
-        return self.visitChildren(ctx)
-
+        c = ctx.getChild(0).accept(self)
+        self.AST.addchildren(c)
+        ToDot(self.AST)
 
     # Visit a parse tree produced by CParser#statements.
     def visitStatements(self, ctx:CParser.StatementsContext):
-        return self.visitChildren(ctx)
+
+        childlist = []
+        n = ctx.getChildCount()
+        for i in range(n):
+            c = ctx.getChild(i)
+            childResult = c.accept(self)
+            if isinstance(c,CParser.StatementsContext):
+                childlist.extend(childResult)
+            else:
+                childlist.append(childResult)
+
+        return childlist
 
 
     # Visit a parse tree produced by CParser#statement.
     def visitStatement(self, ctx:CParser.StatementContext):
+        n = ctx.getChildCount()
+        for i in range(n):
+            c = ctx.getChild(i)
+            childResult = c.accept(self)
+            if isinstance(c, CParser.ExpressionContext):
+                return childResult
         return self.visitChildren(ctx)
 
 
@@ -171,30 +165,27 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#expression.
     def visitExpression(self, ctx:CParser.ExpressionContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#comparison_expression.
     def visitComparison_expression(self, ctx:CParser.Comparison_expressionContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#additive_expression.
     def visitAdditive_expression(self, ctx:CParser.Additive_expressionContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#multiplicative_expression.
     def visitMultiplicative_expression(self, ctx:CParser.Multiplicative_expressionContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#declaration.
     def visitDeclaration(self, ctx:CParser.DeclarationContext):
-        type = ctx.getChild(0).accept(self);
-        print(type)
-        if(self.TypeCheck(type)):
-            print(ctx.getChild(1).getChildCount())
+        return self.visitChildren(ctx)
 
 
 
@@ -255,7 +246,12 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#value.
     def visitValue(self, ctx:CParser.ValueContext):
-        return self.visitChildren(ctx)
+        n = self.visitChildren(ctx)
+        if n.token.type == CParser.IDENTIFIER:
+            n.Typedcl = "id"
+        elif n.token.type == CParser.INTEGER:
+            n.Typedcl = "intconst"
+        return n
 
 
     # Visit a parse tree produced by CParser#type_specifier.
@@ -282,5 +278,22 @@ class CsubVisitor(CVisitor):
     def visitComparison_operator(self, ctx:CParser.Comparison_operatorContext):
         return self.visitChildren(ctx)
 
+
+
+
+
+
+
+    #General function
+
+    def exprHandler(self,ctx):
+        if ctx.getChildCount() == 1:
+            return ctx.getChild(0).accept(self)
+
+        else:
+            exprnode = ASTNode(ctx.getChild(1).accept(self).name)
+            exprnode.addchild(ctx.getChild(0).accept(self))
+            exprnode.addchild(ctx.getChild(2).accept(self))
+            return exprnode
 
 
