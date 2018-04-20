@@ -14,7 +14,7 @@ statements
 // type of statements (need to add for while if (switch))
 statement
     : expression ';'
-    | definition compound_statement
+    | function_definition
     | declaration ';'
     |  '#include' include
     | conditional_statement
@@ -22,6 +22,11 @@ statement
     | 'return' expression ';'
     | ';'
     ;
+
+function_definition
+    : definition compound_statement
+;
+
 
 compound_statement
     : LCURL RCURL
@@ -164,8 +169,8 @@ direct_declarator
 
 // possible list of values given to a function
 identifier_list
-    : value
-    | identifier_list COMMA value
+    : expression
+    | identifier_list COMMA expression
     ;
 
 // possible list of paramaters of a function

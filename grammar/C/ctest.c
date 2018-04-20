@@ -4,11 +4,16 @@ int f(int b){
 return 0;
 }
 
+void a() = 3;
+
+
 int main(){
 
 
 
-const int i;
+int i;
+
+
 
 
 
