@@ -260,6 +260,41 @@ class CsubVisitor(CVisitor):
         if(n == 1):
             return self.tokenHandler(self.visitChildren(ctx))
 
+
+        #refactor
+
+        if( n == 3):
+            if (isinstance(ctx.getChild(1),CParser.LPAREN)):
+                tempnode = ctx.getChild(0).accept(self)
+                tempnode.Typedcl = "func"
+                return tempnode
+            elif (isinstance(ctx.getChild(1), CParser.LSQUARE)):
+                tempnode = ctx.getChild(0).accept(self)
+                tempnode.Typedcl = "array"
+                return tempnode
+
+        if (n == 4):
+            if (isinstance(ctx.getChild(1), CParser.LPAREN)):
+                tempnode = ctx.getChild(0).accept(self)
+                tempnode.Typedcl = "func"
+
+                paramnode = ctx.getChild(2).accept(self)
+
+                tempnode.addchild(paramnode)
+
+                return tempnode
+            elif (isinstance(ctx.getChild(1), CParser.LSQUARE)):
+                tempnode = ctx.getChild(0).accept(self)
+                tempnode.Typedcl = "array"
+
+                paramnode = ctx.getChild(2).accept(self)
+
+                tempnode.addchild(paramnode)
+
+                return tempnode
+
+
+
         for i in range(n):
             c = ctx.getChild(i)
             childResult = c.accept(self)
