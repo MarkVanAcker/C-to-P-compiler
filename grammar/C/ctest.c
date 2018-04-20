@@ -4,7 +4,7 @@ int f(int b){
 return 0;
 }
 
-void a() = 3;
+int a(),c = 0, d() {return 1;}
 
 
 int main(){

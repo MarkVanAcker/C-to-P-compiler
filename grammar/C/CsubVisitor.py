@@ -97,9 +97,37 @@ class CsubVisitor(CVisitor):
             if isinstance(c, CParser.DeclarationContext):
                 return childResult
 
+    # Visit a parse tree produced by CParser#function_definition.
+    def visitFunction_definition(self, ctx:CParser.Function_definitionContext):
+
+        returnlist = []
+        decl = ctx.getChild(0).accept(self) # TYPE + FUNCTION NAME AND PARAMETERS
+        if len(decl) != 2:
+            self.errorHandler("expected ‘,’, ‘;' before ‘{’ token",decl)
+        # MAKE SURE TYPE IS FUNCTION
+        node = ASTNode("function definition")
+        node.addchild(decl[0]) # type
+        node.addchild(decl[1]) # name and arg list
+
+        comp_state = ctx.getChild(1).accept(self)
+        node.addchild(comp_state) # block
+        resultlist.append(node)
+
+        return returnlist
+
+
     # Visit a parse tree produced by CParser#compound_statement.
     def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
-        return self.visitChildren(ctx)
+        node = ASTNode("block")
+        if ctx.getChildCount() == 2: # emtpy 2 curly brackets only
+            return node
+
+        statements = ctx.getChild(1).accept(self)
+        for i in statements:
+            node.addchild(i);
+
+
+        return node
 
 
     # Visit a parse tree produced by CParser#definition.
@@ -109,12 +137,37 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#include.
     def visitInclude(self, ctx:CParser.IncludeContext):
-        return self.visitChildren(ctx)
+
+        node1 = ASTNode("include") # making it ez because it is ... (in our case)
+        node2 = ASTNode("stdio.h")
+        node1.addchild(node2)
+
+
+        return [node1]
 
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        return self.visitChildren(ctx)
+        node = ASTNode("if")
+        condition_st = ctx.getChild(2).accept(self)
+        node.addchild(condition_st)
+        state = ctx.getChild(4).accept(self)
+        if isinstance(state, CParser.Compound_statementContext):
+            node.addchild(state) # returns a block
+
+        if isinstance(state, CParser.StatementContext):
+            nodeblock = ASTNode("block") # make block
+            templist = []
+            templist.extend(state)  # state could be node or list of nodes
+            for i in templist:
+                nodeblock.addchild(i)
+            node.addchild(nodeblock)
+
+        if ctx.getChildCount() == 6: # else alternative
+            node.addchild(ctx.getChild(5).accept(self)) # else block
+
+
+        return node
 
 
     # Visit a parse tree produced by CParser#condition.
@@ -124,7 +177,18 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#else_statement.
     def visitElse_statement(self, ctx:CParser.Else_statementContext):
-        return self.visitChildren(ctx)
+
+        if isinstance(state, CParser.Compound_statementContext):
+            return state # returns a block
+
+        if isinstance(state, CParser.StatementContext):
+            nodeblock = ASTNode("block") # make block
+            templist = []
+            templist.extend(state)  # state could be node or list of nodes
+            for i in templist:
+                nodeblock.addchild(i)
+
+            return nodeblock
 
 
     # Visit a parse tree produced by CParser#iteration_statement.
@@ -410,6 +474,3 @@ class CsubVisitor(CVisitor):
 
             quant.addchild(type)
             return quant
-
-
-

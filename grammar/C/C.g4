@@ -2,7 +2,7 @@ grammar C;
 
 // root of program
 program
-    : statements
+    : statements?
     ;
 
 // list of all possible statements
