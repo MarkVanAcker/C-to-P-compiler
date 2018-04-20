@@ -8,7 +8,6 @@ int main(){
 
 
 
-float a;
-
+int i;
 return 0;
 }

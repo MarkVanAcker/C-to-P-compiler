@@ -192,7 +192,17 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#declaration_specifier.
     def visitDeclaration_specifier(self, ctx:CParser.Declaration_specifierContext):
-        return self.visitChildren(ctx)
+
+
+
+        if ctx.getChildCount() == 1:
+            return [ctx.getChild(0).accept(self)]
+
+        nodelist = [ctx.getChild(0).accept(self)]
+        nodelist.extend(ctx.getChild(1).accept(self))
+
+        return nodelist
+
 
 
     # Visit a parse tree produced by CParser#declarator_list.
