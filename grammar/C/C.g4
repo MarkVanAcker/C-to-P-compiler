@@ -155,7 +155,7 @@ declarator
 direct_declarator
     : IDENTIFIER
     | IDENTIFIER LPAREN parameter_list RPAREN
-    | IDENTIFIER LPAREN identifier_list RPAREN
+//    | IDENTIFIER LPAREN identifier_list RPAREN
     | IDENTIFIER LPAREN RPAREN
     | direct_declarator LSQUARE expression RSQUARE
     | direct_declarator LSQUARE RSQUARE
@@ -250,7 +250,7 @@ VOID: 'void';
 IDENTIFIER: ('_' | 'a'..'z'| 'A'..'Z')('_' | 'a'..'z'| 'A'..'Z')*; // could be changed to max 30 length
 INTEGER: (('1'..'9')('0'..'9')*  | '0');
 DECIMAL: (('1'..'9')('0'..'9')*  | '0')('.')('0'..'9')+;
-CHARACTER: ('\'')(.)('\'');
+CHARACTER: ('\'')('a'..'z'| 'A'..'Z'| '0'..'9' | '\\' )*('\'');
 WS: ('\t' | '\n' | ' ' | '\r')+ -> skip; //toss out whitespace
 COMMENT: ('/*' .*? '*/'  | '//' ~('\n'|'\r')*) -> skip; // toss out comments
 LPAREN : '(';
