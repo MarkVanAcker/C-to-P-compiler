@@ -80,8 +80,7 @@ expression_statement
 
 // assignment expression
 assignment_expression
-    : declaration assignment_operator expression
-    | declarator assignment_operator expression
+    : declarator assignment_operator expression
     ;
 
 primary_expression
