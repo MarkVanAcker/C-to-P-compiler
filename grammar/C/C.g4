@@ -24,8 +24,8 @@ statement
     ;
 
 compound_statement
-    : '{' '}'
-    | '{' statements '}'
+    : LCURL RCURL
+    | LCURL statements RCURL
     ;
 
 definition
@@ -39,10 +39,10 @@ include
 
 
 conditional_statement
-    : IF '(' condition ')' compound_statement
-    | IF '(' condition ')'  statement
-    | IF '(' condition ')' compound_statement else_statement
-    | IF '(' condition ')'  statement else_statement
+    : IF LPAREN condition RPAREN compound_statement
+    | IF LPAREN condition RPAREN  statement
+    | IF LPAREN condition RPAREN compound_statement else_statement
+    | IF LPAREN condition RPAREN  statement else_statement
     // | switch
     ;
 
@@ -61,15 +61,15 @@ iteration_statement
     ;
 
 while_statement
-    : WHILE '(' expression ')' statement
-    | WHILE '(' expression ')' compound_statement
+    : WHILE LPAREN expression RPAREN statement
+    | WHILE LPAREN expression RPAREN compound_statement
     ;
 
 for_statement
-    : FOR '(' expression_statement expression_statement ')' statement
-    | FOR '(' expression_statement expression_statement expression ')' statement
-    | FOR '(' expression_statement expression_statement ')' compound_statement
-    | FOR '(' expression_statement expression_statement expression ')' compound_statement
+    : FOR LPAREN expression_statement expression_statement RPAREN statement
+    | FOR LPAREN expression_statement expression_statement expression RPAREN statement
+    | FOR LPAREN expression_statement expression_statement RPAREN compound_statement
+    | FOR LPAREN expression_statement expression_statement expression RPAREN compound_statement
     ;
 
 expression_statement
@@ -86,20 +86,20 @@ assignment_expression
 
 primary_expression
 	: value
-	| '(' expression ')'
+	| LPAREN expression RPAREN
 	;
 
 postfix_expression
 	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' identifier_list ')'
+	| postfix_expression LSQUARE expression RSQUARE
+	| postfix_expression LPAREN RPAREN
+	| postfix_expression LPAREN identifier_list RPAREN
 	;
 
 
 expression
     : comparison_expression
-    | postfix_expression assignment_operator expression
+    | assignment_expression
     ;
 
 comparison_expression
@@ -136,12 +136,12 @@ declaration_specifier
 
 declarator_list
     : initialise_declarator
-    | declarator_list ',' initialise_declarator
+    | declarator_list COMMA initialise_declarator
     ;
 
 initialise_declarator
     : declarator
-    | declarator '=' expression
+    | declarator assignment_operator expression
     ;
 
 
@@ -155,24 +155,24 @@ declarator
 // the declaration of a variable
 direct_declarator
     : IDENTIFIER
-    | IDENTIFIER '(' parameter_list ')'
-    | IDENTIFIER '(' identifier_list ')'
-    | IDENTIFIER '(' ')'
-    | direct_declarator '[' expression ']'
-    | direct_declarator '[' ']'
+    | IDENTIFIER LPAREN parameter_list RPAREN
+    | IDENTIFIER LPAREN identifier_list RPAREN
+    | IDENTIFIER LPAREN RPAREN
+    | direct_declarator LSQUARE expression RSQUARE
+    | direct_declarator LSQUARE RSQUARE
     ;
 
 
 // possible list of values given to a function
 identifier_list
     : value
-    | identifier_list ',' value
+    | identifier_list COMMA value
     ;
 
 // possible list of paramaters of a function
 parameter_list
     : parameter_declaration
-    | parameter_list ',' parameter_declaration
+    | parameter_list COMMA parameter_declaration
     ;
 
 // all possible type declarations (supporting void and passing functions as arg)
@@ -187,7 +187,6 @@ assignment_operator
 
 filename
     : FILENAME
-    | IDENTIFIER '.' IDENTIFIER
     ;
 
 // integer for indexing
@@ -255,3 +254,10 @@ DECIMAL: (('1'..'9')('0'..'9')*  | '0')('.')('0'..'9')+;
 CHARACTER: ('\'')(.)('\'');
 WS: ('\t' | '\n' | ' ' | '\r')+ -> skip; //toss out whitespace
 COMMENT: ('/*' .*? '*/'  | '//' ~('\n'|'\r')*) -> skip; // toss out comments
+LPAREN : '(';
+RPAREN : ')';
+LCURL : '{' ;
+RCURL : '}' ;
+LSQUARE : '[';
+RSQUARE : ']';
+COMMA : ',';

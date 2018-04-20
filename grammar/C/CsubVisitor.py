@@ -59,6 +59,7 @@ class CsubVisitor(CVisitor):
         return ASTNode(node.getText(),node.getSymbol())
 
 
+
     def defaultResult(self):
         return ""
 
@@ -150,7 +151,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#assignment_expression.
     def visitAssignment_expression(self, ctx:CParser.Assignment_expressionContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#primary_expression.
@@ -206,13 +207,43 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#declarator.
     def visitDeclarator(self, ctx:CParser.DeclaratorContext):
-        return self.visitChildren(ctx)
+        n = ctx.getChild(0)
 
+        if isinstance(n, CParser.PointerContext):
+            r = ASTNode("deref")
+            r.addchild(ctx.getChild(1).accept(self))
+            return r
+        else:
+            return n.accept(self)
 
     # Visit a parse tree produced by CParser#direct_declarator.
     def visitDirect_declarator(self, ctx:CParser.Direct_declaratorContext):
-        return self.visitChildren(ctx)
 
+
+        childlist = []
+        n = ctx.getChildCount()
+
+        if(n == 1):
+            return self.tokenHandler(self.visitChildren(ctx))
+
+        for i in range(n):
+            c = ctx.getChild(i)
+            childResult = c.accept(self)
+            if isinstance(c, CParser.StatementsContext):
+                childlist.extend(childResult)
+            else:
+                childlist.append(childResult)
+
+        return childlist
+
+        n = self.visitChildren(ctx)
+        if n.token.type == CParser.IDENTIFIER:
+            n.Typedcl = "id"
+        elif n.token.type == CParser.INTEGER:
+            n.Typedcl = "intconst"
+        elif n.token.type == CParser.DECIMAL:
+            n.Typedcl = "floatconst"
+        return n
 
     # Visit a parse tree produced by CParser#identifier_list.
     def visitIdentifier_list(self, ctx:CParser.Identifier_listContext):
@@ -247,10 +278,7 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#value.
     def visitValue(self, ctx:CParser.ValueContext):
         n = self.visitChildren(ctx)
-        if n.token.type == CParser.IDENTIFIER:
-            n.Typedcl = "id"
-        elif n.token.type == CParser.INTEGER:
-            n.Typedcl = "intconst"
+        self.tokenHandler(n)
         return n
 
 
@@ -295,5 +323,17 @@ class CsubVisitor(CVisitor):
             exprnode.addchild(ctx.getChild(0).accept(self))
             exprnode.addchild(ctx.getChild(2).accept(self))
             return exprnode
+
+
+
+
+    def tokenHandler(self,n):
+        if n.token.type == CParser.IDENTIFIER:
+            n.Typedcl = "id"
+        elif n.token.type == CParser.INTEGER:
+            n.Typedcl = "intconst"
+        elif n.token.type == CParser.DECIMAL:
+            n.Typedcl = "floatconst"
+        return n
 
 

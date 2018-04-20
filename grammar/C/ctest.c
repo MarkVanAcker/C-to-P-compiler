@@ -1,16 +1,14 @@
 
 #include <stdio.h>
+int f(int b){
+return 0;
+}
 
 int main(){
 
 
 
-float b,a;
-
-if(b==1){
-printf("cat");
-}
-
+float a;
 
 return 0;
 }
