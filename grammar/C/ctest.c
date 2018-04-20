@@ -8,6 +8,10 @@ int main(){
 
 
 
-int i;
+const int i;
+
+
+
+i = 5;
 return 0;
 }

@@ -80,10 +80,8 @@ class CsubVisitor(CVisitor):
         for i in range(n):
             c = ctx.getChild(i)
             childResult = c.accept(self)
-            if isinstance(c,CParser.StatementsContext):
-                childlist.extend(childResult)
-            else:
-                childlist.append(childResult)
+            childlist.extend(childResult)
+
 
         return childlist
 
@@ -95,9 +93,9 @@ class CsubVisitor(CVisitor):
             c = ctx.getChild(i)
             childResult = c.accept(self)
             if isinstance(c, CParser.ExpressionContext):
+                return [childResult]
+            if isinstance(c, CParser.DeclarationContext):
                 return childResult
-        return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by CParser#compound_statement.
     def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
@@ -186,7 +184,25 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#declaration.
     def visitDeclaration(self, ctx:CParser.DeclarationContext):
-        return self.visitChildren(ctx)
+
+        n = ctx.getChild(0).accept(self)
+
+
+        typenode = self.TypeCheck(n)
+
+        decllist = ctx.getChild(1).accept(self)
+
+        resultlist = []
+        for i in decllist:
+            node = ASTNode("Decl")
+            node.addchild(typenode)
+            node.addchild(i)
+            resultlist.append(node)
+
+        return resultlist
+
+
+
 
 
 
@@ -207,12 +223,20 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#declarator_list.
     def visitDeclarator_list(self, ctx:CParser.Declarator_listContext):
-        return self.visitChildren(ctx)
+
+        if ctx.getChildCount() == 1:
+            return [ctx.getChild(0).accept(self)]
+
+        else:
+            n = ctx.getChild(0).accept(self)
+            n.append(ctx.getChild(2).accept(self))
+
+            return n
 
 
     # Visit a parse tree produced by CParser#initialise_declarator.
     def visitInitialise_declarator(self, ctx:CParser.Initialise_declaratorContext):
-        return self.visitChildren(ctx)
+        return self.exprHandler(ctx)
 
 
     # Visit a parse tree produced by CParser#declarator.
@@ -220,7 +244,7 @@ class CsubVisitor(CVisitor):
         n = ctx.getChild(0)
 
         if isinstance(n, CParser.PointerContext):
-            r = ASTNode("deref")
+            r = ASTNode("pointer")
             r.addchild(ctx.getChild(1).accept(self))
             return r
         else:
@@ -267,6 +291,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#parameter_declaration.
     def visitParameter_declaration(self, ctx:CParser.Parameter_declarationContext):
+
         return self.visitChildren(ctx)
 
 
@@ -345,5 +370,46 @@ class CsubVisitor(CVisitor):
         elif n.token.type == CParser.DECIMAL:
             n.Typedcl = "floatconst"
         return n
+
+
+    def warningprint(self,w,i):
+        print("Warning: ",w)
+
+
+    def errorHandler(self,e,i):
+        raise Exception(e)
+
+
+    def TypeCheck(self,n):
+        quant = None
+        constbool = False
+        type = None
+
+        for i in n:
+            if(i.token.type == CParser.CONST):
+                if constbool:
+                    self.warningprint("duplicate ‘const’",i)
+                    continue
+
+                else:
+                    constbool = True
+                    quant = i
+                    continue
+
+            if type is None:
+                type = i
+            else:
+                self.errorHandler("two or more data types in declaration specifiers",i)
+
+        if type is None:
+            self.errorHandler("no data type was given", n[0])
+
+        if quant is None:
+            return type
+        else:
+
+            quant.addchild(type)
+            return quant
+
 
 

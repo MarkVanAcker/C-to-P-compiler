@@ -1,1 +1,1 @@
-int const a = 5;
+int const const *a = 5;
