@@ -35,6 +35,33 @@ class CListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CParser#empty_statement.
+    def enterEmpty_statement(self, ctx:CParser.Empty_statementContext):
+        pass
+
+    # Exit a parse tree produced by CParser#empty_statement.
+    def exitEmpty_statement(self, ctx:CParser.Empty_statementContext):
+        pass
+
+
+    # Enter a parse tree produced by CParser#return_statement.
+    def enterReturn_statement(self, ctx:CParser.Return_statementContext):
+        pass
+
+    # Exit a parse tree produced by CParser#return_statement.
+    def exitReturn_statement(self, ctx:CParser.Return_statementContext):
+        pass
+
+
+    # Enter a parse tree produced by CParser#include_statement.
+    def enterInclude_statement(self, ctx:CParser.Include_statementContext):
+        pass
+
+    # Exit a parse tree produced by CParser#include_statement.
+    def exitInclude_statement(self, ctx:CParser.Include_statementContext):
+        pass
+
+
     # Enter a parse tree produced by CParser#function_definition.
     def enterFunction_definition(self, ctx:CParser.Function_definitionContext):
         pass

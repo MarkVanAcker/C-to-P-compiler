@@ -16,11 +16,24 @@ statement
     : expression ';'
     | function_definition
     | declaration ';'
-    |  '#include' include
+    | include_statement
     | conditional_statement
     | iteration_statement
-    | 'return' expression ';'
-    | ';'
+    | return_statement
+    | empty_statement
+    ;
+
+empty_statement
+    : ';'
+    ;
+
+return_statement
+    : 'return' expression ';'
+    | 'return' ';'
+    ;
+
+include_statement
+    : '#include' include
     ;
 
 function_definition
@@ -66,8 +79,8 @@ iteration_statement
     ;
 
 while_statement
-    : WHILE LPAREN expression RPAREN statement
-    | WHILE LPAREN expression RPAREN compound_statement
+    : WHILE LPAREN condition RPAREN statement
+    | WHILE LPAREN condition RPAREN compound_statement
     ;
 
 for_statement
