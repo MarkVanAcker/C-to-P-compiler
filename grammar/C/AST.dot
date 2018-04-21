@@ -2,15 +2,15 @@ digraph G
 {
     nodesep = 0.4;
     ranksep = 0.5;
-	NODE99377968[label=<Program>];
-	NODE99378320[label=<Decl>];
-	NODE99377968->NODE99378320
-	NODE99377296[label=<int>];
-	NODE99378320->NODE99377296
-	NODE99377840[label=<=>];
-	NODE99378320->NODE99377840
-	NODE99378256[label=<<font color = "blue">id</font><br/>a>];
-	NODE99377840->NODE99378256
-	NODE99378096[label=<<font color = "blue">intconst</font><br/>5>];
-	NODE99377840->NODE99378096
+	NODE99063760[label=<Program>];
+	NODE99063824[label=<Decl>];
+	NODE99063760->NODE99063824
+	NODE99063376[label=<int>];
+	NODE99063824->NODE99063376
+	NODE99063472[label=<=>];
+	NODE99063824->NODE99063472
+	NODE99063536[label=<<font color = "blue">id</font><br/>a>];
+	NODE99063472->NODE99063536
+	NODE99063248[label=<<font color = "blue">intconst</font><br/>5>];
+	NODE99063472->NODE99063248
 }

@@ -4,11 +4,16 @@ int f(int b){
 return 0;
 }
 
+int a(),c = 0, d() {return 1;}
+
+
 int main(){
 
 
 
-const int i;
+int i;
+
+
 
 
 

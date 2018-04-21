@@ -24,6 +24,11 @@ class CVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by CParser#function_definition.
+    def visitFunction_definition(self, ctx:CParser.Function_definitionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by CParser#compound_statement.
     def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
         return self.visitChildren(ctx)

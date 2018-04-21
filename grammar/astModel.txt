@@ -1,0 +1,48 @@
+int a =5,b,c,d =3;
+
+
+NODE TYPES:
+
+	- Program
+	- (const) decl + type
+		- int
+		- float
+		- char
+		- pointertype
+	- assign
+	- operator
+		- +
+		- -
+		- *
+		- /
+		- <
+		- >
+		- ==
+	- id
+	- inum
+	- ichar
+	- fnum
+	- func_decl
+	- print!
+	- while
+		- condition (expr)
+		- statements (anything)
+	- if / else
+		- condition (expr)
+		- statements (anything)
+	- for to while (idem)
+
+GROUPS:
+	
+	- declaration
+		- var -> followed by def ?
+		- func -> follow by def ( func a (int a) = 5 ) THROW SEM 
+	- expression
+	- print
+	- if 	(scope)
+	- while (scope)
+	- for	(scope)
+	- func definition (scope) !return statement!
+
+
+	??? include ??? -> not needed here 
