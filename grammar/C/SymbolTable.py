@@ -10,12 +10,23 @@ class SymbolTable:
     def findByName(self,name):
         pass
 
-    def LocalTableLookup(self,name):
-        pass
+    def LocalTableLookup(self,entr):
+        for entry in self.entries:
+            if (entry == entr):
+                return True
+
+        return False
 
 
-    def GlobalTableLookup(self,name):
-        pass
+    def GlobalTableLookup(self,entr):
+        for entry in self.entries:
+            if (entry == entr):
+                return True
+
+        if (self.parent is None):
+            return False
+        else:
+            return self.parent.GlobalTableLookup(entr)
 
 
 
@@ -31,6 +42,15 @@ class Entry:
         
     def typecompare(self,other):
         if (self.type == other.type and self.ptr  == other.ptr):
+            return True
+        else:
+            return False
+
+    def __eq__(self, other):
+
+        #TODO: This is not so shallow
+
+        if( self.name == other.name):
             return True
         else:
             return False

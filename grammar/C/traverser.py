@@ -15,13 +15,18 @@ class AstVisitor:
         self.root = root
         self.st = st
 
-    def handle(self, curstate = None):
-        pass
+
+    #TODO: refactor
+    def handle(self, currstate):
+        if (currstate.name == "declaration"):
+            dv = declarationVisitor()
+            dv.visit(currstate,self.st)
+
+            return
 
     def traverse(self):
         for child in self.root.children:
-            res = self.lookup(child)
-            self.handle(child,res)
+            self.handle(child)
 
 
 
@@ -29,22 +34,31 @@ class AstVisitor:
 
 class declarationVisitor:
 
-    def visit(self,ctx,st):
+    def __init__(self):
+        pass
 
+    def visit(self,ctx,st):
 
 
         type = ctx.getchild(0)
         entr = Entry()
-        
-        
+
         if (type.token.type == CParser.CONST):
             entr.const = True
             entr.type = typecast[type.getchild(0).token.type]
         else:
             entr.type = typecast[type.token.type]
-            
+
         name = ctx.getchild(1)
         self.handleID(name,entr)
+
+        if (st.LocalTableLookup(entr)):
+            raise Exception("This variable was already declared in the local scope")
+        if (st.GlobalTableLookup(entr)):
+            #TODO : make general warning function that uses tokens and scope
+            print("Warning: Variable is hiding data")
+
+        st.addEntry(entr)
 
 
     def handleID(self, idnode,entr):
@@ -55,7 +69,33 @@ class declarationVisitor:
         elif idnode.Typedcl == "func":
             entr.func = True
             entr.name = idnode.name
-        
+            if(len(idnode.children) == 0):
+                entr.params = []
+
+            else:
+                entr.params = self.handleParams(idnode.getchild(0))
+
+        elif idnode.name == "pointer":
+            entr.ptr = True
+            self.handleID(idnode.getchild(0),entr)
+            return
+
+        else:
+            self.handleID(idnode.getchild(0), entr)
+            return
+
+
+
+    def handleParams(self,paramnode):
+        paramlist = []
+        for child in paramnode.children:
+            if(child.name == "paramdecl"):
+                paramlist.append(typecast[child.getchild(0).token.type])
+
+            else:
+                paramlist.append(typecast[child.token.type])
+
+        return paramlist
 
 
 
@@ -65,6 +105,8 @@ class declarationVisitor:
 
 
 
+
+""
 
 
 '''

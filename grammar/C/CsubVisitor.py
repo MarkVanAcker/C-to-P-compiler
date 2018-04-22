@@ -46,13 +46,14 @@ class CsubVisitor(CVisitor):
         self.file.close()
 
     def myDeepCopy(self,n):
+
+        node = ASTNode(n.name,n.token)
+        node.Typedcl = n.Typedcl
         if n.hasChild:
-            node = ASTNode(n.name)
             for m in n.children:
                 node.addchild(self.myDeepCopy(m))
-            return node
-        else:
-            return ASTNode(n.name)
+
+        return node
 
 
 
