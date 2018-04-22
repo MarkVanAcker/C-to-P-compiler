@@ -5,6 +5,7 @@ class ASTNode:
         self.name = n
         self.token = t
         self.Typedcl = None
+        self.hasChild = False
 
     def todot(self,file):
 
@@ -16,12 +17,16 @@ class ASTNode:
 
 
     def addchild(self,c):
+        if c.name == "empty statement":
+            return
         c.par = self
         self.children.append(c)
+        self.hasChild = True
 
     def addchildren(self,c):
         for child in c:
             self.addchild(child)
+        self.hasChild = True
 
     def getstr(self):
         if self.Typedcl is None:
@@ -35,10 +40,11 @@ class ASTNode:
 
     def clearchildren(self):
         self.children = []
+        self.hasChild = False
 
 
 def ToDot(root):
-    file = open("AST.dot","w")
+    file = open(".AST.dot","w")
 
     file.write('''digraph G
 {
@@ -54,5 +60,3 @@ def ToDot(root):
     file.write('}')
 
     file.close()
-
-

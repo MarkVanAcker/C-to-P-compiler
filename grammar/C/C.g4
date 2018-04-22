@@ -51,8 +51,8 @@ definition
     ;
 
 include
-    : '\'' filename '\''
-    | '<' filename '>'
+    : '<' filename '>'
+    | CHARACTER
     ;
 
 
@@ -267,7 +267,7 @@ VOID: 'void';
 IDENTIFIER: ('_' | 'a'..'z'| 'A'..'Z')('_' | 'a'..'z'| 'A'..'Z')*; // could be changed to max 30 length
 INTEGER: (('1'..'9')('0'..'9')*  | '0');
 DECIMAL: (('1'..'9')('0'..'9')*  | '0')('.')('0'..'9')+;
-CHARACTER: ('\'')('a'..'z'| 'A'..'Z'| '0'..'9' | '\\' )*('\'');
+CHARACTER: ('"' .*? '"' | '\'' .*? '\'' );
 WS: ('\t' | '\n' | ' ' | '\r')+ -> skip; //toss out whitespace
 COMMENT: ('/*' .*? '*/'  | '//' ~('\n'|'\r')*) -> skip; // toss out comments
 LPAREN : '(';

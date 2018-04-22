@@ -4,7 +4,7 @@ from CLexer import CLexer
 from CParser_e import CParser_e
 from CsubListener import CsubListener
 from CsubVisitor import CsubVisitor
- 
+
 def main(argv):
     input = FileStream(argv[1])
     lexer = CLexer(input)
@@ -13,7 +13,7 @@ def main(argv):
     try:
         tree = parser.program()
         visitor = CsubVisitor()
-        visitor.visit(tree)
+        ast = visitor.visit(tree)
     except Exception as e:
         print("Compilation terminated: ", e.args)
 

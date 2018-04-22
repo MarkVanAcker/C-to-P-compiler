@@ -1,7 +1,7 @@
 from CVisitor import CVisitor
 from CParser import CParser
 from AST import ASTNode
-from copy import copy
+from copy import deepcopy
 from AST import ToDot
 
 class CsubVisitor(CVisitor):
@@ -45,6 +45,15 @@ class CsubVisitor(CVisitor):
 
         self.file.close()
 
+    def myDeepCopy(self,n):
+        if n.hasChild:
+            node = ASTNode(n.name)
+            for m in n.children:
+                node.addchild(self.myDeepCopy(m))
+            return node
+        else:
+            return ASTNode(n.name)
+
 
 
 
@@ -73,14 +82,13 @@ class CsubVisitor(CVisitor):
             self.AST.addchildren([ASTNode("empty")])
             ToDot(self.AST)
             return
-
         c = ctx.getChild(0).accept(self)
         self.AST.addchildren(c)
         ToDot(self.AST)
+        return self.AST
 
     # Visit a parse tree produced by CParser#statements.
     def visitStatements(self, ctx:CParser.StatementsContext):
-        print("visitStatements")
         childlist = []
         n = ctx.getChildCount()
         for i in range(n):
@@ -91,15 +99,12 @@ class CsubVisitor(CVisitor):
             except TypeError:
                 childlist.append(childResult)
 
-
         return childlist
 
 
     # Visit a parse tree produced by CParser#statement.
     def visitStatement(self, ctx:CParser.StatementContext):
-        print("visitStatement")
         c = ctx.getChild(0)
-        print("!!!!!")
         childResult = c.accept(self)
         return childResult
 
@@ -137,10 +142,16 @@ class CsubVisitor(CVisitor):
 
         node.addchild(initnode) # type
 
-        paramnode = initnode.getchild(1).getchild(0)
-        initnode.getchild(1).clearchildren()
+        if initnode.getchild(1).hasChild:
+            paramnode = initnode.getchild(1).getchild(0)
+            initnode.getchild(1).clearchildren()
+            node.addchild(paramnode)
 
-        node.addchild(paramnode)
+        else:
+            nodepara = ASTNode("paramlist")
+            nodeempty = ASTNode("empty")
+            nodepara.addchild(nodeempty)
+            node.addchild(nodepara)
 
         comp_state = ctx.getChild(1).accept(self)
 
@@ -151,7 +162,6 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#compound_statement.
     def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
-        print("CompoundStatements")
         node = ASTNode("block")
         if ctx.getChildCount() == 2: # emtpy 2 curly brackets only
             return node
@@ -182,32 +192,26 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        print("ifstate")
         node = ASTNode("if")
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
         node.addchild(node2)
         state = ctx.getChild(4)
-        print("hier")
         if isinstance(state, CParser.Compound_statementContext):
-            print("compound read")
             node.addchild(state.accept(self)) # returns a block
 
         if isinstance(state, CParser.StatementContext):
-            print("statement read")
             nodeblock = ASTNode("block") # make block
             templist = []
-            templist.extend(state.accept(self))  # state could be node or list of nodes
+            templist.append(state.accept(self))  # state could be node or list of nodes
             for i in templist:
                 nodeblock.addchild(i)
             node.addchild(nodeblock)
-        print("test")
         if ctx.getChildCount() == 6: # else alternative
             node.addchild(ctx.getChild(5).accept(self)) # else block
 
-        print("test2")
-        return [node]
+        return node
 
 
     # Visit a parse tree produced by CParser#condition.
@@ -222,52 +226,44 @@ class CsubVisitor(CVisitor):
 
         if isinstance(state, CParser.Compound_statementContext):
             state = state.accept(self)
-            nodeblock = ASTNode("block") # make block
-            nodeblock.addchild(state)
-            return nodeblock # returns a block
+            return state # returns a block
 
         if isinstance(state, CParser.StatementContext):
             nodeblock = ASTNode("block") # make block
             templist = []
-            templist.extend(state.accept(self))  # state could be node or list of nodes
+            templist.append(state.accept(self))  # state could be node or list of nodes
             for i in templist:
                 nodeblock.addchild(i)
+            #node.addchild(nodeblock)
 
             return nodeblock
 
 
     # Visit a parse tree produced by CParser#iteration_statement.
     def visitIteration_statement(self, ctx:CParser.Iteration_statementContext):
-        print("visitITERATION")
         return ctx.getChild(0).accept(self)
 
 
     # Visit a parse tree produced by CParser#while_statement.
     def visitWhile_statement(self, ctx:CParser.While_statementContext):
 
-        print("WHILE")
         node = ASTNode("while")
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
         node.addchild(node2)
         state = ctx.getChild(4)
-        print("hier")
         if isinstance(state, CParser.Compound_statementContext):
-            print("compound read")
             node.addchild(state.accept(self)) # returns a block
 
         if isinstance(state, CParser.StatementContext):
-            print("statement read")
             nodeblock = ASTNode("block") # make block
             templist = []
             templist.extend(state.accept(self))  # state could be node or list of nodes
             for i in templist:
                 nodeblock.addchild(i)
             node.addchild(nodeblock)
-        print("test")
 
-        print("test2")
         return [node]
 
 
@@ -297,9 +293,7 @@ class CsubVisitor(CVisitor):
         if ctx.getChildCount() == 7:
             state = ctx.getChild(6)
 
-        print("hier")
         if isinstance(state, CParser.Compound_statementContext):
-            print("compound read")
             nodeblock = state.accept(self)
             if ctx.getChildCount() == 7:
                 nodeafter = ctx.getChild(4).accept(self)
@@ -308,7 +302,6 @@ class CsubVisitor(CVisitor):
 
 
         if isinstance(state, CParser.StatementContext):
-            print("statement read")
             nodeblock = ASTNode("block") # make block
             templist = []
             templist.extend(state.accept(self))  # state could be node or list of nodes
@@ -425,7 +418,9 @@ class CsubVisitor(CVisitor):
         resultlist = []
         for i in decllist:
             node = ASTNode("declaration")
-            node.addchild(copy(typenode))
+
+
+            node.addchild(self.myDeepCopy(typenode))
             node.addchild(i)
             resultlist.append(node)
 
@@ -652,6 +647,7 @@ class CsubVisitor(CVisitor):
 
 
     #General function
+
 
     def exprHandler(self,ctx):
         if ctx.getChildCount() == 1:
