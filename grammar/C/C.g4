@@ -173,7 +173,6 @@ declarator
 direct_declarator
     : IDENTIFIER
     | IDENTIFIER LPAREN parameter_list RPAREN
-//    | IDENTIFIER LPAREN identifier_list RPAREN
     | IDENTIFIER LPAREN RPAREN
     | direct_declarator LSQUARE expression RSQUARE
     | direct_declarator LSQUARE RSQUARE

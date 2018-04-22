@@ -1,7 +1,7 @@
 from CVisitor import CVisitor
 from CParser import CParser
 from AST import ASTNode
-
+from copy import copy
 from AST import ToDot
 
 class CsubVisitor(CVisitor):
@@ -126,20 +126,27 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#function_definition.
     def visitFunction_definition(self, ctx:CParser.Function_definitionContext):
 
-        returnlist = []
         decl = ctx.getChild(0).accept(self) # TYPE + FUNCTION NAME AND PARAMETERS
-        if len(decl) != 2:
-            self.errorHandler("expected ‘,’, ‘;' before ‘{’ token",decl)
         # MAKE SURE TYPE IS FUNCTION
+
+        if (len(decl) > 1):
+            self.errorHandler("expected ‘,’, ‘;' before ‘{’ token", decl[1])
+
         node = ASTNode("function definition")
-        node.addchild(decl[0]) # type
-        node.addchild(decl[1]) # name and arg list
+        initnode = decl[0]
+
+        node.addchild(initnode) # type
+
+        paramnode = initnode.getchild(1).getchild(0)
+        initnode.getchild(1).clearchildren()
+
+        node.addchild(paramnode)
 
         comp_state = ctx.getChild(1).accept(self)
-        node.addchild(comp_state) # block
-        resultlist.append(node)
 
-        return returnlist
+        node.addchild(comp_state) # block
+
+        return node
 
 
     # Visit a parse tree produced by CParser#compound_statement.
@@ -267,10 +274,17 @@ class CsubVisitor(CVisitor):
 
 
     # Visit a parse tree produced by CParser#for_statement.
+
+    #TODO : refactor thise with while
+
     def visitFor_statement(self, ctx:CParser.For_statementContext):
 
         returnlist = []
-        returnlist.append(ctx.getChild(2).accept(self))
+        prenode = ctx.getChild(2).accept(self)
+
+        if (prenode.name != "empty"):
+            returnlist.append(prenode)
+
 
         node = ASTNode("while")
         node2 = ASTNode("condition")
@@ -333,12 +347,47 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#primary_expression.
     def visitPrimary_expression(self, ctx:CParser.Primary_expressionContext):
-        return self.visitChildren(ctx)
+
+        if (ctx.getChildCount() == 1):
+            return self.visitChildren(ctx)
+
+        else:
+            return ctx.getChild(1).accept(self)
 
 
     # Visit a parse tree produced by CParser#postfix_expression.
     def visitPostfix_expression(self, ctx:CParser.Postfix_expressionContext):
-        return self.visitChildren(ctx)
+
+        if (ctx.getChildCount() == 1):
+            return self.visitChildren(ctx)
+
+        node = ctx.getChild(1).accept(self)
+        if (node.token.type == CParser.LPAREN):
+
+            tempnode = ASTNode("funccall")
+            paramnode = ASTNode("paramlist")
+            if(ctx.getChildCount() == 3):
+                tempnode.addchild(ctx.getChild(0).accept(self))
+                tempnode.addchild(paramnode)
+                paramnode.addchild(ASTNode("empty")) #TODO: maybe remove
+
+            else:
+                tempnode.addchild(ctx.getChild(0).accept(self))
+                tempnode.addchild(paramnode)
+                paramnode.addchildren(ctx.getChild(2).accept(self))
+
+            return tempnode
+
+
+
+
+        elif(node.token.type == CParser.LSQUARE):
+            tempnode = ASTNode("access")
+            tempnode.addchild(ctx.getChild(0).accept(self))
+            tempnode.addchild(ctx.getChild(2).accept(self))
+
+            return tempnode
+
 
 
     # Visit a parse tree produced by CParser#expression.
@@ -364,6 +413,8 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#declaration.
     def visitDeclaration(self, ctx:CParser.DeclarationContext):
 
+
+
         n = ctx.getChild(0).accept(self)
 
 
@@ -373,8 +424,8 @@ class CsubVisitor(CVisitor):
 
         resultlist = []
         for i in decllist:
-            node = ASTNode("Decl")
-            node.addchild(typenode)
+            node = ASTNode("declaration")
+            node.addchild(copy(typenode))
             node.addchild(i)
             resultlist.append(node)
 
@@ -441,28 +492,35 @@ class CsubVisitor(CVisitor):
 
 
         #refactor
-
+        node = ctx.getChild(1).accept(self)
         if( n == 3):
-            if (isinstance(ctx.getChild(1),CParser.LPAREN)):
+            if (node.token.type == CParser.LPAREN):
                 tempnode = ctx.getChild(0).accept(self)
                 tempnode.Typedcl = "func"
                 return tempnode
-            elif (isinstance(ctx.getChild(1), CParser.LSQUARE)):
+            elif (node.token.type == CParser.LSQUARE):
                 tempnode = ctx.getChild(0).accept(self)
                 tempnode.Typedcl = "array"
                 return tempnode
 
         if (n == 4):
-            if (isinstance(ctx.getChild(1), CParser.LPAREN)):
+            if (node.token.type == CParser.LPAREN):
                 tempnode = ctx.getChild(0).accept(self)
                 tempnode.Typedcl = "func"
 
-                paramnode = ctx.getChild(2).accept(self)
+
+
+                paramnode = ASTNode("paramlist")
+
+                paramdecs = ctx.getChild(2).accept(self)
+
+                paramnode.addchildren(paramdecs)
+
 
                 tempnode.addchild(paramnode)
 
                 return tempnode
-            elif (isinstance(ctx.getChild(1), CParser.LSQUARE)):
+            elif (node.token.type == CParser.LSQUARE):
                 tempnode = ctx.getChild(0).accept(self)
                 tempnode.Typedcl = "array"
 
@@ -495,18 +553,50 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#identifier_list.
     def visitIdentifier_list(self, ctx:CParser.Identifier_listContext):
-        return self.visitChildren(ctx)
+
+        if(ctx.getChildCount() == 1):
+            return [ctx.getChild(0).accept(self)]
+
+
+        else:
+            templist = ctx.getChild(0).accept(self)
+
+            templist.append(ctx.getChild(2).accept(self))
+
+            return templist
+
+
 
 
     # Visit a parse tree produced by CParser#parameter_list.
     def visitParameter_list(self, ctx:CParser.Parameter_listContext):
-        return self.visitChildren(ctx)
+
+        if(ctx.getChildCount() == 1):
+            return [ctx.getChild(0).accept(self)]
+
+
+        else:
+            templist = ctx.getChild(0).accept(self)
+
+            templist.append(ctx.getChild(2).accept(self))
+
+            return templist
 
 
     # Visit a parse tree produced by CParser#parameter_declaration.
     def visitParameter_declaration(self, ctx:CParser.Parameter_declarationContext):
 
-        return self.visitChildren(ctx)
+
+        if(ctx.getChildCount() == 1):
+            typenode = self.TypeCheck(ctx.getChild(0).accept(self))
+            return typenode
+
+        else:
+            tempnode = ASTNode("paramdecl")
+            typenode = self.TypeCheck(ctx.getChild(0).accept(self))
+            tempnode.addchild(typenode)
+            tempnode.addchild(ctx.getChild(1).accept(self))
+            return tempnode
 
 
     # Visit a parse tree produced by CParser#assignment_operator.

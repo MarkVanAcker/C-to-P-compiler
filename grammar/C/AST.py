@@ -8,7 +8,7 @@ class ASTNode:
 
     def todot(self,file):
 
-        file.write("\tNODE" + str(id(self)) + "[label=<" +self.getstr() + ">];\n")
+        file.write("\tNODE" + str(id(self)) + "[label=<" +self.getstr() + "> shape=box];\n")
         if(self.par is not None):
             file.write("\tNODE"+str(id(self.par))+"->NODE"+str(id(self))+"\n")
         for child in self.children:
@@ -29,6 +29,12 @@ class ASTNode:
         else:
             return "<font color = \"blue\">" +self.Typedcl +"</font><br/>"+ self.name
 
+
+    def getchild(self,idx):
+        return self.children[idx]
+
+    def clearchildren(self):
+        self.children = []
 
 
 def ToDot(root):
