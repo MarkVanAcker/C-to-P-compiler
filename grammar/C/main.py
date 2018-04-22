@@ -5,7 +5,7 @@ from CParser_e import CParser_e
 from CsubListener import CsubListener
 from CsubVisitor import CsubVisitor
 from traverser import AstVisitor
-from SymbolTable import SymbolTable
+from SymbolTable import *
 
 def main(argv):
     input = FileStream(argv[1])
@@ -19,7 +19,7 @@ def main(argv):
         st = SymbolTable()
         astvisit = AstVisitor(ast,st)
         astvisit.traverse()
-        print(st)
+        ToDotST(st)
     except Exception as e:
         print("Compilation terminated: ", e.args)
 

@@ -1,0 +1,13 @@
+digraph G
+{
+    nodesep = 0.4;
+    ranksep = 0.5;
+    node [shape=plaintext]
+
+	ST123425392 [label=< <table border="0" cellborder="1" cellspacing="0">
+        <tr><td bgcolor="grey" >SYMBOL TABLE</td></tr>
+         <tr> <td bgcolor="yellow" >Name</td> <td bgcolor="yellow" >Type</td> <td bgcolor="yellow" >Pointer</td> <td bgcolor="yellow" >Const</td> <td bgcolor="yellow" >Func</td> <td bgcolor="yellow">Params</td></tr>
+         
+<tr><td>a</td>  <td>1</td> <td>False</td> <td>False</td> <td>False</td> <td></td></tr><tr><td>f</td>  <td>2</td> <td>False</td> <td>False</td> <td>True</td> <td>1 2 </td></tr>
+ </table>>];
+}
