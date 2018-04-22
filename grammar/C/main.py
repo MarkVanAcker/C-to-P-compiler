@@ -19,6 +19,7 @@ def main(argv):
         st = SymbolTable()
         astvisit = AstVisitor(ast,st)
         astvisit.traverse()
+        print(st)
     except Exception as e:
         print("Compilation terminated: ", e.args)
 

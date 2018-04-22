@@ -2,11 +2,11 @@ digraph G
 {
     nodesep = 0.4;
     ranksep = 0.5;
-	NODE123369552[label=<Program> shape=box];
-	NODE123369648[label=<declaration> shape=box];
-	NODE123369552->NODE123369648
-	NODE123368400[label=<int> shape=box];
-	NODE123369648->NODE123368400
-	NODE123369712[label=<<font color = "blue">id</font><br/>a> shape=box];
-	NODE123369648->NODE123369712
+	NODE117983248[label=<Program> shape=box];
+	NODE117983344[label=<declaration> shape=box];
+	NODE117983248->NODE117983344
+	NODE117982096[label=<int> shape=box];
+	NODE117983344->NODE117982096
+	NODE117983408[label=<<font color = "blue">id</font><br/>a> shape=box];
+	NODE117983344->NODE117983408
 }
