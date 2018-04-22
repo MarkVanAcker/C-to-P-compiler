@@ -26,6 +26,7 @@ class Entry:
         self.type = t
         self.const = False
         self.ptr = False
+        self.func = False
         
         
     def typecompare(self,other):

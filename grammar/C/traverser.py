@@ -51,8 +51,8 @@ class declarationVisitor:
         if idnode.Typedcl == "id":
             return idnode.name
 
-        elif idnode.:
-            if id
+        elif idnode.Typedcl == "func":
+
         
 
 

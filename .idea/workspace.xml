@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9fb7edd5-e2e5-41eb-baf3-3d252c2aab29" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/.AST.dot" afterPath="$PROJECT_DIR$/grammar/C/.AST.dot" />
       <change beforePath="$PROJECT_DIR$/grammar/C/SymbolTable.py" afterPath="$PROJECT_DIR$/grammar/C/SymbolTable.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/declaration.c" afterPath="$PROJECT_DIR$/grammar/C/test/declaration.c" />
       <change beforePath="$PROJECT_DIR$/grammar/C/traverser.py" afterPath="$PROJECT_DIR$/grammar/C/traverser.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -129,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SymbolTable.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SymbolTable.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grammar/C/SymbolTable.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+            <state relative-caret-position="476">
+              <caret line="28" column="25" lean-forward="false" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -142,8 +112,8 @@
       <file leaf-file-name="traverser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/traverser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="53" column="20" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
+            <state relative-caret-position="499">
+              <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -151,11 +121,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AST.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AST.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+            <state relative-caret-position="380">
+              <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -210,10 +180,10 @@
         <option value="$PROJECT_DIR$/grammar/C/ex.c" />
         <option value="$PROJECT_DIR$/grammar/C/AST.py" />
         <option value="$PROJECT_DIR$/grammar/C/CsubVisitor.py" />
-        <option value="$PROJECT_DIR$/grammar/C/SymbolTable.py" />
         <option value="$PROJECT_DIR$/grammar/C/test/declaration.c" />
         <option value="$PROJECT_DIR$/grammar/C/runtests.py" />
         <option value="$PROJECT_DIR$/grammar/C/traverser.py" />
+        <option value="$PROJECT_DIR$/grammar/C/SymbolTable.py" />
       </list>
     </option>
   </component>
@@ -781,10 +751,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/traverser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="53" column="20" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
+        <state relative-caret-position="499">
+          <caret line="51" column="19" lean-forward="false" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
@@ -793,16 +771,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/SymbolTable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+        <state relative-caret-position="476">
+          <caret line="28" column="25" lean-forward="false" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
           <folding />
         </state>
       </provider>
