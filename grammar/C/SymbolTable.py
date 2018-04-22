@@ -27,7 +27,7 @@ class Entry:
         self.const = False
         self.ptr = False
         self.func = False
-        
+        self.params = []
         
     def typecompare(self,other):
         if (self.type == other.type and self.ptr  == other.ptr):

@@ -44,15 +44,17 @@ class declarationVisitor:
             entr.type = typecast[type.token.type]
             
         name = ctx.getchild(1)
-        n = self.handleID(name)
+        self.handleID(name,entr)
 
 
-    def handleID(self, idnode):
+    def handleID(self, idnode,entr):
         if idnode.Typedcl == "id":
-            return idnode.name
+            entr.name = idnode.name
+            return
 
         elif idnode.Typedcl == "func":
-
+            entr.func = True
+            entr.name = idnode.name
         
 
 
