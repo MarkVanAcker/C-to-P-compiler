@@ -2,31 +2,45 @@ digraph G
 {
     nodesep = 0.4;
     ranksep = 0.5;
-	NODE140506461188280[label=<Program> shape=box];
-	NODE140506461191696[label=<declaration> shape=box];
-	NODE140506461188280->NODE140506461191696
-	NODE140506461190464[label=<int> shape=box];
-	NODE140506461191696->NODE140506461190464
-	NODE140506461188896[label=<pointer> shape=box];
-	NODE140506461191696->NODE140506461188896
-	NODE140506461190912[label=<<font color = "blue">id</font><br/>a> shape=box];
-	NODE140506461188896->NODE140506461190912
-	NODE140506461188336[label=<declaration> shape=box];
-	NODE140506461188280->NODE140506461188336
-	NODE140506461188728[label=<float> shape=box];
-	NODE140506461188336->NODE140506461188728
-	NODE140506461188616[label=<<font color = "blue">id</font><br/>b> shape=box];
-	NODE140506461188336->NODE140506461188616
-	NODE140506461188224[label=<declaration> shape=box];
-	NODE140506461188280->NODE140506461188224
-	NODE140506461191864[label=<char> shape=box];
-	NODE140506461188224->NODE140506461191864
-	NODE140506461189176[label=<<font color = "blue">id</font><br/>c> shape=box];
-	NODE140506461188224->NODE140506461189176
-	NODE140506461190968[label=<declaration> shape=box];
-	NODE140506461188280->NODE140506461190968
-	NODE140506461189344[label=<void> shape=box];
-	NODE140506461190968->NODE140506461189344
-	NODE140506461191136[label=<<font color = "blue">id</font><br/>d> shape=box];
-	NODE140506461190968->NODE140506461191136
+	NODE111792048[label=<Program> shape=box];
+	NODE111791184[label=<while> shape=box];
+	NODE111792048->NODE111791184
+	NODE111791504[label=<condition> shape=box];
+	NODE111791184->NODE111791504
+	NODE111788144[label=<gt> shape=box];
+	NODE111791504->NODE111788144
+	NODE111791600[label=<<font color = "blue">intconst</font><br/>5> shape=box];
+	NODE111788144->NODE111791600
+	NODE111788400[label=<<font color = "blue">intconst</font><br/>3> shape=box];
+	NODE111788144->NODE111788400
+	NODE111791088[label=<block> shape=box];
+	NODE111791184->NODE111791088
+	NODE111789680[label=<declaration> shape=box];
+	NODE111791088->NODE111789680
+	NODE111788880[label=<int> shape=box];
+	NODE111789680->NODE111788880
+	NODE111791152[label=<=> shape=box];
+	NODE111789680->NODE111791152
+	NODE111790256[label=<<font color = "blue">id</font><br/>a> shape=box];
+	NODE111791152->NODE111790256
+	NODE111791120[label=</> shape=box];
+	NODE111791152->NODE111791120
+	NODE111788560[label=<*> shape=box];
+	NODE111791120->NODE111788560
+	NODE111789840[label=<<font color = "blue">intconst</font><br/>2> shape=box];
+	NODE111788560->NODE111789840
+	NODE111789904[label=<<font color = "blue">intconst</font><br/>4> shape=box];
+	NODE111788560->NODE111789904
+	NODE111789712[label=<<font color = "blue">intconst</font><br/>9> shape=box];
+	NODE111791120->NODE111789712
+	NODE111788112[label=<=> shape=box];
+	NODE111791088->NODE111788112
+	NODE111789872[label=<<font color = "blue">id</font><br/>a> shape=box];
+	NODE111788112->NODE111789872
+	NODE111789424[label=<<font color = "blue">id</font><br/>a> shape=box];
+	NODE111788112->NODE111789424
+	NODE111789328[label=<return> shape=box];
+	NODE111791088->NODE111789328
+	NODE111788496[label=<<font color = "blue">intconst</font><br/>0> shape=box];
+	NODE111789328->NODE111788496
 }

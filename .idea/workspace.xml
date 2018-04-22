@@ -3,56 +3,37 @@
   <component name="ChangeListManager">
     <list default="true" id="9fb7edd5-e2e5-41eb-baf3-3d252c2aab29" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/AST.dot" afterPath="$PROJECT_DIR$/grammar/C/AST.dot" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/AST.png" afterPath="$PROJECT_DIR$/grammar/C/AST.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/AST.py" afterPath="$PROJECT_DIR$/grammar/C/AST.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/C.g4" afterPath="$PROJECT_DIR$/grammar/C/C.g4" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CBaseListener.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CBaseListener.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CLexer.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Additive_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Assignment_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Assignment_operatorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Binary_operatorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Comparison_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Comparison_operatorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Compound_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$ConditionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Conditional_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$DeclarationContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Declaration_specifierContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$DeclaratorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Declarator_listContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$DefinitionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Direct_declaratorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Else_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$ExpressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Expression_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$FilenameContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$For_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Function_definitionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Identifier_listContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$IncludeContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$IndexContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Initialise_declaratorContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Iteration_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Multiplicative_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Parameter_declarationContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Parameter_listContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$PointerContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Postfix_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Primary_expressionContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$ProgramContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$StatementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$StatementsContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Type_qualifierContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$Type_specifierContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$ValueContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser$While_statementContext.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CsubVisitor.py" afterPath="$PROJECT_DIR$/grammar/C/CsubVisitor.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/ex.c" afterPath="$PROJECT_DIR$/grammar/C/ex.c" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/.AST.dot" afterPath="$PROJECT_DIR$/grammar/C/.AST.dot" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/SymbolTable.py" afterPath="$PROJECT_DIR$/grammar/C/SymbolTable.py" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/declaration.c" afterPath="$PROJECT_DIR$/grammar/C/test/declaration.c" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/traverser.py" afterPath="$PROJECT_DIR$/grammar/C/traverser.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,6 +43,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Compilers$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1524425370545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
     <SUITE FILE_PATH="coverage/Compilers$main.coverage" NAME="main Coverage Results" MODIFIED="1524402503735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
   </component>
   <component name="DockManager">
@@ -73,7 +55,7 @@
               <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
                 <provider selected="true" editor-type-id="text-editor">
                   <state relative-caret-position="234">
-                    <caret line="143" column="5" lean-forward="true" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
+                    <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
                     <folding />
                   </state>
                 </provider>
@@ -86,23 +68,52 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CsubVisitor.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CsubVisitor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/CsubVisitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3">
-              <caret line="642" column="0" lean-forward="true" selection-start-line="642" selection-start-column="0" selection-end-line="642" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="29">
+              <caret line="660" column="1" lean-forward="false" selection-start-line="660" selection-start-column="1" selection-end-line="660" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aaast.ps" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/aaast.ps">
+      <file leaf-file-name="runtests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/runtests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="condition.c.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="condition2.c.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declaration.c.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declaration.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/declaration.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -111,28 +122,8 @@
       <file leaf-file-name="CParser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/CParser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="306" column="12" lean-forward="true" selection-start-line="306" selection-start-column="12" selection-end-line="306" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ex.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/ex.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            <state relative-caret-position="587">
+              <caret line="295" column="11" lean-forward="false" selection-start-line="295" selection-start-column="9" selection-end-line="295" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -141,45 +132,30 @@
       <file leaf-file-name="SymbolTable.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/SymbolTable.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="391">
+              <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AST.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/AST.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParserRuleContext.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/ParserRuleContext.py">
+      <file leaf-file-name="traverser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/traverser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="113" column="8" lean-forward="false" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
-              <folding />
+            <state relative-caret-position="533">
+              <caret line="53" column="20" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AST.dot" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/AST.dot">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AST.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AST.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+            <state relative-caret-position="193">
+              <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -234,6 +210,10 @@
         <option value="$PROJECT_DIR$/grammar/C/ex.c" />
         <option value="$PROJECT_DIR$/grammar/C/AST.py" />
         <option value="$PROJECT_DIR$/grammar/C/CsubVisitor.py" />
+        <option value="$PROJECT_DIR$/grammar/C/SymbolTable.py" />
+        <option value="$PROJECT_DIR$/grammar/C/test/declaration.c" />
+        <option value="$PROJECT_DIR$/grammar/C/runtests.py" />
+        <option value="$PROJECT_DIR$/grammar/C/traverser.py" />
       </list>
     </option>
   </component>
@@ -265,6 +245,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -283,16 +264,30 @@
               <item name="grammar" type="462c0819:PsiDirectoryNode" />
               <item name="C" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
+              <item name="grammar" type="462c0819:PsiDirectoryNode" />
+              <item name="C" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
+              <item name="grammar" type="462c0819:PsiDirectoryNode" />
+              <item name="C" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="abstract_syntax_trees" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/grammar/C/runtests.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -307,7 +302,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Unnamed">
+    <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Mark-\AppData\Local\Programs\Python\Python35-32\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/grammar/C" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Compilers" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/grammar/C/runtests.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -327,6 +341,10 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.Unnamed" />
+      <item index="1" class="java.lang.String" itemvalue="Python.main" />
+    </list>
     <recent_temporary>
       <list size="1">
         <item index="0" class="java.lang.String" itemvalue="Python.main" />
@@ -356,13 +374,13 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -381,13 +399,13 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -410,53 +428,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grammar/C/CsubVisitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2550">
-          <caret line="154" column="21" lean-forward="false" selection-start-line="154" selection-start-column="11" selection-end-line="154" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/ctest.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/ex.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="8" lean-forward="true" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/AST.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/AST.dot">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/Token.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -485,7 +456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -501,9 +471,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2550">
           <caret line="154" column="21" lean-forward="false" selection-start-line="154" selection-start-column="11" selection-end-line="154" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -519,7 +487,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -572,7 +539,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -588,9 +554,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1513">
           <caret line="93" column="31" lean-forward="false" selection-start-line="93" selection-start-column="31" selection-end-line="93" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -707,7 +671,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -715,7 +678,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="11" lean-forward="false" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -723,22 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/SymbolTable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/ParserRuleContext.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="113" column="8" lean-forward="false" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -751,10 +697,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/CParser.py">
+    <entry file="file://$PROJECT_DIR$/grammar/C/ex.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="306" column="12" lean-forward="true" selection-start-line="306" selection-start-column="12" selection-end-line="306" selection-end-column="14" />
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/AST.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/ParserRuleContext.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="113" column="8" lean-forward="false" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -767,42 +734,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/declaration.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="143" column="5" lean-forward="true" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/ex.c">
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/runtests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        <state relative-caret-position="187">
+          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/AST.png">
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/CsubVisitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3">
-          <caret line="642" column="0" lean-forward="true" selection-start-line="642" selection-start-column="0" selection-end-line="642" selection-end-column="0" />
+        <state relative-caret-position="29">
+          <caret line="660" column="1" lean-forward="false" selection-start-line="660" selection-start-column="1" selection-end-line="660" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/CParser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="587">
+          <caret line="295" column="11" lean-forward="false" selection-start-line="295" selection-start-column="9" selection-end-line="295" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/traverser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="53" column="20" lean-forward="false" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/SymbolTable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/AST.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
