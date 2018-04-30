@@ -82,7 +82,7 @@ class CsubVisitor(CVisitor):
         if ctx.getChildCount() == 0:
             self.AST.addchildren([ASTNode("empty")])
             ToDot(self.AST)
-            return
+            return self.AST
         c = ctx.getChild(0).accept(self)
         self.AST.addchildren(c)
         ToDot(self.AST)

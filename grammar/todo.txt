@@ -1,0 +1,3 @@
+- Symboltable map instead of list
+- No nested functions
+- root vs no root privileges! (decl def)

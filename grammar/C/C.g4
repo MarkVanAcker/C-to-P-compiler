@@ -261,6 +261,7 @@ CHAR: 'char';
 FLOAT: 'float';
 INT: 'int';
 POINTER: '*';
+
 FILENAME: 'stdio.h';
 CONST: 'const';
 VOID: 'void';

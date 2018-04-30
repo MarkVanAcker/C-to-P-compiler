@@ -2,7 +2,6 @@ import sys
 from antlr4 import *
 from CLexer import CLexer
 from CParser_e import CParser_e
-from CsubListener import CsubListener
 from CsubVisitor import CsubVisitor
 from traverser import AstVisitor
 from SymbolTable import *

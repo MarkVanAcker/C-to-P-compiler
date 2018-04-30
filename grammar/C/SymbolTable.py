@@ -3,6 +3,7 @@ class SymbolTable:
         self.entries = []
         self.children = []
         self.parent = parent
+        self.name = ""
 
     def addEntry(self,entry):
         self.entries.append(entry)
@@ -16,6 +17,10 @@ class SymbolTable:
                 return True
 
         return False
+        
+    def addchild(self,st):
+        st.parent = self
+        self.children.append(st)
 
 
     def GlobalTableLookup(self,entr):
@@ -30,7 +35,7 @@ class SymbolTable:
 
     def toDot(self,file):
         file.write( "\tST" + str(id(self)) + ''' [label=< <table border="0" cellborder="1" cellspacing="0">
-        <tr><td bgcolor="grey" >SYMBOL TABLE</td></tr>
+        <tr><td bgcolor="grey" >''' + self.name + '''</td></tr>
          <tr> <td bgcolor="yellow" >Name</td> <td bgcolor="yellow" >Type</td> <td bgcolor="yellow" >Pointer</td> <td bgcolor="yellow" >Const</td> <td bgcolor="yellow" >Func</td> <td bgcolor="yellow">Params</td></tr>
          \n''')
         for e in self.entries:
@@ -60,7 +65,7 @@ class Entry:
         self.ptr = False
         self.func = False
         self.params = []
-        
+
     def typecompare(self,other):
         if (self.type == other.type and self.ptr  == other.ptr):
             return True
@@ -94,19 +99,3 @@ def ToDotST(root):
     file.write('\n}')
 
     file.close()
-
-s= SymbolTable()
-e = Entry("var",1)
-e.params = [1,2,3]
-
-s2= SymbolTable()
-
-s.children.append(s2)
-s2.parent = s
-
-s.addEntry(e)
-s.addEntry(e)
-s.addEntry(e)
-s2.addEntry(e)
-s2.addEntry(e)
-ToDotST(s)

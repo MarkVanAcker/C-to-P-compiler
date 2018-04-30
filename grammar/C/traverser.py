@@ -1,5 +1,6 @@
 from SymbolTable import *
 from AST import *
+from copy import deepcopy
 from CParser import CParser
 
 typecast = { 17 : 1 , 15 : 3, 16 : 2 , 21: 4}
@@ -25,9 +26,9 @@ class AstVisitor:
             return
 
     def traverse(self):
+
         for child in self.root.children:
             self.handle(child)
-
 
 
 
@@ -75,10 +76,18 @@ class declarationVisitor:
             else:
                 entr.params = self.handleParams(idnode.getchild(0))
 
+        elif idnode.Typedcl == "array":
+            entr.name = idnode.name
+            for child in reversed(idnode.children):
+                #TODO: typecheck child.name and see scopecheck (if child.name == var)
+                entr.type = "array("+child.name +","+ str(entr.type) + ")"
+            return
+
         elif idnode.name == "pointer":
             entr.ptr = True
             self.handleID(idnode.getchild(0),entr)
             return
+
 
         else:
             self.handleID(idnode.getchild(0), entr)
@@ -98,21 +107,33 @@ class declarationVisitor:
         return paramlist
 
 
+class FunctionDefinitionVisitor:
+    def __init__(self):
+        pass
+
+    def visit(self,ctx,st):
+
+        # delcartion visitor should throw if name is already in use (pass redeclarations)
+        ctx.getchild(0).getchild(1).append(deepcopy(ctx.getchild(1)))
+        dv = declarationVisitor()
+        dv.visit(ctx.getchild(0),st)
+
+        for param in reversed(ctx.getchild(1).children):\
+            if param.name == "empty":
+                continue
+            ctx.getchild(2).children.insert(0,param)
+
+        newst = SymbolTable()
+        newst.name = ctx.getchild(0).getchild(1).name
+        st.addchild(newst)
 
 
-
-
-
-
-
-
-""
 
 
 '''
 
-include
-declaration
+
+declaration v
 function definition
 while
 condition
@@ -121,6 +142,6 @@ funccall
 array
 operators
 access
-
+include
 
 '''

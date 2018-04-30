@@ -5,7 +5,8 @@ class ASTNode:
         self.name = n
         self.token = t
         self.Typedcl = None
-        self.hasChild = False
+        self.hasChild = False #TODO refactor
+        self.symbtable = None
 
     def todot(self,file):
 
@@ -22,6 +23,7 @@ class ASTNode:
         c.par = self
         self.children.append(c)
         self.hasChild = True
+
 
     def addchildren(self,c):
         for child in c:
