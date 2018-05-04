@@ -1,4 +1,4 @@
-from CParser import *
+from build.CParser import *
 
 
 class CParser_e(CParser):

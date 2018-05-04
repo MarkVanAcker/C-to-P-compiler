@@ -1,8 +1,7 @@
-from CVisitor import CVisitor
-from CParser import CParser
-from AST import ASTNode
-from copy import deepcopy
-from AST import ToDot
+from build.CVisitor import CVisitor
+from build.CParser import CParser
+from src.parser.AST import ASTNode
+from src.parser.astclasses import *
 
 class CsubVisitor(CVisitor):
 
@@ -49,7 +48,7 @@ class CsubVisitor(CVisitor):
 
         node = ASTNode(n.name,n.token)
         node.Typedcl = n.Typedcl
-        if n.hasChild:
+        if n.hasChild():
             for m in n.children:
                 node.addchild(self.myDeepCopy(m))
 
@@ -81,11 +80,9 @@ class CsubVisitor(CVisitor):
 
         if ctx.getChildCount() == 0:
             self.AST.addchildren([ASTNode("empty")])
-            ToDot(self.AST)
             return self.AST
         c = ctx.getChild(0).accept(self)
         self.AST.addchildren(c)
-        ToDot(self.AST)
         return self.AST
 
     # Visit a parse tree produced by CParser#statements.
@@ -117,7 +114,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#return_statement.
     def visitReturn_statement(self, ctx:CParser.Return_statementContext):
-        node = ASTNode("return")
+        node = ASTNode("return",return_visit)
         if ctx.getChildCount() == 2:
             return node
         node.addchild(ctx.getChild(1).accept(self))
@@ -138,12 +135,12 @@ class CsubVisitor(CVisitor):
         if (len(decl) > 1):
             self.errorHandler("expected ‘,’, ‘;' before ‘{’ token", decl[1])
 
-        node = ASTNode("function definition")
+        node = ASTNode("function definition",hf=functiondefinition_visit)
         initnode = decl[0]
 
         node.addchild(initnode) # type
 
-        if initnode.getchild(1).hasChild:
+        if initnode.getchild(1).hasChild():
             paramnode = initnode.getchild(1).getchild(0)
             initnode.getchild(1).clearchildren()
             node.addchild(paramnode)
@@ -193,7 +190,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        node = ASTNode("if")
+        node = ASTNode("if",hf=condition_visit)
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -248,7 +245,7 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#while_statement.
     def visitWhile_statement(self, ctx:CParser.While_statementContext):
 
-        node = ASTNode("while")
+        node = ASTNode("while",hf=while_visit)
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -418,7 +415,7 @@ class CsubVisitor(CVisitor):
 
         resultlist = []
         for i in decllist:
-            node = ASTNode("declaration")
+            node = ASTNode("declaration",hf=declaration_visit)
 
 
             node.addchild(self.myDeepCopy(typenode))
@@ -588,7 +585,7 @@ class CsubVisitor(CVisitor):
             return typenode
 
         else:
-            tempnode = ASTNode("paramdecl")
+            tempnode = ASTNode("paramdecl",hf=declaration_visit)
             typenode = self.TypeCheck(ctx.getChild(0).accept(self))
             tempnode.addchild(typenode)
             tempnode.addchild(ctx.getChild(1).accept(self))
@@ -660,7 +657,9 @@ class CsubVisitor(CVisitor):
                 name = 'lt'
             if ctx.getChild(1).accept(self).name == '>':
                 name = 'gt'
-            exprnode = ASTNode(name)
+            exprnode = ASTNode(name,hf=expression_visit)
+            if(name == "="):
+                exprnode.handlefunction = assignment_visit
             exprnode.addchild(ctx.getChild(0).accept(self))
             exprnode.addchild(ctx.getChild(2).accept(self))
             return exprnode
@@ -686,6 +685,7 @@ class CsubVisitor(CVisitor):
         raise Exception(e)
 
 
+    #add tokeninfo
     def TypeCheck(self,n):
         quant = None
         constbool = False

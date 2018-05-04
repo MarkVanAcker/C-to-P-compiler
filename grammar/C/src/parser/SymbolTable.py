@@ -1,8 +1,8 @@
 class SymbolTable:
-    def __init__(self,parent = None):
+    def __init__(self):
         self.entries = []
         self.children = []
-        self.parent = parent
+        self.parent = None
         self.name = ""
 
     def addEntry(self,entry):
@@ -84,7 +84,7 @@ class Entry:
 
 
 def ToDotST(root):
-    file = open(".ST.dot","w")
+    file = open("./output/.ST.dot","w")
 
     file.write('''digraph G
 {

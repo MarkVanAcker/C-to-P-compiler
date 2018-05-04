@@ -1,12 +1,15 @@
 class ASTNode:
-    def __init__(self,n="root",t=None,p=None):
-        self.par = p
+    def __init__(self,n="root",t=None,hf=None):
+        self.par = None
         self.children = []
         self.name = n
         self.token = t
         self.Typedcl = None
-        self.hasChild = False #TODO refactor
         self.symbtable = None
+
+        #visiting
+        self.handlefunction = hf
+
 
     def todot(self,file):
 
@@ -22,13 +25,12 @@ class ASTNode:
             return
         c.par = self
         self.children.append(c)
-        self.hasChild = True
 
 
     def addchildren(self,c):
         for child in c:
             self.addchild(child)
-        self.hasChild = True
+
 
     def getstr(self):
         if self.Typedcl is None:
@@ -40,13 +42,32 @@ class ASTNode:
     def getchild(self,idx):
         return self.children[idx]
 
+
     def clearchildren(self):
         self.children = []
-        self.hasChild = False
 
 
-def ToDot(root):
-    file = open(".AST.dot","w")
+    def hasChild(self):
+        if(len(self.children) == 0):
+            return False
+        else:
+            return True
+
+
+    def handle(self,st):
+        self.symbtable = st
+
+        if self.handlefunction is None:
+            return
+        self.handlefunction(self,self.symbtable)
+
+
+
+
+
+
+def ToDotAST(root):
+    file = open("./output/.AST.dot","w")
 
     file.write('''digraph G
 {
