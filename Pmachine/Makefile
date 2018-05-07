@@ -5,17 +5,17 @@ CXX     = g++ -Wno-deprecated
 LEX   	= flex
 YACC	= bison
 YFLAGS  = -b pmachine -d -v
-
+LIBRARY_PATH = C:\MinGW\msys\1.0\lib
 
 all: pmachine
 
 clean:	
-	rm -f *.o
-	rm -f core
-	rm -f pmachine.tab.c
-	rm -f pmachine.yy.c
-	rm -f pmachine.tab.output
-	rm -f pmachine.tab.h
+	rm *.o
+	rm core
+	rm pmachine.tab.c
+	rm pmachine.yy.c
+	rm pmachine.tab.output
+	rm pmachine.tab.h
 
 instructions=instruction.o add.o and.o chk.o cup.o cupi.o dec.o div.o dpl.o ent.o equ.o fjp.o geq.o grt.o hlt.o inc.o ind.o ixa.o ixj.o lda.o ldc.o ldo.o leq.o les.o lod.o movd.o movs.o mst.o mstf.o mul.o neg.o neq.o new.o not.o or.o retf.o retp.o sep.o sli.o smp.o sro.o ssp.o sto.o str.o sub.o ujp.o in.o out.o ldd.o conv.o
 stackelements=stackaddress.o stackelement.o stackinteger.o stackreal.o stackboolean.o stackcharacter.o
@@ -222,6 +222,6 @@ main.o: main.cpp $(INCinstruction) pmachine.h
 	$(CXX) -c main.cpp
 
 pmachine: pmachine.yy.o pmachine.tab.o $(instructions) $(stackelements) $(exceptions) labelcenter.o timecounter.o stackmachine.o main.o pmachine.tab.o pmachine.yy.c
-	$(CXX) -o Pmachine $(instructions) $(stackelements) $(exceptions) labelcenter.o timecounter.o stackmachine.o main.o pmachine.yy.o pmachine.tab.o -lfl
+	$(CXX) -L$(LIBRARY_PATH) -o Pmachine $(instructions) $(stackelements) $(exceptions) labelcenter.o timecounter.o stackmachine.o main.o pmachine.yy.o pmachine.tab.o -lfl
 
 

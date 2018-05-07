@@ -2,58 +2,108 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9fb7edd5-e2e5-41eb-baf3-3d252c2aab29" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/grammar/C/build/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/grammar/C/src/parser/astclasses.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/grammar/C/src/parser/traverser.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/grammar/C/test.c" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Pmachine/Pmachine.exe" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/.AST.dot" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/.ST.dot" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/AST.py" afterPath="$PROJECT_DIR$/grammar/C/src/parser/AST.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/C.interp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/C.tokens" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CLexer.interp" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CLexer.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CLexer.tokens" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CListener.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CParser_e.py" afterPath="$PROJECT_DIR$/grammar/C/src/error/CParser_e.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CVisitor.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/CsubVisitor.py" afterPath="$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/SymbolTable.py" afterPath="$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/ast.ps" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/build.py" afterPath="$PROJECT_DIR$/grammar/C/build.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/c2p.py" afterPath="$PROJECT_DIR$/grammar/C/c2p.py" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/st.ps" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/big.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition5.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/condition6.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/conditional7.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/constDec.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/createTypes.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/declaration.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/empty.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/emptyStatement.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression1.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/expression5.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for3.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/for4.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/funcDef.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/include2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/pointerassign.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/pointerassign.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" afterPath="$PROJECT_DIR$/grammar/C/test/abstract_syntax_trees/while2.c.png" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/traverser.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/Makefile" afterPath="$PROJECT_DIR$/Pmachine/Makefile" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/add.cpp" afterPath="$PROJECT_DIR$/Pmachine/add.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/add.h" afterPath="$PROJECT_DIR$/Pmachine/add.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/and.cpp" afterPath="$PROJECT_DIR$/Pmachine/and.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/and.h" afterPath="$PROJECT_DIR$/Pmachine/and.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/chk.cpp" afterPath="$PROJECT_DIR$/Pmachine/chk.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/chk.h" afterPath="$PROJECT_DIR$/Pmachine/chk.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/compiletimeerror.cpp" afterPath="$PROJECT_DIR$/Pmachine/compiletimeerror.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/compiletimeerror.h" afterPath="$PROJECT_DIR$/Pmachine/compiletimeerror.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/conv.cpp" afterPath="$PROJECT_DIR$/Pmachine/conv.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/conv.h" afterPath="$PROJECT_DIR$/Pmachine/conv.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/cup.cpp" afterPath="$PROJECT_DIR$/Pmachine/cup.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/cup.h" afterPath="$PROJECT_DIR$/Pmachine/cup.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/cupi.cpp" afterPath="$PROJECT_DIR$/Pmachine/cupi.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/cupi.h" afterPath="$PROJECT_DIR$/Pmachine/cupi.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/dec.cpp" afterPath="$PROJECT_DIR$/Pmachine/dec.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/dec.h" afterPath="$PROJECT_DIR$/Pmachine/dec.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/div.cpp" afterPath="$PROJECT_DIR$/Pmachine/div.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/div.h" afterPath="$PROJECT_DIR$/Pmachine/div.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/dpl.cpp" afterPath="$PROJECT_DIR$/Pmachine/dpl.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/dpl.h" afterPath="$PROJECT_DIR$/Pmachine/dpl.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ent.cpp" afterPath="$PROJECT_DIR$/Pmachine/ent.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ent.h" afterPath="$PROJECT_DIR$/Pmachine/ent.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/equ.cpp" afterPath="$PROJECT_DIR$/Pmachine/equ.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/equ.h" afterPath="$PROJECT_DIR$/Pmachine/equ.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/executionerror.cpp" afterPath="$PROJECT_DIR$/Pmachine/executionerror.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/executionerror.h" afterPath="$PROJECT_DIR$/Pmachine/executionerror.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/fjp.h" afterPath="$PROJECT_DIR$/Pmachine/fjp.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/geq.cpp" afterPath="$PROJECT_DIR$/Pmachine/geq.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/geq.h" afterPath="$PROJECT_DIR$/Pmachine/geq.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/grt.cpp" afterPath="$PROJECT_DIR$/Pmachine/grt.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/grt.h" afterPath="$PROJECT_DIR$/Pmachine/grt.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/hlt.h" afterPath="$PROJECT_DIR$/Pmachine/hlt.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/in.cpp" afterPath="$PROJECT_DIR$/Pmachine/in.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/in.h" afterPath="$PROJECT_DIR$/Pmachine/in.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/inc.h" afterPath="$PROJECT_DIR$/Pmachine/inc.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ind.h" afterPath="$PROJECT_DIR$/Pmachine/ind.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/instruction.h" afterPath="$PROJECT_DIR$/Pmachine/instruction.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ixa.h" afterPath="$PROJECT_DIR$/Pmachine/ixa.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ixj.h" afterPath="$PROJECT_DIR$/Pmachine/ixj.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/labelcenter.h" afterPath="$PROJECT_DIR$/Pmachine/labelcenter.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/lda.h" afterPath="$PROJECT_DIR$/Pmachine/lda.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ldc.h" afterPath="$PROJECT_DIR$/Pmachine/ldc.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ldd.cpp" afterPath="$PROJECT_DIR$/Pmachine/ldd.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ldd.h" afterPath="$PROJECT_DIR$/Pmachine/ldd.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ldo.h" afterPath="$PROJECT_DIR$/Pmachine/ldo.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/leq.cpp" afterPath="$PROJECT_DIR$/Pmachine/leq.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/leq.h" afterPath="$PROJECT_DIR$/Pmachine/leq.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/les.cpp" afterPath="$PROJECT_DIR$/Pmachine/les.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/les.h" afterPath="$PROJECT_DIR$/Pmachine/les.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/lod.h" afterPath="$PROJECT_DIR$/Pmachine/lod.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/main.cpp" afterPath="$PROJECT_DIR$/Pmachine/main.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/movd.h" afterPath="$PROJECT_DIR$/Pmachine/movd.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/movs.h" afterPath="$PROJECT_DIR$/Pmachine/movs.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/mst.h" afterPath="$PROJECT_DIR$/Pmachine/mst.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/mstf.h" afterPath="$PROJECT_DIR$/Pmachine/mstf.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/mul.cpp" afterPath="$PROJECT_DIR$/Pmachine/mul.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/mul.h" afterPath="$PROJECT_DIR$/Pmachine/mul.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/neg.cpp" afterPath="$PROJECT_DIR$/Pmachine/neg.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/neg.h" afterPath="$PROJECT_DIR$/Pmachine/neg.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/neq.cpp" afterPath="$PROJECT_DIR$/Pmachine/neq.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/neq.h" afterPath="$PROJECT_DIR$/Pmachine/neq.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/new.cpp" afterPath="$PROJECT_DIR$/Pmachine/new.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/new.h" afterPath="$PROJECT_DIR$/Pmachine/new.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/not.cpp" afterPath="$PROJECT_DIR$/Pmachine/not.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/not.h" afterPath="$PROJECT_DIR$/Pmachine/not.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/or.cpp" afterPath="$PROJECT_DIR$/Pmachine/or.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/or.h" afterPath="$PROJECT_DIR$/Pmachine/or.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/out.cpp" afterPath="$PROJECT_DIR$/Pmachine/out.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/out.h" afterPath="$PROJECT_DIR$/Pmachine/out.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/placeholder.cpp" afterPath="$PROJECT_DIR$/Pmachine/placeholder.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/placeholder.h" afterPath="$PROJECT_DIR$/Pmachine/placeholder.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/pmachine.h" afterPath="$PROJECT_DIR$/Pmachine/pmachine.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/pmachine.l" afterPath="$PROJECT_DIR$/Pmachine/pmachine.l" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/pmachine.output" afterPath="$PROJECT_DIR$/Pmachine/pmachine.output" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/pmachine.y" afterPath="$PROJECT_DIR$/Pmachine/pmachine.y" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/retf.h" afterPath="$PROJECT_DIR$/Pmachine/retf.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/retp.cpp" afterPath="$PROJECT_DIR$/Pmachine/retp.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/retp.h" afterPath="$PROJECT_DIR$/Pmachine/retp.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sep.h" afterPath="$PROJECT_DIR$/Pmachine/sep.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sli.h" afterPath="$PROJECT_DIR$/Pmachine/sli.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/smp.cpp" afterPath="$PROJECT_DIR$/Pmachine/smp.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/smp.h" afterPath="$PROJECT_DIR$/Pmachine/smp.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sro.h" afterPath="$PROJECT_DIR$/Pmachine/sro.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ssp.h" afterPath="$PROJECT_DIR$/Pmachine/ssp.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackaddress.h" afterPath="$PROJECT_DIR$/Pmachine/stackaddress.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackboolean.h" afterPath="$PROJECT_DIR$/Pmachine/stackboolean.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackelement.cpp" afterPath="$PROJECT_DIR$/Pmachine/stackelement.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackelement.h" afterPath="$PROJECT_DIR$/Pmachine/stackelement.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackinteger.h" afterPath="$PROJECT_DIR$/Pmachine/stackinteger.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackmachine.cpp" afterPath="$PROJECT_DIR$/Pmachine/stackmachine.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/stackreal.h" afterPath="$PROJECT_DIR$/Pmachine/stackreal.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sto.cpp" afterPath="$PROJECT_DIR$/Pmachine/sto.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sto.h" afterPath="$PROJECT_DIR$/Pmachine/sto.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/str.cpp" afterPath="$PROJECT_DIR$/Pmachine/str.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/str.h" afterPath="$PROJECT_DIR$/Pmachine/str.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sub.cpp" afterPath="$PROJECT_DIR$/Pmachine/sub.cpp" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/sub.h" afterPath="$PROJECT_DIR$/Pmachine/sub.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/timecounter.h" afterPath="$PROJECT_DIR$/Pmachine/timecounter.h" />
+      <change beforePath="$PROJECT_DIR$/Pmachine/ujp.h" afterPath="$PROJECT_DIR$/Pmachine/ujp.h" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -74,7 +124,7 @@
       <file leaf-file-name="CsubVisitor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
+            <state relative-caret-position="11186">
               <caret line="661" column="58" lean-forward="false" selection-start-line="661" selection-start-column="58" selection-end-line="661" selection-end-column="58" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -97,27 +147,13 @@
         <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/traverser.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+              <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ST.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/output/ST.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ST.bmp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/output/ST.bmp">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="astclasses.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="astclasses.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/astclasses.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="193">
@@ -129,21 +165,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/test.c">
+      <file leaf-file-name="fibonacci.p" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pmachine/fibonacci.p">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SymbolTable.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py">
+      <file leaf-file-name="Makefile" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pmachine/Makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-878">
-              <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stackmachine.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Pmachine/stackmachine.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2958">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -159,8 +215,8 @@
       <file leaf-file-name="AST.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/AST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="60" column="18" lean-forward="true" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
+            <state relative-caret-position="1020">
+              <caret line="60" column="18" lean-forward="false" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
               <folding>
                 <marker date="1525470549245" expanded="true" signature="62:187" ph="..." />
               </folding>
@@ -284,38 +340,7 @@
             <path>
               <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
               <item name="Compilers" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
-              <item name="C" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
-              <item name="C" type="462c0819:PsiDirectoryNode" />
-              <item name="output" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
-              <item name="C" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
-              <item name="C" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="error" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Compilers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Compilers" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
-              <item name="C" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
+              <item name="Pmachine" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -475,6 +500,14 @@
       <option name="presentableId" value="Default" />
       <updated>1524154348170</updated>
     </task>
+    <task id="LOCAL-00001" summary="restructuring + function functionality">
+      <created>1525471391559</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1525471391559</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -486,10 +519,9 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33766234" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25586355" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2585288" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -499,6 +531,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946146" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -530,6 +563,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="restructuring + function functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="restructuring + function functionality" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="2" />
@@ -537,30 +574,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/Token.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="6" lean-forward="false" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/ParserRuleContext.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="35" column="6" lean-forward="false" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/AST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="19" lean-forward="false" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="19" />
-          <folding>
-            <marker date="1525470549245" expanded="true" signature="62:187" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -570,13 +583,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/output/AST.png" />
-    <entry file="file://$PROJECT_DIR$/grammar/C/CsubListener.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/CsubListener.py" />
     <entry file="file://$PROJECT_DIR$/grammar/C/CST.dot" />
     <entry file="file://$USER_HOME$/.PyCharm2017.3/system/python_stubs/1856753674/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -594,13 +601,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/ctest.c" />
-    <entry file="file://$PROJECT_DIR$/grammar/astModel.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="11" lean-forward="false" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/astModel.txt" />
     <entry file="file://$PROJECT_DIR$/grammar/C/AST.dot" />
     <entry file="file://$PROJECT_DIR$/grammar/C/aaast.ps" />
     <entry file="file://$PROJECT_DIR$/grammar/C/ex.c" />
@@ -630,23 +631,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="42" column="6" lean-forward="false" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="23" column="39" lean-forward="false" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/main.py" />
     <entry file="file://$PROJECT_DIR$/grammar/C/runtests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="261">
           <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -654,7 +646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="152" column="50" lean-forward="false" selection-start-line="152" selection-start-column="50" selection-end-line="152" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -662,7 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -670,7 +660,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -678,7 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,7 +674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -694,7 +681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -702,7 +688,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -710,7 +695,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -718,7 +702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -726,7 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -734,39 +716,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-53">
           <caret line="32" column="8" lean-forward="false" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/.AST.dot">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/test1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/test2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="true" selection-start-line="0" selection-start-column="7" selection-end-line="7" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/.AST.dot" />
+    <entry file="file://$PROJECT_DIR$/grammar/C/test1.py" />
+    <entry file="file://$PROJECT_DIR$/grammar/C/test2.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35-32/Lib/site-packages/antlr4/ParserRuleContext.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-112">
           <caret line="132" column="8" lean-forward="false" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,7 +733,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -782,7 +740,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -790,9 +747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="21" lean-forward="false" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -816,7 +770,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-878">
+        <state relative-caret-position="68">
           <caret line="4" column="26" lean-forward="false" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
           <folding />
         </state>
@@ -832,8 +786,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/AST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="60" column="18" lean-forward="true" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
+        <state relative-caret-position="1020">
+          <caret line="60" column="18" lean-forward="false" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
           <folding>
             <marker date="1525470549245" expanded="true" signature="62:187" ph="..." />
           </folding>
@@ -843,7 +797,7 @@
     <entry file="file://$PROJECT_DIR$/grammar/C/test.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -856,14 +810,14 @@
     <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/traverser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="12" column="40" lean-forward="true" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
+        <state relative-caret-position="11186">
           <caret line="661" column="58" lean-forward="false" selection-start-line="661" selection-start-column="58" selection-end-line="661" selection-end-column="58" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
@@ -878,6 +832,30 @@
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pmachine/fibonacci.p">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pmachine/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pmachine/stackmachine.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2958">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
