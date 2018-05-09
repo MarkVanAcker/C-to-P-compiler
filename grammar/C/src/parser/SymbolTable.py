@@ -84,6 +84,11 @@ class Entry:
 
 
 def ToDotST(root):
+
+    import os
+    if not os.path.exists('./output'):
+        os.makedirs('./output')
+
     file = open("./output/.ST.dot","w")
 
     file.write('''digraph G

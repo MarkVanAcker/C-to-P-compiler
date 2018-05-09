@@ -67,6 +67,10 @@ class ASTNode:
 
 
 def ToDotAST(root):
+    import os
+    if not os.path.exists('./output'):
+        os.makedirs('./output')
+
     file = open("./output/.AST.dot","w")
 
     file.write('''digraph G

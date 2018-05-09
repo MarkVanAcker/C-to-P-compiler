@@ -108,7 +108,7 @@ def functiondefinition_visit(ctx,st):
 
 #typecheck condition and validity
 def condition_visit(ctx,st):
-
+    pass
 
 #typecheck condition and validity
 def while_visit(ctx,st):
@@ -118,7 +118,7 @@ def while_visit(ctx,st):
     #
 
     # condition vist will validate and detect possible dead block code
-    if !condition_visit(ctx.getchild(1),st):
+    if not condition_visit(ctx.getchild(1),st):
         return False
 
 

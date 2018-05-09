@@ -3,3 +3,5 @@ grammar/build/C*
 grammar/C/.idea/*
 *.pyc
 *.pyo
+grammar/C/output/*
+grammar/C/testoutput/*
