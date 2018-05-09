@@ -1,3 +1,5 @@
 grammar/build/C*
 .idea/*
 grammar/C/.idea/*
+*.pyc
+*.pyo
