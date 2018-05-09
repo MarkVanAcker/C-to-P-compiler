@@ -106,15 +106,29 @@ def functiondefinition_visit(ctx,st):
 
     v.traverse()
 
+#typecheck condition and validity
+def condition_visit(ctx,st):
+
 
 #typecheck condition and validity
 def while_visit(ctx,st):
-    pass
+    #
+    #  - validate condition
+    #  - create new table and traverse block
+    #
+
+    # condition vist will validate and detect possible dead block code
+    if !condition_visit(ctx.getchild(1),st):
+        return False
 
 
-#typecheck condition and validity
-def condition_visit(ctx,st):
-    pass
+    newst = SymbolTable()
+    newst.name = "While iteration"
+
+    st.addchild(newst)
+    v = AstVisitor(ctx.getchild(1),newst)
+    v.traverse()
+
 
 
 #check if variable that is to be returned exists and matches return type
@@ -136,7 +150,7 @@ def assignment_visit(ctx,st):
 
 
 declaration v
-function definition
+function definition v
 while
 condition
 return
@@ -147,6 +161,3 @@ access
 include
 
 '''
-
-
-
