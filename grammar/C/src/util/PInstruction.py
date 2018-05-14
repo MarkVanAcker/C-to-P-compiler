@@ -233,3 +233,203 @@ class Decrement(PInstruction):
 
     def write(self):
         return 'dec %s %i' % (self.type, self.i)
+
+
+########## Boundary check  #######
+
+class BoundaryCheck(PInstruction):
+
+    def __init__(self, p: int, q: int):
+        self.i1 = p
+        self.i2 = q
+
+    def write(self):
+        return 'chk %i %i' % (self.i1, self.i2)
+
+
+####SKIPPED DYNAMIC ARRAYS
+
+
+
+########## Loading and storing for difference in nesting depths   #######
+
+
+class ProcedureLoadType(PInstruction):
+
+    def __init__(self, t: PType,p: int, q: int):
+        self.type = t
+        self.depth = p
+        self.address = q
+
+    def write(self):
+        return 'lod %s %i %i' % (self.type, self.depth,self.address)
+
+class ProcedureLoadAddress(PInstruction):
+
+    def __init__(self,p: int, q: int):
+        self.depth = p
+        self.address = q
+
+    def write(self):
+        return 'lda %i %i' % ( self.depth,self.address)
+
+class ProcedureStoreType(PInstruction):
+
+    def __init__(self, t: PType,p: int, q: int):
+        self.type = t
+        self.depth = p
+        self.address = q
+
+    def write(self):
+        return 'str %s %i %i' % (self.type, self.depth,self.address)
+
+
+########## Instructions for calling,entering and returning procedures    #######
+
+class MarkStack(PInstruction):
+
+    def __init__(self,p:int):
+        self.depth = p
+
+    def write(self):
+        return 'mst %i' % self.depth
+
+class CallUserProcedure(PInstruction):
+
+    def __init__(self,p: int, q: str):
+        self.storage = p
+        self.label = q
+
+    def write(self):
+        return 'cup %i %s' % ( self.storage,self.label)
+
+class SetStackPointer(PInstruction):
+
+    def __init__(self,p:int):
+        self.value = p
+
+    def write(self):
+        return 'ssp %i' % self.value
+
+class SetExtremePointer(PInstruction):
+
+    def __init__(self,p:int):
+        self.value = p
+
+    def write(self):
+        return 'sep %i' % self.value
+
+class SetPointers(PInstruction):
+
+    def __init__(self,p:int,q:int):
+        self.stackvalue = p
+        self.extremevalue = q
+
+    def write(self):
+        return 'ent %i %i' % (self.stackvalue,self.extremevalue)
+
+class ReturnResult(PInstruction):
+
+    def write(self):
+        return 'retf'
+
+class ReturnNoResult(PInstruction):
+
+    def write(self):
+        return 'retp'
+
+
+
+########## Block copy instruction    #######
+
+class MoveBlockLoad(PInstruction):
+
+    def __init__(self,q:int):
+        self.size = q
+
+    def write(self):
+        return 'movs %i' % self.size
+
+
+#Not sure what this does :TODO
+class MoveBlockStore(PInstruction):
+
+    def __init__(self,q:int):
+        self.size = q
+
+    def write(self):
+        return 'movd %i' % self.size
+
+#Skipped bonus instructions because didn't see the use
+
+
+########## Halt instruction    #######
+
+class Halt(PInstruction):
+
+    def write(self):
+        return 'hlt'
+
+########## Input/Output instructions   #######
+
+class InInteger(PInstruction):
+
+    def write(self):
+        return 'in i'
+
+
+class InReal(PInstruction):
+
+    def write(self):
+        return 'in r'
+
+class InCharacter(PInstruction):
+
+    def write(self):
+        return 'in c'
+
+class InBoolean(PInstruction):
+
+    def write(self):
+        return 'in b'
+
+
+class OutInteger(PInstruction):
+
+    def write(self):
+        return 'out i'
+
+
+class OutReal(PInstruction):
+
+    def write(self):
+        return 'out r'
+
+
+class OutCharacter(PInstruction):
+
+    def write(self):
+        return 'out c'
+
+
+class OutBoolean(PInstruction):
+
+    def write(self):
+        return 'out b'
+
+class OutRealPrecision(PInstruction):
+
+    def write(self):
+        return 'out r i'
+
+
+########## Conversion instruction   #######
+
+class Conversion(PInstruction):
+
+    def __init__(self, t1: PType,t2:PType):
+        self.type1 = t1
+        self.depth2 = t2
+
+    def write(self):
+        return 'conv %s %s' % (self.type1, self.type2)
