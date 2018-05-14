@@ -32,6 +32,7 @@ def declaration_visit(ctx,st):
         name = ctx.getchild(1).getchild(1)
     else:
         name = ctx.getchild(1)
+
     handleID(name,entr)
 
     if (st.LocalTableLookup(entr)):
@@ -151,7 +152,10 @@ def expression_visit(ctx,st):
 
 #check if L-value and R-value are ok
 def assignment_visit(ctx,st):
-    pass
+    # left side must be l-value
+    # is l-value memory allocatable variable only (array included)
+
+
 
 '''
 

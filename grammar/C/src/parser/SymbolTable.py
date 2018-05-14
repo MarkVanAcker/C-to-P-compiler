@@ -17,7 +17,29 @@ class SymbolTable:
                 return True
 
         return False
-        
+
+    def getVariableEntry(self,name):
+        for entry in self.entries:
+            if (entry.name == name and entry.func == False):
+                return entry
+
+        if (self.parent is None):
+            return False
+        else:
+            return self.parent.GlobalTableLookup(entr)
+
+    def getFunctionEntry(self,name):
+        for entry in self.entries:
+            if (entry.name == name and entry.func == True):
+                return entry
+
+        if (self.parent is None):
+            return False
+        else:
+            return self.parent.GlobalTableLookup(entr)
+
+
+
     def addchild(self,st):
         st.parent = self
         self.children.append(st)
