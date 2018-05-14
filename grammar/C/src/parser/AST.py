@@ -62,6 +62,9 @@ class ASTNode:
         self.handlefunction(self,self.symbtable)
 
 
+    
+
+
 
 
 

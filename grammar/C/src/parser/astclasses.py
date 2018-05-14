@@ -146,7 +146,7 @@ def return_visit(ctx,st):
 
 #check if every variable that is used exists and do type checking for conversions
 #also add constant folding
-def expression_visit(ctx,st):
+def expression_visit(ctx,st,type = None):
     pass
 
 
@@ -154,6 +154,16 @@ def expression_visit(ctx,st):
 def assignment_visit(ctx,st):
     # left side must be l-value
     # is l-value memory allocatable variable only (array included)
+    entry = st.getVariableEntry(ctx.getchild(1).name)
+    if entry == False:
+        raise Exception("Error: undeclared varaible (first use in this function)")
+    returnType = entry.type
+
+    # Evaluate R-value with given l-value type
+    expression_visit(ctx.getChild(2),st,returnType)
+
+
+
 
 
 
