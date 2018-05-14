@@ -27,7 +27,11 @@ def declaration_visit(ctx,st):
     else:
         entr.type = typecast[type.token.type]
 
-    name = ctx.getchild(1)
+    name = ''
+    if ctx.getchild(1).name == '=':
+        name = ctx.getchild(1).getchild(1)
+    else:
+        name = ctx.getchild(1)
     handleID(name,entr)
 
     if (st.LocalTableLookup(entr)):
@@ -37,6 +41,9 @@ def declaration_visit(ctx,st):
         print("Warning: Variable is hiding data")
 
     st.addEntry(entr)
+
+    if ctx.getchild(1).name == '=':
+        assignment_visit(ctx.getchild(1),st)
 
 
 def handleID( idnode,entr):
