@@ -76,13 +76,16 @@ class SymbolTable:
 
 
 class Entry:
-    def __init__(self,n = "",t = None):
+    def __init__(self,n = "",t = None,s = 1):
         self.name = n
         self.type = t
         self.const = False
         self.ptr = False
         self.func = False
         self.params = []
+
+        #needed for code convertion
+        self.size = s
 
     def typecompare(self,other):
         if (self.type == other.type and self.ptr  == other.ptr):
