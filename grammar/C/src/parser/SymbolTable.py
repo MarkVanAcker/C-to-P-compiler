@@ -11,6 +11,12 @@ class SymbolTable:
     def findByName(self,name):
         pass
 
+    def getFuncRoot(self):
+        if self.name != 'block' or self.name != 'iteration' or self.name != 'condition':
+            return self
+        else:
+            self.parent.getFuncRoot()
+
     def LocalTableLookup(self,entr):
         for entry in self.entries:
             if (entry == entr):
@@ -20,17 +26,7 @@ class SymbolTable:
 
     def getVariableEntry(self,name):
         for entry in self.entries:
-            if (entry.name == name and entry.func == False):
-                return entry
-
-        if (self.parent is None):
-            return False
-        else:
-            return self.parent.GlobalTableLookup(entr)
-
-    def getFunctionEntry(self,name):
-        for entry in self.entries:
-            if (entry.name == name and entry.func == True):
+            if (entry.name == name):
                 return entry
 
         if (self.parent is None):

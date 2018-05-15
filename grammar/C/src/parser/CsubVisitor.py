@@ -674,6 +674,8 @@ class CsubVisitor(CVisitor):
             n.Typedcl = "intconst"
         elif n.token.type == CParser.DECIMAL:
             n.Typedcl = "floatconst"
+        elif n.token.type == CParser.CHARACTER:
+            n.Typedcl = "charconst"
         return n
 
 

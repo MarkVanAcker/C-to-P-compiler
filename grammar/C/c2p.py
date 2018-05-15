@@ -18,8 +18,8 @@ def main(argv):
         ast = visitor.visit(tree)
         ToDotAST(ast)
         st = SymbolTable()
-        astvisit = AstVisitor(ast,st)
-        astvisit.traverse()
+        #astvisit = AstVisitor(ast,st)
+        #astvisit.traverse()
         ToDotST(st)
     except Exception as e:
         print("Compilation terminated: ", e.args)

@@ -4,5 +4,5 @@ float function (int a, float b, char c){
 }
 
 float func () {
-    return 1.0;
+    return;
 }

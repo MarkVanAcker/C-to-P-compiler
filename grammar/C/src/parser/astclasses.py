@@ -46,13 +46,18 @@ def declaration_visit(ctx,st):
     if ctx.getchild(1).name == '=':
         assignment_visit(ctx.getchild(1),st)
 
+    return entr
+
 
 def handleID( idnode,entr):
     if idnode.Typedcl == "id":
+        if entr.type == 4:
+            raise Exception("Error: Declared variable void")
         entr.name = idnode.name
         return
 
     elif idnode.Typedcl == "func":
+
         entr.func = True
         entr.name = idnode.name
         if(len(idnode.children) == 0):
@@ -96,6 +101,7 @@ def handleParams(paramnode):
 def functiondefinition_visit(ctx,st):
 
     # delcartion visitor should throw if name is already in use (pass redeclarations)
+    # TODO: delcare and after define function
     ctx.getchild(0).getchild(1).addchild(ctx.getchild(1))
     declaration_visit(ctx.getchild(0),st)
 
@@ -116,7 +122,7 @@ def functiondefinition_visit(ctx,st):
 
 #typecheck condition and validity
 def condition_visit(ctx,st):
-    pass
+    return expression_visit(ctx.getChild(0),st)
 
 #typecheck condition and validity
 def while_visit(ctx,st):
@@ -126,12 +132,13 @@ def while_visit(ctx,st):
     #
 
     # condition vist will validate and detect possible dead block code
+    #TODO check if functionallity can be added
     if not condition_visit(ctx.getchild(1),st):
-        return False
+        pass
 
 
     newst = SymbolTable()
-    newst.name = "While iteration"
+    newst.name = "iteration"
 
     st.addchild(newst)
     v = AstVisitor(ctx.getchild(1),newst)
@@ -141,13 +148,124 @@ def while_visit(ctx,st):
 
 #check if variable that is to be returned exists and matches return type
 def return_visit(ctx,st):
-    pass
+
+    stFunc = st.getFuncRoot()
+    if stFunc.parent == None:
+        raise Exception("Error: Return in a non definition block")
+
+
+    stParent = stFunc.parent
+    returnType = ''
+    funcReturnType = stParent.getVariableEntry(stFunc.name).type
+    if ctx.getChildCount() == 0:
+        # void return
+        returnType = 4
+        if funcReturnType!= 4:
+            Exception("Error: Expected void return but got another type")
+    else:
+        returnType = expression_statement(ctx.getChild(0),st,funcReturnType)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #check if every variable that is used exists and do type checking for conversions
 #also add constant folding
+
+def itemCheck(ctx,st,type):
+    # variable
+    node = ctx.getchild(0)
+    if node.Typedcl == 'id':
+        entry = st.getVariableEntry(node.name)
+        if entry == False:
+            raise Exception("Error: undeclared varaible (first use in this function)")
+        Ltype = entry.type
+        if not Ltype == type: # keeping void for what it is
+            if type == 1: # void ?
+                raise Exception("Warning: Converting to int")
+                entry.type = 1
+            elif type == 2:
+                raise Exception("Warning: Converting to float")
+                entry.type = 2
+            elif type == 3:
+                raise Exception("Warning: Converting to char")
+                entry.type = 3
+
+    # constant value (right?)
+    else:
+        Ltype = typecast[node.token.type]
+        if not Ltype == type: # keeping void for what it is
+            raise Exception("Warning: forced type conversion")
+            if type == 1: # void ?
+                raise Exception("Warning: Converting to int")
+                node.Typedcl = 'intconst'
+                node.name = int(node.name)
+            elif type == 2:
+                raise Exception("Warning: Converting to float")
+                node.Typedcl = 'floatconst'
+                node.name = float(node.name)
+            elif type == 3:
+                raise Exception("Warning: Converting to char")
+                node.Typedcl = 'charconst'
+                node.name = str(node.name)
+
 def expression_visit(ctx,st,type = None):
-    pass
+
+    if ctx.name == 'empty' or ctx.getChildCount() == 0:
+        return 4;
+
+
+    #
+    # HANDLE LEFT VALUE OF THE EXPRESSION
+    #
+
+
+    # no L-value to assign to OR no type reference on the left side.   EG  if(3 < 5.0)
+    node = ctx.getChild(0)
+    if type == None:
+        # variable
+        if node.Typedcl == 'id':
+            entry = st.getVariableEntry(node.name)
+            if entry == False:
+                raise Exception("Error: undeclared varaible (first use in this function)")
+            type = entry.type
+
+        # constant value (right?)
+        else:
+            type = typecast[node.token.type]
+
+    # supertype given for the expression.    EG int var = 1 + 5;
+    # typecheck left operant
+    else:
+        itemCheck(node,st,type)
+
+
+    if ctx.getChildCount() == 1:
+        return type
+
+    #
+    # HANDLE RIGHT VALUE OF THE EXPRESSION
+    #
+
+    node = ctx.getChild(1)
+    if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
+        itemCheck(node,st,type)
+    else:
+        expression_visit(node,st,type)
+
+    return type
+
 
 
 #check if L-value and R-value are ok
