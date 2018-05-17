@@ -1,15 +1,11 @@
 class ASTNode:
-    def __init__(self,n="root",t=None,hf=None):
+    def __init__(self,n="root",t=None):
         self.par = None
         self.children = []
         self.name = n
         self.token = t
         self.Typedcl = None
         self.symbtable = None
-
-        #visiting
-        self.handlefunction = hf
-
 
     def todot(self,file):
 
@@ -34,9 +30,9 @@ class ASTNode:
 
     def getstr(self):
         if self.Typedcl is None:
-            return self.name
+            return self.__class__.__name__
         else:
-            return "<font color = \"blue\">" +self.Typedcl +"</font><br/>"+ self.name
+            return "<font color = \"blue\">" +self.Typedcl +"</font><br/>"+ self.__class__.__name__
 
 
     def getchild(self,idx):
@@ -55,11 +51,7 @@ class ASTNode:
 
 
     def handle(self,st):
-        self.symbtable = st
-
-        if self.handlefunction is None:
-            return
-        self.handlefunction(self,self.symbtable)
+        pass
 
 
     

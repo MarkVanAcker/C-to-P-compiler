@@ -30,9 +30,9 @@ class SymbolTable:
                 return entry
 
         if (self.parent is None):
-            return False
+            return None
         else:
-            return self.parent.GlobalTableLookup(entr)
+            return self.parent.getVariableEntry(name)
 
 
 
@@ -60,7 +60,7 @@ class SymbolTable:
             file.write("<tr><td>"+e.name+"</td>  <td>"+ str(e.type) + "</td> <td>"+str(e.ptr)+"</td> <td>"+str(e.const)+"</td> <td>"+str(e.func)+"</td> <td>")
             for p in e.params:
                 file.write(str(p) + " ")
-            file.write("</td></tr>");
+            file.write("</td></tr>")
         file.write('''\n </table>>];''')
         if(self.parent is not None):
             file.write("\tST"+str(id(self.parent))+"->ST"+str(id(self))+"\n")

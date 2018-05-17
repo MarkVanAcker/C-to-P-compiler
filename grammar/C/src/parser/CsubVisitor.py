@@ -65,7 +65,7 @@ class CsubVisitor(CVisitor):
 
 
     def visitTerminal(self, node):
-        return ASTNode(node.getText(),node.getSymbol())
+        return self.tokenHandler(node.getText(),node.getSymbol())
 
 
 
@@ -114,11 +114,11 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#return_statement.
     def visitReturn_statement(self, ctx:CParser.Return_statementContext):
-        node = ASTNode("return",return_visit)
+        node = ReturnNode("return")
         if ctx.getChildCount() == 2:
             return node
         node.addchild(ctx.getChild(1).accept(self))
-        return node;
+        return node
 
 
 
@@ -135,7 +135,7 @@ class CsubVisitor(CVisitor):
         if (len(decl) > 1):
             self.errorHandler("expected ‘,’, ‘;' before ‘{’ token", decl[1])
 
-        node = ASTNode("function definition",hf=functiondefinition_visit)
+        node = FunctionDefinitionNode("function definition")
         initnode = decl[0]
 
         node.addchild(initnode) # type
@@ -166,7 +166,7 @@ class CsubVisitor(CVisitor):
 
         statements = ctx.getChild(1).accept(self)
         for i in statements:
-            node.addchild(i);
+            node.addchild(i)
 
 
         return node
@@ -190,7 +190,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        node = ASTNode("if",hf=condition_visit)
+        node = ConditionNode("if")
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -245,7 +245,7 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#while_statement.
     def visitWhile_statement(self, ctx:CParser.While_statementContext):
 
-        node = ASTNode("while",hf=while_visit)
+        node = WhileNode("while")
         node2 = ASTNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -317,8 +317,6 @@ class CsubVisitor(CVisitor):
 
 
 
-
-        return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by CParser#expression_statement.
@@ -415,7 +413,7 @@ class CsubVisitor(CVisitor):
 
         resultlist = []
         for i in decllist:
-            node = ASTNode("declaration",hf=declaration_visit)
+            node = DeclarationNode("declaration")
 
 
             node.addchild(self.myDeepCopy(typenode))
@@ -481,7 +479,7 @@ class CsubVisitor(CVisitor):
         n = ctx.getChildCount()
 
         if(n == 1):
-            return self.tokenHandler(self.visitChildren(ctx))
+            return self.visitChildren(ctx)
 
 
         #refactor
@@ -535,14 +533,14 @@ class CsubVisitor(CVisitor):
 
         return childlist
 
-        n = self.visitChildren(ctx)
-        if n.token.type == CParser.IDENTIFIER:
-            n.Typedcl = "id"
-        elif n.token.type == CParser.INTEGER:
-            n.Typedcl = "intconst"
-        elif n.token.type == CParser.DECIMAL:
-            n.Typedcl = "floatconst"
-        return n
+        #n = self.visitChildren(ctx)
+        #if n.token.type == CParser.IDENTIFIER:
+        #    n.Typedcl = "id"
+        #elif n.token.type == CParser.INTEGER:
+        #    n.Typedcl = "intconst"
+        #elif n.token.type == CParser.DECIMAL:
+        #    n.Typedcl = "floatconst"
+        #return n
 
     # Visit a parse tree produced by CParser#identifier_list.
     def visitIdentifier_list(self, ctx:CParser.Identifier_listContext):
@@ -585,7 +583,7 @@ class CsubVisitor(CVisitor):
             return typenode
 
         else:
-            tempnode = ASTNode("paramdecl",hf=declaration_visit)
+            tempnode = DeclarationNode("paramdecl")
             typenode = self.TypeCheck(ctx.getChild(0).accept(self))
             tempnode.addchild(typenode)
             tempnode.addchild(ctx.getChild(1).accept(self))
@@ -610,7 +608,6 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#value.
     def visitValue(self, ctx:CParser.ValueContext):
         n = self.visitChildren(ctx)
-        self.tokenHandler(n)
         return n
 
 
@@ -657,9 +654,9 @@ class CsubVisitor(CVisitor):
                 name = 'lt'
             if ctx.getChild(1).accept(self).name == '>':
                 name = 'gt'
-            exprnode = ASTNode(name,hf=expression_visit)
+            exprnode = ExpressionNode(name)
             if(name == "="):
-                exprnode.handlefunction = assignment_visit
+                exprnode = AssignmentNode(name)
             exprnode.addchild(ctx.getChild(0).accept(self))
             exprnode.addchild(ctx.getChild(2).accept(self))
             return exprnode
@@ -667,15 +664,18 @@ class CsubVisitor(CVisitor):
 
 
 
-    def tokenHandler(self,n):
-        if n.token.type == CParser.IDENTIFIER:
+    def tokenHandler(self,name,token):
+        if token.type == CParser.IDENTIFIER:
+            n = IDNode(name,token)
             n.Typedcl = "id"
-        elif n.token.type == CParser.INTEGER:
-            n.Typedcl = "intconst"
-        elif n.token.type == CParser.DECIMAL:
-            n.Typedcl = "floatconst"
-        elif n.token.type == CParser.CHARACTER:
-            n.Typedcl = "charconst"
+        else:
+            n = ConstantNode(name, token)
+            if token.type == CParser.INTEGER:
+                n.Typedcl = "intconst"
+            elif token.type == CParser.DECIMAL:
+                n.Typedcl = "floatconst"
+            elif token.type == CParser.CHARACTER:
+                n.Typedcl = "charconst"
         return n
 
 
