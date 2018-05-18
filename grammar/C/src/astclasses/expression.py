@@ -1,6 +1,83 @@
 from src.astclasses.AST import *
 
 
+class AdditionNode(ASTNode):
+
+    def handle(self,st):
+        #Jesse
+        pass
+
+    def getCode(self, env:SymbolTable):
+
+        inl = InstructionList()
+
+        inl.AddInstruction(self.getchild(0).getCode(env))
+        inl.AddInstruction(self.getchild(1).getCode(env))
+
+        inl.AddInstruction(Add(self.getchild(0).Typedcl))
+
+        return inl
+
+
+class SubtractionNode(ASTNode):
+
+    def handle(self,st):
+        #Jesse
+        pass
+
+    def getCode(self, env:SymbolTable):
+
+        inl = InstructionList()
+
+        inl.AddInstruction(self.getchild(0).getCode(env))
+        inl.AddInstruction(self.getchild(1).getCode(env))
+
+        inl.AddInstruction(Subtract(self.getchild(0).Typedcl))
+
+        return inl
+
+
+class MultiplyNode(ASTNode):
+
+    def handle(self,st):
+        #Jesse
+        pass
+
+    def getCode(self, env:SymbolTable):
+
+        inl = InstructionList()
+
+        inl.AddInstruction(self.getchild(0).getCode(env))
+        inl.AddInstruction(self.getchild(1).getCode(env))
+
+        inl.AddInstruction(Multiply(self.getchild(0).Typedcl))
+
+        return inl
+
+
+class DivideNode(ASTNode):
+
+    def handle(self,st):
+        #Jesse
+        pass
+
+    def getCode(self, env:SymbolTable):
+
+        inl = InstructionList()
+
+        inl.AddInstruction(self.getchild(0).getCode(env))
+        inl.AddInstruction(self.getchild(1).getCode(env))
+
+        inl.AddInstruction(Divide(self.getchild(0).Typedcl))
+
+        return inl
+
+
+
+
+
+
+
 class AssignmentNode(ASTNode):
     #check if L-value and R-value are ok
     def handle(self, st):
