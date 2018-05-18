@@ -1,4 +1,3 @@
-from src.parser.astclasses import *
 from src.util.PType import *
 
 #TODO: Document + maybe split up in different modules?

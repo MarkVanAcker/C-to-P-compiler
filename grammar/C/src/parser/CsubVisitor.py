@@ -1,7 +1,6 @@
 from build.CVisitor import CVisitor
 from build.CParser import CParser
-from src.parser.AST import ASTNode
-from src.parser.astclasses import *
+from src.astclasses import *
 
 class CsubVisitor(CVisitor):
 
@@ -671,11 +670,11 @@ class CsubVisitor(CVisitor):
         else:
             n = ConstantNode(name, token)
             if token.type == CParser.INTEGER:
-                n.Typedcl = "intconst"
+                n.Typedcl = IntegerType()
             elif token.type == CParser.DECIMAL:
-                n.Typedcl = "floatconst"
+                n.Typedcl = RealType()
             elif token.type == CParser.CHARACTER:
-                n.Typedcl = "charconst"
+                n.Typedcl = CharacterType()
         return n
 
 

@@ -1,6 +1,3 @@
-from src.parser.astclasses import *
-
-
 class AstVisitor:
     def __init__(self,root,st):
         self.root = root

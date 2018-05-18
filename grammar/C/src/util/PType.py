@@ -4,7 +4,8 @@ class PType:
     def getType(self):
         pass
 
-
+    def __str__(self):
+        return self.getType()
 
 class AddressType(PType):
 

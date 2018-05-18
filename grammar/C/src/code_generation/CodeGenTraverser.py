@@ -1,5 +1,4 @@
-from src.parser.AST import *
-from src.code_generation.environment import *
+from src.astclasses.AST import *
 
 
 
@@ -11,8 +10,8 @@ class CodegenTraverser:
 
     def __init__(self,root :ASTNode):
         self.node = root
-        self.env = Environment({})
+        self.env = root.symbtable
         self.address = 4
-        self.env.readSymbolTable(self.root.symboltable,self.address)
+        self.env.setupParameters(self.address)
         #All globale inlezen
 

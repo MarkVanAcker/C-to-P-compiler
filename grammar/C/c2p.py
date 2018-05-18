@@ -5,7 +5,7 @@ from src.error.CParser_e import CParser_e
 from src.parser.CsubVisitor import CsubVisitor
 from src.parser.traverser import AstVisitor
 from src.parser.SymbolTable import *
-from src.parser.AST import *
+from src.astclasses.AST import *
 from src.error.Error import SemanticsError
 
 def main(argv):

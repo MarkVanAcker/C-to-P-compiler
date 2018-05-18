@@ -1,9 +1,25 @@
+from copy import copy
+from src.util.PType import *
+
+typeconversion = {1 : IntegerType, 2: RealType, 3: CharacterType}
+
 class SymbolTable:
     def __init__(self):
         self.entries = []
         self.children = []
         self.parent = None
         self.name = ""
+
+
+
+        #scope info
+
+        self.is_function = False
+        self.return_type = None
+        self.is_loop = False
+
+        self.symbollist = {}
+
 
     def addEntry(self,entry):
         self.entries.append(entry)
@@ -50,6 +66,45 @@ class SymbolTable:
             return False
         else:
             return self.parent.GlobalTableLookup(entr)
+
+
+
+
+    #Environment functions
+
+    def getLvalue(self,symbol:str):
+        return self.symbollist[symbol][1]
+
+    def getType(self,symbol:str):
+        return self.symbollist[symbol][0]
+
+    def setEnvironment(self,sl:dict):
+        self.symbollist = copy(sl)
+
+
+    def setupParameters(self,baseAddr:int):
+
+        #maybe split this up
+        self.setEnvironment(self.parent.symbollist)
+
+        currentAddr = baseAddr + 5
+        for i in self.entries:
+            if not i.func:
+                if i.ptr:
+                    self.symbollist[i.name] = (AddressType(),currentAddr)
+                else:
+                    self.symbollist[i.name] = (typeconversion[i.type],currentAddr)
+
+
+                currentAddr += i.size
+
+
+
+
+
+
+
+
 
     def toDot(self,file):
         file.write( "\tST" + str(id(self)) + ''' [label=< <table border="0" cellborder="1" cellspacing="0">

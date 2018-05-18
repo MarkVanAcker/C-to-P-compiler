@@ -1,17 +1,17 @@
 from src.util.PInstruction import *
 from src.util.PType import *
 from src.util.Instructionlist import *
-from src.code_generation.environment import *
 
 #Compilation schemes from the compendium
 
+#Moved into the ASTCLASSES: THIS IS UNUSED
 
 class BaseNode:
 
-    def getCode(self,env:Environment):
+    def getCode(self, env:SymbolTable):
         pass
 
-    def getL(self,env:Environment):
+    def getL(self, env:SymbolTable):
         pass
 
 
@@ -23,7 +23,7 @@ class ConstantNode(BaseNode):
         self.type = t
         self.value = val
 
-    def getCode(self,env:Environment):
+    def getCode(self, env:SymbolTable):
         return LoadConstant(self.type,self.value)
 
 #node for a variable in memory needs variable name only
@@ -32,7 +32,8 @@ class VariableNode(BaseNode):
     def __init__(self,s:str):
         self.symbol = s
 
-    def getCode(self,env:Environment):
+
+    def getCode(self, env:SymbolTable):
 
         inl = InstructionList()
 
@@ -41,8 +42,7 @@ class VariableNode(BaseNode):
 
         return inl
 
-
-    def getL(self,env:Environment):
+    def getL(self, env:SymbolTable):
         return LoadConstant(AddressType(),env.getLvalue(self.symbol))
 
 #node for an assignment expression only needs left and right part of the node
@@ -52,7 +52,7 @@ class AssignmentNode(BaseNode):
         self.leftside = l
         self.rightside = r
 
-    def getCode(self,env:Environment):
+    def getCode(self, env:SymbolTable):
 
         inl = InstructionList()
 
@@ -71,7 +71,7 @@ class BinaryNode(BaseNode):
         self.leftside = l
         self.rightside = r
 
-    def getCode(self,env:Environment):
+    def getCode(self, env:SymbolTable):
 
         inl = InstructionList()
 
