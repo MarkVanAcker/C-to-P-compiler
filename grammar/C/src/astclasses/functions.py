@@ -14,10 +14,13 @@ class ParamNode(ASTNode):
         return paramlist
 
 
+class FunctionDeclarationNode(ASTNode):
 
+    def handle(self,st):
+        pass
 
 class FunctionDefinitionNode(ASTNode):
-    def handle(self, st):
+    def handle(self, st:SymbolTable):
 
         # delcartion visitor should throw if name is already in use (pass redeclarations)
         # TODO: delcare and after define function
@@ -33,7 +36,10 @@ class FunctionDefinitionNode(ASTNode):
 
         newst = SymbolTable()
         newst.name = self.getchild(0).getchild(1).name
-
+        getfuncentry = st.getVariableEntry(newst.name)
+        newst.return_type = getfuncentry.type
+        getfuncentry.func = True
+        newst.is_function = True
         st.addchild(newst)
         v = AstVisitor(self.getchild(2), newst)
 
