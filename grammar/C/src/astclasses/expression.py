@@ -132,6 +132,10 @@ class ExpressionNode(ASTNode):
 
     def handle(self, st, type = None):
 
+        if type is BooleanType:
+            raise SemanticsError(self.token, "Expression does not evaluate boolean types, only numeric operants")
+
+
         if self.name == 'empty' or len(self.children) == 0:
             return 4
 
@@ -147,8 +151,8 @@ class ExpressionNode(ASTNode):
             # variable
             if node.Typedcl == 'id':
                 entry = st.getVariableEntry(node.name)
-                if entry == False:
-                    raise Exception("Error: undeclared varaible (first use in this function)")
+                if entry is None:
+                    raise Exception("Error: undeclared variable (first use in this function)")
                 type = entry.type
 
             # constant value (right?)
@@ -178,4 +182,17 @@ class ExpressionNode(ASTNode):
             node.handle(st,type) #expression visit
 
         return type
+
+
+
+class ComparisonNode(ASTNode):
+
+    def handle(self, st, type=None):
+
+        if type is not BooleanType:
+            raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
+
+        if self.name == 'empty' or len(self.children) == 0:
+            pass
+
 

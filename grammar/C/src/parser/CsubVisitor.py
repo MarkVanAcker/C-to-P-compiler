@@ -7,7 +7,7 @@ class CsubVisitor(CVisitor):
 
     def __init__(self,name="Program"):
         self.DOT = False
-        self.AST = ASTNode(name)
+        self.AST = RootNode(name)
 
 
     def todot(self,node,child):
@@ -78,7 +78,7 @@ class CsubVisitor(CVisitor):
     def visitProgram(self, ctx:CParser.ProgramContext):
 
         if ctx.getChildCount() == 0:
-            self.AST.addchildren([ASTNode("empty")])
+            self.AST.addchildren([EmptyNode("empty")])
             return self.AST
         c = ctx.getChild(0).accept(self)
         self.AST.addchildren(c)
@@ -108,7 +108,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#empty_statement.
     def visitEmpty_statement(self, ctx:CParser.Empty_statementContext):
-        return ASTNode("empty statement")
+        return EmptyNode("empty statement")
 
 
     # Visit a parse tree produced by CParser#return_statement.
@@ -146,7 +146,7 @@ class CsubVisitor(CVisitor):
 
         else:
             nodepara = ASTNode("paramlist")
-            nodeempty = ASTNode("empty")
+            nodeempty = EmptyNode("empty")
             nodepara.addchild(nodeempty)
             node.addchild(nodepara)
 
@@ -159,7 +159,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#compound_statement.
     def visitCompound_statement(self, ctx:CParser.Compound_statementContext):
-        node = ASTNode("block")
+        node = BlockNode("block")
         if ctx.getChildCount() == 2: # emtpy 2 curly brackets only
             return node
 
@@ -190,7 +190,7 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
         node = ConditionNode("if")
-        node2 = ASTNode("condition")
+        node2 = ConditionNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
         node.addchild(node2)
@@ -199,7 +199,7 @@ class CsubVisitor(CVisitor):
             node.addchild(state.accept(self)) # returns a block
 
         if isinstance(state, CParser.StatementContext):
-            nodeblock = ASTNode("block") # make block
+            nodeblock = BlockNode("block") # make block
             templist = []
             templist.append(state.accept(self))  # state could be node or list of nodes
             for i in templist:
@@ -245,7 +245,7 @@ class CsubVisitor(CVisitor):
     def visitWhile_statement(self, ctx:CParser.While_statementContext):
 
         node = WhileNode("while")
-        node2 = ASTNode("condition")
+        node2 = ConditionNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
         node.addchild(node2)
@@ -254,7 +254,7 @@ class CsubVisitor(CVisitor):
             node.addchild(state.accept(self)) # returns a block
 
         if isinstance(state, CParser.StatementContext):
-            nodeblock = ASTNode("block") # make block
+            nodeblock = BlockNode("block") # make block
             templist = []
             templist.extend(state.accept(self))  # state could be node or list of nodes
             for i in templist:
@@ -279,8 +279,8 @@ class CsubVisitor(CVisitor):
             returnlist.append(prenode)
 
 
-        node = ASTNode("while")
-        node2 = ASTNode("condition")
+        node = WhileNode("while")
+        node2 = ConditionNode("condition")
         condition_st = ctx.getChild(3).accept(self)
         node2.addchild(condition_st)
         node.addchild(node2)
@@ -299,7 +299,7 @@ class CsubVisitor(CVisitor):
 
 
         if isinstance(state, CParser.StatementContext):
-            nodeblock = ASTNode("block") # make block
+            nodeblock = BlockNode("block") # make block
             templist = []
             templist.extend(state.accept(self))  # state could be node or list of nodes
             for i in templist:
@@ -323,7 +323,7 @@ class CsubVisitor(CVisitor):
         if ctx.getChildCount() == 2:
             return ctx.getChild(0).accept(self)
         if ctx.getChildCount() == 1:
-            return ASTNode("empty")
+            return EmptyNode("empty")
 
 
 
@@ -357,7 +357,7 @@ class CsubVisitor(CVisitor):
             if(ctx.getChildCount() == 3):
                 tempnode.addchild(ctx.getChild(0).accept(self))
                 tempnode.addchild(paramnode)
-                paramnode.addchild(ASTNode("empty")) #TODO: maybe remove
+                paramnode.addchild(EmptyNode("empty")) #TODO: maybe remove
 
             else:
                 tempnode.addchild(ctx.getChild(0).accept(self))
@@ -649,11 +649,12 @@ class CsubVisitor(CVisitor):
 
         else:
             name = ctx.getChild(1).accept(self).name
-            if ctx.getChild(1).accept(self).name == '<':
-                name = 'lt'
-            if ctx.getChild(1).accept(self).name == '>':
-                name = 'gt'
-            exprnode = ExpressionNode(name)
+            exprnode = None
+            if ctx.getChild(1).accept(self).name == '<' or ctx.getChild(1).accept(self).name == '>' or ctx.getChild(1).accept(self).name == '==':
+                name = ctx.getChild(1).accept(self).name
+                exprnode = ComparisonNode(name)
+            else:
+                exprnode = ExpressionNode(name)
             if(name == "="):
                 exprnode = AssignmentNode(name)
             exprnode.addchild(ctx.getChild(0).accept(self))

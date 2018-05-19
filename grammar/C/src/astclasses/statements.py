@@ -5,7 +5,7 @@ from src.astclasses.AST import *
 class ConditionNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
-        return self.getchild(0).handle(st) #expression visit
+        return self.getchild(0).handle(st,BooleanType) #expression visit
 
 class WhileNode(ASTNode):
 
@@ -18,13 +18,11 @@ class WhileNode(ASTNode):
 
         # condition vist will validate and detect possible dead block code
         #TODO check if functionallity can be added
-        if not self.getchild(1).handle(st): #conditionvisit
+        if not self.getchild(0).handle(st): #conditionvisit
             pass
 
 
         newst = SymbolTable()
         newst.name = "iteration"
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         st.addchild(newst)
-        v = AstVisitor(self.getchild(1), newst)
-        v.traverse()
+        self.getchild(1).handle(newst)

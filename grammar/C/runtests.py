@@ -26,7 +26,7 @@ if not os.path.exists('./testoutput/symbol_tables/'):
 
 for file in files:
     print("Running testfile: " + file)
-    os.system('python c2p.py ' + './test/' + file) # run each test case
+    os.system('python3 c2p.py ' + './test/' + file) # run each test case
     os.system('dot -Tpng ./output/.AST.dot -o ' + './testoutput/abstract_syntax_trees/' + file + '.png') # create an AST for each case
     print("Created AST: " + file + '.png')
     os.system('dot -Tpng ./output/.ST.dot -o ' + './testoutput/symbol_tables/' + file + '.png')  # create an AST for each case

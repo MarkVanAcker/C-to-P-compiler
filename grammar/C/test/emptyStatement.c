@@ -1,4 +1,5 @@
 int function(float a){
-    ;;;
-    return a-a;
+    while (4 + (1 + (3) < 7) + 2){
+        return 1;
+    }
 }
