@@ -139,12 +139,16 @@ def TypeCheck(node, st, type):
 
     # constant value (right?)
     else:
+        print (node.name)
         Ltype = typecast[node.token.type]
         if not Ltype == type: # keeping void for what it is
             Warning(node.token,"forced type conversion")
             if type == TypeClass.INTEGER:
                 Warning(node.token, "Converting to int")
                 node.Typedcl = IntegerType()
+                if Ltype == TypeClass.CHAR:
+                    node.name = ord(node.name)
+                    return
                 node.name = int(node.name)
             elif type == TypeClass.FLOAT:
                 Warning(node.token, "Converting to float")

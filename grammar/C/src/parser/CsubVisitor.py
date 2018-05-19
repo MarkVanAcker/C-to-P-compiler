@@ -671,10 +671,13 @@ class CsubVisitor(CVisitor):
             n = ConstantNode(name, token)
             if token.type == CParser.INTEGER:
                 n.Typedcl = IntegerType()
+                n.name = int(n.name)
             elif token.type == CParser.DECIMAL:
                 n.Typedcl = RealType()
+                n.name = float(n.name)
             elif token.type == CParser.CHARACTER:
                 n.Typedcl = CharacterType()
+                n.name = n.name[1:-1]
         return n
 
 

@@ -158,7 +158,11 @@ class ExpressionNode(ASTNode):
         # supertype given for the expression.    EG int var = 1 + 5;
         # typecheck left operant
         else:
-            TypeCheck(node,st,type)
+            if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
+                print("22")
+                TypeCheck(node, st, type)
+            else:
+                node.handle(st, type)  # expression visit
 
 
         if len(self.children) == 1:
@@ -170,6 +174,7 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
+            print("22")
             TypeCheck(node,st,type)
         else:
             node.handle(st,type) #expression visit

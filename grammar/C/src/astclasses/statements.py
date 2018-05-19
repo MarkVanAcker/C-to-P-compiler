@@ -24,7 +24,7 @@ class WhileNode(ASTNode):
 
         newst = SymbolTable()
         newst.name = "iteration"
-
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         st.addchild(newst)
         v = AstVisitor(self.getchild(1), newst)
         v.traverse()

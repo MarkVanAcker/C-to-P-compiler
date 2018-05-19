@@ -5,4 +5,4 @@ def Warning(t:Token,msg:str):
     if t is None:
         print("Warning: " + msg)
     else:
-        print("Warning at line "+t.line+","+"column "+t.column+": "+ msg)
+        print("Warning at line "+str(t.line) +","+"column "+str(t.column) +": "+ msg)
