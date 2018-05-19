@@ -189,7 +189,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        node = ConditionNode("if")
+        node = ConditionalNode("if")
         node2 = ConditionNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -226,7 +226,7 @@ class CsubVisitor(CVisitor):
             return state # returns a block
 
         if isinstance(state, CParser.StatementContext):
-            nodeblock = ASTNode("block") # make block
+            nodeblock = BlockNode("block") # make block
             templist = []
             templist.append(state.accept(self))  # state could be node or list of nodes
             for i in templist:
@@ -352,8 +352,8 @@ class CsubVisitor(CVisitor):
         node = ctx.getChild(1).accept(self)
         if (node.token.type == CParser.LPAREN):
 
-            tempnode = ASTNode("funccall")
-            paramnode = ASTNode("paramlist")
+            tempnode = FunctionCallNode("funccall")
+            paramnode = ArgumentsNode("paramlist")
             if(ctx.getChildCount() == 3):
                 tempnode.addchild(ctx.getChild(0).accept(self))
                 tempnode.addchild(paramnode)
@@ -370,7 +370,7 @@ class CsubVisitor(CVisitor):
 
 
         elif(node.token.type == CParser.LSQUARE):
-            tempnode = ASTNode("access")
+            tempnode = ArrayCallNode("access")
             tempnode.addchild(ctx.getChild(0).accept(self))
             tempnode.addchild(ctx.getChild(2).accept(self))
 

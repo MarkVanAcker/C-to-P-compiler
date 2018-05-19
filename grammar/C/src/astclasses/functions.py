@@ -51,7 +51,7 @@ class ReturnNode(ASTNode):
     #check if variable that is to be returned exists and matches return type
     def handle(self, st):
         stFunc = st.getFuncRoot()
-        if stFunc.parent == None:
+        if stFunc.parent is None:
             raise SemanticsError(self.token,"Return in a non definition block")
 
 
@@ -68,3 +68,13 @@ class ReturnNode(ASTNode):
 
 
 
+
+
+class FunctionCallNode(ASTNode):
+    def handle(self,st,type = None):
+        pass
+
+
+class ArgumentsNode(ASTNode):
+    def handle(self,st, type = None):
+        pass

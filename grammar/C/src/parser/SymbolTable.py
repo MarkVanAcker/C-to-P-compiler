@@ -28,10 +28,12 @@ class SymbolTable:
         pass
 
     def getFuncRoot(self):
-        if self.name != 'block' or self.name != 'iteration' or self.name != 'condition':
+        if self.is_function:
             return self
         else:
-            self.parent.getFuncRoot()
+            if self.parent is None:
+                return self
+            return self.parent.getFuncRoot()
 
     def LocalTableLookup(self,entr):
         for entry in self.entries:

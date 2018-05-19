@@ -19,8 +19,7 @@ def main(argv):
         ast = visitor.visit(tree)
         ToDotAST(ast)
         st = SymbolTable()
-        astvisit = AstVisitor(ast,st)
-        astvisit.traverse()
+        ast.handle(st)
         ToDotST(st)
     except SemanticsError as e:
         print(e)

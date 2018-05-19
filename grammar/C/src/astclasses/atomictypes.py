@@ -2,7 +2,7 @@ from src.astclasses.AST import *
 
 
 class IDNode(ASTNode):
-    def handle(self, entr, type=None,):
+    def handle(self, entr, type=None):
 
         if type is not None:
             TypeCheck(self,entr,type)
