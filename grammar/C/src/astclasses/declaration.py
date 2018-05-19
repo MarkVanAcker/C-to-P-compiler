@@ -10,12 +10,14 @@ class DeclarationNode(ASTNode):
 
         type = self.getchild(0)
         entr = Entry()
+        constt = False
 
         if (type.token.type == CParser.CONST):
-            entr.const = True
-            entr.type = typecast[type.getchild(0).token.type]
+            constt = True
+            entr.type = type.getchild(0).Typedcl
         else:
-            entr.type = typecast[type.token.type]
+            entr.type = type.Typedcl
+
 
 
         if self.getchild(1).name == '=':
@@ -34,5 +36,7 @@ class DeclarationNode(ASTNode):
         if self.getchild(1).name == '=':
             self.getchild(1).handle(st) #assignment visit
 
+
+        entr.const = constt
 
         return entr

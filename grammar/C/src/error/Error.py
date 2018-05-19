@@ -5,6 +5,6 @@ class SemanticsError(Exception):
 
         newmessage = message
         if t is not None:
-            newmessage = t.line+":"+t.column+": "+message
+            newmessage = str(t.line)+":"+str(t.column)+": "+message
 
         super().__init__("SemanticsError: "+ newmessage)

@@ -45,7 +45,7 @@ class CsubVisitor(CVisitor):
 
     def myDeepCopy(self,n):
 
-        node = ASTNode(n.name,n.token)
+        node = TypeNode(n.name,n.token)
         node.Typedcl = n.Typedcl
         if n.hasChild():
             for m in n.children:
@@ -667,7 +667,9 @@ class CsubVisitor(CVisitor):
         if token.type == CParser.IDENTIFIER:
             n = IDNode(name,token)
             n.Typedcl = "id"
-        else:
+
+        #actual value : 5, 5.0, 'c'
+        elif token.type == CParser.INTEGER or token.type == CParser.DECIMAL or token.type == CParser.CHARACTER:
             n = ConstantNode(name, token)
             if token.type == CParser.INTEGER:
                 n.Typedcl = IntegerType()
@@ -678,6 +680,22 @@ class CsubVisitor(CVisitor):
             elif token.type == CParser.CHARACTER:
                 n.Typedcl = CharacterType()
                 n.name = n.name[1:-1]
+        #int, float, char
+        elif token.type == CParser.INT or token.type == CParser.CHAR or token.type == CParser.FLOAT or token.type == CParser.VOID or token.type == CParser.CONST:
+            n = TypeNode(name,token)
+            if token.type == CParser.INT:
+                n.Typedcl = IntegerType()
+            elif token.type == CParser.FLOAT:
+                n.Typedcl = RealType()
+            elif token.type == CParser.CHAR:
+                n.Typedcl = CharacterType()
+
+
+
+        else:
+            n = ASTNode(name, token)
+
+
         return n
 
 

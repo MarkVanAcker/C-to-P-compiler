@@ -5,20 +5,11 @@ from src.util.Instructionlist import *
 from src.parser.traverser import AstVisitor
 from src.error.Error import SemanticsError
 from src.error.Warning import Warning
-
 #utils
 
-class TypeClass:
-    INTEGER = 1
-    FLOAT = 2
-    CHAR = 3
-    VOID = 4
 
-
-typecast = { CLexer.INTEGER : TypeClass.INTEGER , CLexer.CHARACTER : TypeClass.CHAR, CLexer.DECIMAL : TypeClass.FLOAT ,
-             CLexer.VOID: TypeClass.VOID,CLexer.INT : TypeClass.INTEGER, CLexer.FLOAT : TypeClass.FLOAT, CLexer.CHAR : TypeClass.CHAR}
-
-
+typecast = { CLexer.INTEGER :IntegerType , CLexer.CHARACTER : CharacterType, CLexer.DECIMAL : RealType ,
+             CLexer.VOID: None,CLexer.INT : IntegerType, CLexer.FLOAT : RealType, CLexer.CHAR : CharacterType}
 
 
 
@@ -56,7 +47,7 @@ class ASTNode:
         if self.Typedcl is None:
             return self.__class__.__name__
         else:
-            return "<font color = \"blue\">" +str(self.Typedcl) +"</font><br/>"+ self.__class__.__name__
+            return "<font color = \"blue\">" +str(self.Typedcl) +"</font><br/>"+ str(self.name)
 
 
     def getchild(self,idx):
@@ -115,50 +106,7 @@ def ToDotAST(root):
 
 
 
-
 #TODO: actual conversion, right now its just setting the type to x
-
-def TypeCheck(node, st, type):
-    # variable
-    #node = node.getchild(0)
-    if node.Typedcl == 'id':
-        entry = st.getVariableEntry(node.name)
-        if entry is None:
-            raise SemanticsError(node.token,"undeclared varaible (first use in this function)")
-        Ltype = entry.type
-        if not Ltype == type: # keeping void for what it is
-            if type == 1: # void ?
-                Warning(node.token,"Converting to int")
-                entry.type = 1
-            elif type == 2:
-                Warning(node.token,"Converting to float")
-                entry.type = 2
-            elif type == 3:
-                Warning(node.token,"Converting to char")
-                entry.type = 3
-
-    # constant value (right?)
-    else:
-        print (node.name)
-        Ltype = typecast[node.token.type]
-        if not Ltype == type: # keeping void for what it is
-            Warning(node.token,"forced type conversion")
-            if type == TypeClass.INTEGER:
-                Warning(node.token, "Converting to int")
-                node.Typedcl = IntegerType()
-                if Ltype == TypeClass.CHAR:
-                    node.name = ord(node.name)
-                    return
-                node.name = int(node.name)
-            elif type == TypeClass.FLOAT:
-                Warning(node.token, "Converting to float")
-                node.Typedcl = RealType()
-                node.name = float(node.name)
-            elif type == TypeClass.CHAR:
-                Warning(node.token, "Converting to char")
-                node.Typedcl = CharacterType()
-                node.name = str(node.name)
-
 
 
 

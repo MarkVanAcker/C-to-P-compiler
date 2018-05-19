@@ -1,5 +1,5 @@
 from src.astclasses.AST import *
-
+from src.astclasses.atomictypes import TypeCheck
 
 class AdditionNode(ASTNode):
 
@@ -159,7 +159,6 @@ class ExpressionNode(ASTNode):
         # typecheck left operant
         else:
             if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
-                print("22")
                 TypeCheck(node, st, type)
             else:
                 node.handle(st, type)  # expression visit
@@ -174,7 +173,6 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
-            print("22")
             TypeCheck(node,st,type)
         else:
             node.handle(st,type) #expression visit
