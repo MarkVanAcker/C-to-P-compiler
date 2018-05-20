@@ -139,6 +139,7 @@ class CsubVisitor(CVisitor):
 
         node.addchild(initnode) # type
 
+
         if initnode.getchild(1).hasChild():
             paramnode = initnode.getchild(1).getchild(0)
             initnode.getchild(1).clearchildren()

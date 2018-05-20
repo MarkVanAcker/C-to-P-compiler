@@ -137,7 +137,7 @@ class Entry:
         self.name = n
         self.type = t
         self.const = False
-        self.ptr = False
+        self.ptr = 0
         self.func = False
         self.params = []
 

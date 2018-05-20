@@ -24,7 +24,7 @@ class FunctionDefinitionNode(ASTNode):
 
         # delcartion visitor should throw if name is already in use (pass redeclarations)
         # TODO: delcare and after define function
-        self.getchild(0).getchild(1).addchild(self.getchild(1))
+        #self.getchild(0).getchild(1).addchild(self.getchild(1))
         self.getchild(0).handle(st) #declaration visit
 
         for param in reversed(self.getchild(1).children):
