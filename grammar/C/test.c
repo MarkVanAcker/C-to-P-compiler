@@ -1,7 +1,7 @@
 
 
 
-int main(){
+int main(int x){
 
     int a = 5;
 
