@@ -667,6 +667,8 @@ class CsubVisitor(CVisitor):
 
 
     def tokenHandler(self,name,token):
+
+
         if token.type == CParser.IDENTIFIER:
             n = IDNode(name,token)
             n.Typedcl = "id"
@@ -692,6 +694,8 @@ class CsubVisitor(CVisitor):
                 n.Typedcl = RealType()
             elif token.type == CParser.CHAR:
                 n.Typedcl = CharacterType()
+            elif token.type == CParser.CONST:
+                n.isconst = True
 
 
 

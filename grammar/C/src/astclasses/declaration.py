@@ -57,6 +57,8 @@ class DeclarationNode(ASTNode):
                 #TODO : make general warning function that uses tokens and scope
                 Warning(self.token,"Variable is hiding data")
             elif (entryfound.func == True and entryfound.defined == False and definition == True):
+                if constt != entryfound.const:
+                    raise SemanticsError(self.token, "conflicting types for '" + entryfound.name +"'")
                 entryfound.defined = True
                 addentry = False
                 entr = entryfound
@@ -79,6 +81,7 @@ class DeclarationNode(ASTNode):
                 paramlist = idnode.getchild(0).handle()
                 for item in paramlist:
                     entr.params.append(item)
+                    print("adding: ", str(item))
             elif entr.func == True and definition:
                 print(self.par.getchild(1).__class__.__name__)
                 paramlist = self.par.getchild(1).handle()

@@ -21,6 +21,7 @@ class ASTNode:
         self.token = t
         self.Typedcl = None
         self.symbtable = None
+        self.isconst = False
 
     def todot(self,file):
 
