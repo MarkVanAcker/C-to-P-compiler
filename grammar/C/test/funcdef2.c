@@ -1,6 +1,6 @@
 
 
-int main (float a) = 3;
+int main (float a);
 
 int main (float a)
 {

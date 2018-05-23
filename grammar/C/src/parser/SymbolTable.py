@@ -38,9 +38,9 @@ class SymbolTable:
     def LocalTableLookup(self,entr):
         for entry in self.entries:
             if (entry == entr):
-                return True
+                return entry
 
-        return False
+        return None
 
     def getVariableEntry(self,name):
         for entry in self.entries:
@@ -62,10 +62,10 @@ class SymbolTable:
     def GlobalTableLookup(self,entr):
         for entry in self.entries:
             if (entry == entr):
-                return True
+                return entry
 
         if (self.parent is None):
-            return False
+            return None
         else:
             return self.parent.GlobalTableLookup(entr)
 
@@ -139,6 +139,7 @@ class Entry:
         self.const = False
         self.ptr = 0
         self.func = False
+        self.defined = False
         self.params = []
 
         #needed for code convertion

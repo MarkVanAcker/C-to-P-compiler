@@ -22,12 +22,7 @@ class FunctionDeclarationNode(ASTNode):
 class FunctionDefinitionNode(ASTNode):
     def handle(self, st:SymbolTable):
 
-        # delcartion visitor should throw if name is already in use (pass redeclarations)
-        # TODO: delcare and after define function
-        #self.getchild(0).getchild(1).addchild(self.getchild(1))
-        entry = self.getchild(0).handle(st) #declaration visit
-
-        
+        entry = self.getchild(0).handle(st,True) #declaration visit
 
 
         newst = SymbolTable()
@@ -41,6 +36,7 @@ class FunctionDefinitionNode(ASTNode):
             if param.name == "empty":
                 continue
 
+            print("adding param")
             paramentry = param.handle(newst)
             entry.params.append(paramentry.type)
             #might not want to insert because of declaration resetting to default value
@@ -70,7 +66,7 @@ class ReturnNode(ASTNode):
             if funcReturnType!= 4:
                 SemanticsError(self.token,"Expected void return but got another type")
         else:
-            returnType = self.getchild(0).handle(st, funcReturnType) #expression statement
+            self.getchild(0).handle(st, funcReturnType) # evaluate expression statement
 
 
 
