@@ -24,26 +24,32 @@ class FunctionDefinitionNode(ASTNode):
 
         # delcartion visitor should throw if name is already in use (pass redeclarations)
         # TODO: delcare and after define function
-        self.getchild(0).getchild(1).addchild(self.getchild(1))
-        self.getchild(0).handle(st) #declaration visit
+        #self.getchild(0).getchild(1).addchild(self.getchild(1))
+        entry = self.getchild(0).handle(st) #declaration visit
 
-        for param in reversed(self.getchild(1).children):
-            if param.name == "empty":
-                continue
-            self.getchild(2).children.insert(0, param)
-
+        
 
 
         newst = SymbolTable()
-        newst.name = self.getchild(0).getchild(1).name
-        getfuncentry = st.getVariableEntry(newst.name)
-        newst.return_type = getfuncentry.type
-        getfuncentry.func = True
+        newst.name = entry.name
+        newst.return_type = entry.type
         newst.is_function = True
         st.addchild(newst)
-        v = AstVisitor(self.getchild(2), newst)
+        
+        
+        for param in reversed(self.getchild(1).children):
+            if param.name == "empty":
+                continue
 
-        v.traverse()
+            paramentry = param.handle(newst)
+            entry.params.append(paramentry.type)
+            #might not want to insert because of declaration resetting to default value
+            #self.getchild(2).children.insert(0, param)
+
+        
+        
+        self.getchild(2).handle(newst)
+
 
 
 
