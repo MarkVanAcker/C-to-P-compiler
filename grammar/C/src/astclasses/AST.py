@@ -68,10 +68,10 @@ class ASTNode:
     def handle(self,st):
         pass
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
         pass
 
-    def getLValue(self, env:SymbolTable):
+    def getLValue(self):
         pass
 
     

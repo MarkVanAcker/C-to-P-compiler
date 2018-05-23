@@ -4,6 +4,8 @@ from src.astclasses.AST import *
 class IDNode(ASTNode):
     def handle(self, st, type=None):
 
+        self.symbtable = st
+
         if type is not None:
             TypeCheck(self, st, type)
             return
@@ -12,17 +14,17 @@ class IDNode(ASTNode):
 
 
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getLValue(env))
-        inl.AddInstruction(LoadIndirectly(env.getType(self.name)))
+        inl.AddInstruction(self.getLValue())
+        inl.AddInstruction(LoadIndirectly(self.symbtable.getType(self.name)))
 
         return inl
 
-    def getLValue(self, env:SymbolTable):
-        return LoadConstant(AddressType(),env.getLvalue(self.name))
+    def getLValue(self):
+        return LoadConstant(AddressType(),self.symbtable.getLvalue(self.name))
 
 
 

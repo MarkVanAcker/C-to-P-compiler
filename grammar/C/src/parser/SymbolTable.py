@@ -18,10 +18,13 @@ class SymbolTable:
         self.return_type = None
         self.is_loop = False
 
+        self.variablespace = 0
+
         self.symbollist = {}
 
 
     def addEntry(self,entry):
+        self.variablespace += entry.getVarspace()
         self.entries.append(entry)
 
     def findByName(self,name):
@@ -160,6 +163,12 @@ class Entry:
         else:
             return False
 
+
+    def getVarspace(self):
+        if self.func:
+            return 0
+
+        return self.size
 
 
 def ToDotST(root):

@@ -81,6 +81,8 @@ class DivideNode(ASTNode):
 class AssignmentNode(ASTNode):
     #check if L-value and R-value are ok
     def handle(self, st):
+
+        self.symbtable = st
         # left side must be l-value
         # is l-value memory allocatable variable only (array included)
         entry = st.getVariableEntry(self.getchild(0).name)
@@ -93,13 +95,13 @@ class AssignmentNode(ASTNode):
 
 
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getL(env))
+        inl.AddInstruction(self.getchild(0).getL(self.symbtable))
 
-        inl.AddInstruction(self.getchild(1).getCode(env))
+        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
 
         inl.AddInstruction(StoreStack(self.getchild(0).Typedcl))
 

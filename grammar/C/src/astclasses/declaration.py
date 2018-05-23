@@ -50,7 +50,7 @@ class DeclarationNode(ASTNode):
 
 
 
-        addentry = True;
+        addentry = True
 
         if (st.GlobalTableLookup(entr)):
             if (entryfound.func == False):

@@ -20,8 +20,9 @@ class RootNode(ASTNode):
             else:
                 raise SemanticsError(self.token, "Invalid statement in global scope")
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
+        code = InstructionList()
 
         foundmain = False
 
@@ -29,6 +30,9 @@ class RootNode(ASTNode):
 
         globals = {}
 
+
+        for globalvar in globals:
+            code.AddInstruction(globalvar.getCode(self.symbtable))
         
 
 
