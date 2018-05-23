@@ -146,7 +146,7 @@ class CsubVisitor(CVisitor):
             node.addchild(paramnode)
 
         else:
-            nodepara = ASTNode("paramlist")
+            nodepara = ParamNode("paramlist")
             nodeempty = EmptyNode("empty")
             nodepara.addchild(nodeempty)
             node.addchild(nodepara)
@@ -413,6 +413,7 @@ class CsubVisitor(CVisitor):
 
         resultlist = []
         for i in decllist:
+
             node = DeclarationNode("declaration")
 
 
@@ -501,7 +502,7 @@ class CsubVisitor(CVisitor):
 
 
 
-                paramnode = ASTNode("paramlist")
+                paramnode = ParamNode("paramlist")
 
                 paramdecs = ctx.getChild(2).accept(self)
 

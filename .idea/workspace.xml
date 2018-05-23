@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="70f328e1-7f13-4f90-b9ef-e17df0ebcf8e" name="Default" comment="debugging semantics">
-      <change beforePath="$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py" afterDir="false" />
+    <list default="true" id="70f328e1-7f13-4f90-b9ef-e17df0ebcf8e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/C/src/astclasses/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/astclasses/block.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/C/src/astclasses/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/astclasses/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grammar/C/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/declaration.c" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/test/declaration.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grammar/C/test/funcdef2.c" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/C/test/funcdef2.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,39 +18,39 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Compilers$runtests.coverage" NAME="runtests Coverage Results" MODIFIED="1527064095465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
+    <SUITE FILE_PATH="coverage/Compilers$runtests.coverage" NAME="runtests Coverage Results" MODIFIED="1527072553212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
     <SUITE FILE_PATH="coverage/Compilers$build.coverage" NAME="build Coverage Results" MODIFIED="1526724927649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
     <SUITE FILE_PATH="coverage/Compilers$PInstruction.coverage" NAME="PInstruction Coverage Results" MODIFIED="1526319986851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C/src/util" />
     <SUITE FILE_PATH="coverage/Compilers$c2p.coverage" NAME="c2p Coverage Results" MODIFIED="1526724957265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/grammar/C" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="statements.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/statements.py">
+      <file leaf-file-name="atomictypes.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="86" selection-start-line="10" selection-start-column="86" selection-end-line="10" selection-end-column="86" />
+            <state relative-caret-position="513">
+              <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AST.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/AST.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="795">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
               <folding>
-                <element signature="e#0#32#0" expanded="true" />
+                <element signature="e#0#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="atomictypes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="25" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CsubVisitor.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CsubVisitor.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5325">
-              <caret line="355" column="37" selection-start-line="355" selection-start-column="37" selection-end-line="355" selection-end-column="37" />
+            <state relative-caret-position="371">
+              <caret line="148" column="32" selection-start-line="148" selection-start-column="32" selection-end-line="148" selection-end-column="32" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -58,51 +58,41 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="while.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/while.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="C.g4" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="189" column="18" selection-start-line="189" selection-start-column="6" selection-end-line="189" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" selection-start-line="53" selection-end-line="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="funcDef.c.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcDef.c.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="funcdef2.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/test/funcdef2.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="funcdef2.c.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcdef2.c.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="SymbolTable.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
+            <state relative-caret-position="105">
+              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
               <folding>
-                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="declaration.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py">
+      <file leaf-file-name="funcdef2.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/funcdef2.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
+            <state relative-caret-position="150">
+              <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -110,8 +100,29 @@
       <file leaf-file-name="block.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/block.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+            <state relative-caret-position="195">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declaration.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="declaration.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar/C/test/declaration.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -127,21 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Typedcl</find>
-      <find>This</find>
-      <find>entr</find>
-      <find>Variable is</find>
-      <find>ID</find>
-      <find>const</find>
-      <find>tokenHan</find>
-      <find>intco</find>
-      <find>exprHand</find>
-      <find>expression</find>
-      <find>tokenHandler</find>
-      <find>token</find>
-      <find>Ter</find>
-      <find>TypeCheck</find>
-      <find>CHAR</find>
       <find>IDN</find>
       <find>typedcl</find>
       <find>conditi</find>
@@ -155,8 +151,23 @@
       <find>rootnode</find>
       <find>typecheck</find>
       <find>acces</find>
-      <find>astnode</find>
       <find>root</find>
+      <find />
+      <find>local</find>
+      <find>look</find>
+      <find>FunctionDeclarationNode</find>
+      <find>DeclarationNode</find>
+      <find>TypeNode</find>
+      <find>typenode</find>
+      <find>ParamNode</find>
+      <find>func</find>
+      <find>function</find>
+      <find>definition</find>
+      <find>declaration</find>
+      <find>ASTNode</find>
+      <find>Func</find>
+      <find>parameter_de</find>
+      <find>astnode</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -191,12 +202,13 @@
         <option value="$PROJECT_DIR$/grammar/C/src/astclasses/statements.py" />
         <option value="$PROJECT_DIR$/grammar/C/c2p.py" />
         <option value="$PROJECT_DIR$/grammar/C/test/emptyStatement.c" />
-        <option value="$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py" />
-        <option value="$PROJECT_DIR$/grammar/C/src/astclasses/functions.py" />
-        <option value="$PROJECT_DIR$/grammar/C/src/astclasses/block.py" />
         <option value="$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py" />
+        <option value="$PROJECT_DIR$/grammar/C/src/astclasses/block.py" />
         <option value="$PROJECT_DIR$/grammar/C/test/funcdef2.c" />
+        <option value="$PROJECT_DIR$/grammar/C/test/declaration.c" />
+        <option value="$PROJECT_DIR$/grammar/C/src/astclasses/functions.py" />
         <option value="$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py" />
+        <option value="$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py" />
       </list>
     </option>
   </component>
@@ -322,6 +334,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/jesse/Desktop/ALL/Workspace/Compilers/grammar/C/src/astclasses/AST.py" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -503,7 +516,21 @@
       <option name="project" value="LOCAL" />
       <updated>1526746825689</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Can not assign to a function declaration">
+      <created>1527064222346</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1527064222346</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Function declaration AND OR definition handles">
+      <created>1527066915870</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1527066915870</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -515,11 +542,12 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32889345" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32889345" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25983828" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25983828" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32889345" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -528,7 +556,6 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
     </layout>
@@ -569,17 +596,11 @@
     <MESSAGE value="continuing with refactor, added codegeneration to ASTClasses and split classes up into files" />
     <MESSAGE value="Redesigning semantic evaluation and create class nodes" />
     <MESSAGE value="debugging semantics" />
-    <option name="LAST_COMMIT_MESSAGE" value="debugging semantics" />
+    <MESSAGE value="Can not assign to a function declaration" />
+    <MESSAGE value="Function declaration AND OR definition handles" />
+    <option name="LAST_COMMIT_MESSAGE" value="Function declaration AND OR definition handles" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grammar/C/output/ST.png" />
-    <entry file="file://$PROJECT_DIR$/grammar/C/output/AST.png" />
-    <entry file="file://$PROJECT_DIR$/grammar/C/build.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/big.c.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/condition5.c.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -704,13 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="54" column="15" selection-start-line="54" selection-start-column="15" selection-end-line="54" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/util/Instructionlist.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -729,16 +743,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="9" selection-start-column="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/AST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -763,36 +767,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/expression.py">
+    <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcDef.c.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/pointerassign.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2490">
-          <caret line="167" column="37" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="37" />
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/block.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcdef2.c.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py">
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5325">
-          <caret line="355" column="37" selection-start-line="355" selection-start-column="37" selection-end-line="355" selection-end-column="37" />
+        <state relative-caret-position="-806">
+          <caret line="67" column="23" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="23" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/funcDef.c">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/statements.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -804,40 +803,92 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/SymbolTable.py">
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/expression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1290">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/atomictypes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/declaration.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/funcdef2.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        <state relative-caret-position="105">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcDef.c.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/testoutput/abstract_syntax_trees/funcdef2.c.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar/C/test/funcdef2.c">
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/AST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+        <state relative-caret-position="795">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/grammar/C/src/astclasses/declaration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="77" column="49" selection-start-line="77" selection-start-column="49" selection-end-line="77" selection-end-column="49" />
+        <state relative-caret-position="465">
+          <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/test/while.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/C.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="189" column="18" selection-start-line="189" selection-start-column="6" selection-end-line="189" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar/C/src/parser/CsubVisitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="148" column="32" selection-start-line="148" selection-start-column="32" selection-end-line="148" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

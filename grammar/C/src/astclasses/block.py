@@ -15,7 +15,7 @@ class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
         for child in self.children:
-            if isinstance(child,FunctionDeclarationNode) or isinstance(child,FunctionDefinitionNode) or isinstance(child,DeclarationNode):
+            if isinstance(child,FunctionDefinitionNode) or isinstance(child,DeclarationNode):
                 child.handle(self.symbtable)
             else:
                 raise SemanticsError(self.token, "Invalid statement in global scope")

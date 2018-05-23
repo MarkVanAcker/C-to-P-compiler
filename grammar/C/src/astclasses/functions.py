@@ -1,23 +1,24 @@
 from src.astclasses.AST import *
+from src.astclasses.atomictypes import TypeNode
+
 
 
 class ParamNode(ASTNode):
     def handle(self,st = None):
+        print("paramNode11")
+        print("paramNode")
+        print("paramNode22")
         paramlist = []
-        for child in self.children:
-            if(child.name == "paramdecl"):
-                paramlist.append(typecast[child.getchild(0).token.type])
+        for param in self.children:
+            if param.name == "empty":
+                continue
 
+            if isinstance(param, TypeNode):
+                paramlist.append(param.Typedcl)
             else:
-                paramlist.append(typecast[child.token.type])
-
+                paramlist.append(param.getchild(0).Typedcl)
         return paramlist
 
-
-class FunctionDeclarationNode(ASTNode):
-
-    def handle(self,st):
-        pass
 
 class FunctionDefinitionNode(ASTNode):
     def handle(self, st:SymbolTable):
@@ -32,15 +33,15 @@ class FunctionDefinitionNode(ASTNode):
         st.addchild(newst)
         
         
-        for param in reversed(self.getchild(1).children):
-            if param.name == "empty":
-                continue
+        #or param in reversed(self.getchild(1).children):
+        #   if param.name == "empty":
+        #       continue
 
-            print("adding param")
-            paramentry = param.handle(newst)
-            entry.params.append(paramentry.type)
-            #might not want to insert because of declaration resetting to default value
-            #self.getchild(2).children.insert(0, param)
+        #   print("adding param")
+        #   paramentry = param.handle(newst)
+        #   entry.params.append(paramentry.type)
+        #   #might not want to insert because of declaration resetting to default value
+        #   #self.getchild(2).children.insert(0, param)
 
         
         

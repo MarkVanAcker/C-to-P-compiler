@@ -2,10 +2,9 @@
 
 int main (float a);
 
-int main (float a)
-{
-    a + 3.0;
-    return 0;
+
+int tryout (float d, char f){
+    return 1;
 }
 
 

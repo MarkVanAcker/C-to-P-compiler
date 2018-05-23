@@ -1,4 +1,5 @@
 from src.astclasses.AST import *
+from src.astclasses.atomictypes import TypeNode
 
 
 class DeclarationNode(ASTNode):
@@ -73,6 +74,18 @@ class DeclarationNode(ASTNode):
             if self.getchild(1).name == '=':  # can only get at this statement if it is a variable (not a func)
                 self.getchild(1).handle(st)  # assignment visit
             entr.const = constt
+            # if function add params
+            if entr.func == True and not definition:
+                paramlist = idnode.getchild(0).handle()
+                for item in paramlist:
+                    entr.params.append(item)
+            elif entr.func == True and definition:
+                print(self.par.getchild(1).__class__.__name__)
+                paramlist = self.par.getchild(1).handle()
+                for item in paramlist:
+                    entr.params.append(item)
+
+
 
         return entr
 
