@@ -40,7 +40,7 @@ class SymbolTable:
 
     def LocalTableLookup(self,entr):
         for entry in self.entries:
-            if (entry == entr):
+            if (entry.name == entr.name):
                 return entry
 
         return None
@@ -64,7 +64,7 @@ class SymbolTable:
 
     def GlobalTableLookup(self,entr):
         for entry in self.entries:
-            if (entry == entr):
+            if (entry.name == entr.name):
                 return entry
 
         if (self.parent is None):

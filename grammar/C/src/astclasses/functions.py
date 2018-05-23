@@ -1,20 +1,21 @@
 from src.astclasses.AST import *
 from src.astclasses.atomictypes import TypeNode
-
+from src.astclasses.declaration import DeclarationNode
 
 
 class ParamNode(ASTNode):
     def handle(self,st = None):
-        print("paramNode11")
-        print("paramNode")
-        print("paramNode22")
         paramlist = []
         for param in self.children:
             if param.name == "empty":
                 continue
 
             if isinstance(param, TypeNode):
-                paramlist.append(param.Typedcl)
+                if (param.isconst == True):
+                    paramlist.append(param.getchild(0).Typedcl)
+                else:
+                    paramlist.append(param.Typedcl)
+
             else:
                 paramlist.append(param.getchild(0).Typedcl)
         return paramlist
@@ -26,22 +27,38 @@ class FunctionDefinitionNode(ASTNode):
         entry = self.getchild(0).handle(st,True) #declaration visit
 
 
+        # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
+
+
+        # check the entry paramlist if it matches ( only typechecking )
+        paramlist = self.getchild(1).handle()
+        if len(paramlist) != len(entry.params):
+            raise SemanticsError(self.token, "parameterlist does not match in size")
+        else:
+            for i in range(len(paramlist)):
+                if str(paramlist[i]) != str((entry).params[i]):
+                    print(str(paramlist[i]))
+                    print(str((entry).params[i]))
+                    raise SemanticsError(self.getchild(1).getchild(i).token, "parameterlist item does not match at index: " + str(i))
+
         newst = SymbolTable()
         newst.name = entry.name
         newst.return_type = entry.type
         newst.is_function = True
         st.addchild(newst)
-        
-        
-        #or param in reversed(self.getchild(1).children):
-        #   if param.name == "empty":
-        #       continue
 
-        #   print("adding param")
-        #   paramentry = param.handle(newst)
-        #   entry.params.append(paramentry.type)
-        #   #might not want to insert because of declaration resetting to default value
-        #   #self.getchild(2).children.insert(0, param)
+        # checking if all declarations and adding into symbol table
+        for par in self.getchild(1).children:
+
+            if isinstance(par,DeclarationNode):
+                par.handle(newst)
+            elif par.Typedcl == None and par.name == 'empty':
+                continue
+            else:
+                raise SemanticsError(self.token, "parameter name omitted")
+
+
+
 
         
         

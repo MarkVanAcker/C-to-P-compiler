@@ -90,6 +90,5 @@ def TypeCheck(node, st, t):
 
 
 class TypeNode(ASTNode):
-
     def handle(self,st):
         pass

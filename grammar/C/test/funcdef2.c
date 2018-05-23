@@ -1,11 +1,13 @@
 
 
-int main (float a);
+int testmain ( const float);
 
-
-int tryout (float d, char f){
-    return 1;
+int testmain (float a){
+    return 0;
 }
 
 
-int b = main(7.0);
+
+int test (const float a){ return 1;}
+
+int main(){return 0;}
