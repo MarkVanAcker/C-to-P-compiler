@@ -92,9 +92,34 @@ class ReturnNode(ASTNode):
 
 class FunctionCallNode(ASTNode):
     def handle(self,st,type = None):
-        pass
+        #
+        # Look up is function is defined, later check is arguments are correct, we can not convert
+        #
+        entry = st.getVariableEntry(self.getchild(0).name)
+        if not entry:
+            raise SemanticsError(self.token, "undefined reference to '"+ self.getchild(0).name + "'")
+
+        if not entry.func:
+            raise SemanticsError(self.token, "Calling uncallable object")
+
+
+
+        # optimalise this
+        arglist = self.getchild(1).handle()
+        if len(arglist) != len(entry.params):
+            raise SemanticsError(self.token, "parameterlist does not match in size")
+        else:
+            for i in range(len(arglist)):
+                if str(arglist[i]) != str((entry).params[i]):
+                    print(str(arglist[i]))
+                    print(str((entry).params[i]))
+                    raise SemanticsError(self.getchild(1).getchild(i).token,"parameterlist item does not match at index: " + str(i))
+
 
 
 class ArgumentsNode(ASTNode):
     def handle(self,st, type = None):
+        #
+        # Resolve types from each parameter and return typelist
+        #
         pass
