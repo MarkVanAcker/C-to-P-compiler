@@ -7,6 +7,8 @@ class DeclarationNode(ASTNode):
     #maybe rewrite init to make it easier to process
     def handle(self, st):
 
+        reservedKeys = ["void", "int", "void", "bool", "float", "char", "default", "do", "double" , "long" , "goto", "case", "extern", "enum", "sizeof", "struct" "if", "else", "where", "for", "break", "continue", "return", "const"]
+
 
         type = self.getchild(0)
         entr = Entry()
@@ -21,9 +23,17 @@ class DeclarationNode(ASTNode):
 
 
         if self.getchild(1).name == '=':
-            entr.name = self.getchild(1).getchild(0).name
+            node:ASTNode = self.getchild(1).getchild(0)
+            entr.name = node.name
+            if node.Typedcl == 'func':
+                raise SemanticsError(node.token, "Can not assign to a function declaration")
+
         else:
             entr.name = self.getchild(1).name
+
+
+        if entr.name in reservedKeys:
+            raise SemanticsError(self.token, "Using keyword as variable name")
 
 
         if (st.LocalTableLookup(entr)):
