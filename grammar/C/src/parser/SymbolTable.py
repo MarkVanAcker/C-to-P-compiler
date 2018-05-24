@@ -114,10 +114,10 @@ class SymbolTable:
     def toDot(self,file):
         file.write( "\tST" + str(id(self)) + ''' [label=< <table border="0" cellborder="1" cellspacing="0">
         <tr><td bgcolor="grey" >''' + self.name + '''</td></tr>
-         <tr> <td bgcolor="yellow" >Name</td> <td bgcolor="yellow" >Type</td> <td bgcolor="yellow" >Pointer</td> <td bgcolor="yellow" >Const</td> <td bgcolor="yellow" >Func</td> <td bgcolor="yellow">Params</td></tr>
+         <tr> <td bgcolor="yellow" >Name</td> <td bgcolor="yellow" >Type</td> <td bgcolor="yellow" >Pointer</td> <td bgcolor="yellow" >Const</td> <td bgcolor="yellow" >Func</td>  <td bgcolor="yellow" >array</td> <td bgcolor="yellow">Params</td></tr>
          \n''')
         for e in self.entries:
-            file.write("<tr><td>"+e.name+"</td>  <td>"+ str(e.type) + "</td> <td>"+str(e.ptr)+"</td> <td>"+str(e.const)+"</td> <td>"+str(e.func)+"</td> <td>")
+            file.write("<tr><td>"+e.name+"</td>  <td>"+ str(e.type) + "</td> <td>"+str(e.ptr)+"</td> <td>"+str(e.const)+"</td> <td>"+str(e.func)+"</td> <td>" + str(e.array) + "</td> <td>")
             for p in e.params:
                 file.write(str(p) + " ")
             file.write("</td></tr>")
@@ -143,7 +143,9 @@ class Entry:
         self.ptr = 0
         self.func = False
         self.defined = False
+        self.array = False
         self.params = []
+        self.arrays = []
 
         #needed for code convertion
         self.size = s

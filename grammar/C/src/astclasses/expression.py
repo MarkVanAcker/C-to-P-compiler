@@ -1,9 +1,88 @@
 from src.astclasses.AST import *
-from src.astclasses.atomictypes import TypeCheck
+from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode, IDNode, ArrayCallNode
 
-class AdditionNode(ASTNode):
 
-    def handle(self,st):
+
+##### pretty sure this one should be refactored ####
+
+#check if every variable that is used exists and do type checking for conversions
+#also add constant folding
+
+class ExpressionNode(ASTNode):
+
+    def handle(self, st, type = None):
+
+        if type is BooleanType:
+            raise SemanticsError(self.token, "Expression does not evaluate boolean types, only numeric operants")
+
+
+        if self.name == 'empty' or len(self.children) == 0:
+            return 4
+
+
+        #
+        # HANDLE LEFT VALUE OF THE EXPRESSION
+        #
+
+
+        # no L-value to assign to OR no type reference on the left side.   EG  if(3 < 5.0)
+        # does not happen anymore
+        node = self.getchild(0)
+        if type == None:
+            # variable
+            if node.Typedcl == 'id':
+                entry = st.getVariableEntry(node.name)
+                if entry is None:
+                    raise Exception("Error: undeclared variable (first use in this function)")
+                type = entry.type
+
+            # constant value (right?)
+            else:
+                type = typecast[node.token.type]
+
+
+
+        else:
+            if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
+                TypeCheck(node, st, type)
+            else:
+                node.handle(st, type)  # expression visit
+
+
+        if len(self.children) == 1:
+            return type
+
+        #
+        # HANDLE RIGHT VALUE OF THE EXPRESSION
+        #
+
+        node = self.getchild(1)
+        if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
+            TypeCheck(node,st,type)
+        else:
+            node.handle(st,type) #expression visit
+
+        return type
+
+
+
+class ComparisonNode(ASTNode):
+
+    def handle(self, st, type=None):
+
+        if type is not BooleanType:
+            raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
+
+        if self.name == 'empty' or len(self.children) == 0:
+            pass
+
+        #TODO handle child 0 and 1
+
+
+
+class AdditionNode(ExpressionNode):
+
+    def handle(self,st, type = None):
         #Jesse
         pass
 
@@ -19,9 +98,9 @@ class AdditionNode(ASTNode):
         return inl
 
 
-class SubtractionNode(ASTNode):
+class SubtractionNode(ExpressionNode):
 
-    def handle(self,st):
+    def handle(self,st, type = None):
         #Jesse
         pass
 
@@ -37,9 +116,9 @@ class SubtractionNode(ASTNode):
         return inl
 
 
-class MultiplyNode(ASTNode):
+class MultiplyNode(ExpressionNode):
 
-    def handle(self,st):
+    def handle(self,st, type = None):
         #Jesse
         pass
 
@@ -55,9 +134,9 @@ class MultiplyNode(ASTNode):
         return inl
 
 
-class DivideNode(ASTNode):
+class DivideNode(ExpressionNode):
 
-    def handle(self,st):
+    def handle(self,st, type = None):
         #Jesse
         pass
 
@@ -91,7 +170,13 @@ class AssignmentNode(ASTNode):
         returnType = entry.type
 
         # Evaluate R-value with given l-value type
-        self.getchild(1).handle(st, returnType) #expression visit
+
+        if  isinstance(self.getchild(1),ExpressionNode):
+            print("EXPRESSION ASSINMENT")
+            self.getchild(1).handle(st, returnType) #expression visit
+        else:
+            print("ELSE ASSINMENT")
+            TypeCheck(self.getchild(1),st,returnType)
 
 
 
@@ -123,78 +208,5 @@ class AssignmentNode(ASTNode):
 
 
 
-
-
-##### pretty sure this one should be refactored ####
-
-#check if every variable that is used exists and do type checking for conversions
-#also add constant folding
-
-class ExpressionNode(ASTNode):
-
-    def handle(self, st, type = None):
-
-        if type is BooleanType:
-            raise SemanticsError(self.token, "Expression does not evaluate boolean types, only numeric operants")
-
-
-        if self.name == 'empty' or len(self.children) == 0:
-            return 4
-
-
-        #
-        # HANDLE LEFT VALUE OF THE EXPRESSION
-        #
-
-
-        # no L-value to assign to OR no type reference on the left side.   EG  if(3 < 5.0)
-        node = self.getchild(0)
-        if type == None:
-            # variable
-            if node.Typedcl == 'id':
-                entry = st.getVariableEntry(node.name)
-                if entry is None:
-                    raise Exception("Error: undeclared variable (first use in this function)")
-                type = entry.type
-
-            # constant value (right?)
-            else:
-                type = typecast[node.token.type]
-
-        # supertype given for the expression.    EG int var = 1 + 5;
-        # typecheck left operant
-        else:
-            if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
-                TypeCheck(node, st, type)
-            else:
-                node.handle(st, type)  # expression visit
-
-
-        if len(self.children) == 1:
-            return type
-
-        #
-        # HANDLE RIGHT VALUE OF THE EXPRESSION
-        #
-
-        node = self.getchild(1)
-        if node.Typedcl == 'id' or node.Typedcl == 'intconst' or node.Typedcl == 'floatconst' or node.Typedcl == 'charconst':
-            TypeCheck(node,st,type)
-        else:
-            node.handle(st,type) #expression visit
-
-        return type
-
-
-
-class ComparisonNode(ASTNode):
-
-    def handle(self, st, type=None):
-
-        if type is not BooleanType:
-            raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
-
-        if self.name == 'empty' or len(self.children) == 0:
-            pass
 
 
