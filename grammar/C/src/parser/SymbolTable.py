@@ -169,8 +169,13 @@ class Entry:
     def getVarspace(self):
         if self.func:
             return 0
-
-        return self.size
+        elif self.array:
+            tot = 1
+            for i in self.arrays:
+                tot *= i
+            return tot
+        else:
+            return self.size
 
 
 def ToDotST(root):

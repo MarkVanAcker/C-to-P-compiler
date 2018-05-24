@@ -233,21 +233,23 @@ class DeclarationNode(ASTNode):
         if(entryfound is not None):
             if (entryfound.func == False):
                 raise SemanticsError(self.token,"This variable was already declared in the local scope")
-           elif (entryfound.func == True && entryfound.defined == False && definition == True):
-               entryfound.defined = True
-           elif (entryfound.func == True && entryfound.defined == True && definition == True):
+            elif (entryfound.func and not entryfound.defined and definition):
+                entryfound.defined = True
+            elif (entryfound.func and entryfound.defined and definition):
                raise SemanticsError(self.token, "Redefinition of function")
-           else:
+            else:
                raise SemanticsError(self.token, "Redeclaration of function")
 
 
 
         addentry = True
-
-        if (st.GlobalTableLookup(entr)):
+        entryfound = st.GlobalTableLookup(entr)
+        if (entryfound is not None):
             if (entryfound.func == False):
-                #TODO : make general warning function that uses tokens and scope
-                Warning(self.token,"Variable is hiding data")
+                Warning(self.token,"%s is hiding variable" % entr.name)
+            else:
+                Warning(self.token,"%s is hiding function" % entr.name)
+
 
 
 
