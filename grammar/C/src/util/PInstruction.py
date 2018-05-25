@@ -432,3 +432,21 @@ class Conversion(PInstruction):
 
     def write(self):
         return 'conv %s %s' % (self.type1, self.type2)
+
+
+
+######### LABEL
+
+uniquelabeltracker = {}
+
+class Label(PInstruction):
+    def __init__(self,name:str):
+        if name in uniquelabeltracker:
+            self.name = name + str(uniquelabeltracker[name])
+            uniquelabeltracker[name] += 1
+        else:
+            self.name = name
+            uniquelabeltracker[name] = 1
+
+    def write(self):
+        return "%s:" % self.name

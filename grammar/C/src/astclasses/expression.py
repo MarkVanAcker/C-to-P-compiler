@@ -86,12 +86,12 @@ class AdditionNode(ExpressionNode):
         #Jesse
         pass
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(env))
-        inl.AddInstruction(self.getchild(1).getCode(env))
+        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
 
         inl.AddInstruction(Add(self.getchild(0).Typedcl))
 
@@ -104,12 +104,12 @@ class SubtractionNode(ExpressionNode):
         #Jesse
         pass
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(env))
-        inl.AddInstruction(self.getchild(1).getCode(env))
+        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
 
         inl.AddInstruction(Subtract(self.getchild(0).Typedcl))
 
@@ -122,12 +122,12 @@ class MultiplyNode(ExpressionNode):
         #Jesse
         pass
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(env))
-        inl.AddInstruction(self.getchild(1).getCode(env))
+        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
 
         inl.AddInstruction(Multiply(self.getchild(0).Typedcl))
 
@@ -140,12 +140,12 @@ class DivideNode(ExpressionNode):
         #Jesse
         pass
 
-    def getCode(self, env:SymbolTable):
+    def getCode(self):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(env))
-        inl.AddInstruction(self.getchild(1).getCode(env))
+        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
 
         inl.AddInstruction(Divide(self.getchild(0).Typedcl))
 

@@ -22,6 +22,8 @@ class SymbolTable:
 
         self.symbollist = {}
 
+        self.variablestacksize = 5
+
 
     def addEntry(self,entry):
         self.variablespace += entry.getVarspace()
@@ -87,21 +89,20 @@ class SymbolTable:
         self.symbollist = copy(sl)
 
 
-    def setupParameters(self,baseAddr:int):
+    def addSymbol(self,name):
 
-        #maybe split this up
-        self.setEnvironment(self.parent.symbollist)
+        entry = self.GlobalTableLookup(name)
 
-        currentAddr = baseAddr + 5
-        for i in self.entries:
-            if not i.func:
-                if i.ptr:
-                    self.symbollist[i.name] = (AddressType(),currentAddr)
-                else:
-                    self.symbollist[i.name] = (typeconversion[i.type],currentAddr)
+        self.symbollist[name] = (entry.type,self.variablestacksize)
+        self.variablestacksize += entry.getVarspace()
 
 
-                currentAddr += i.size
+    def getRequiredSpace(self):
+        total = 0
+        for entry in self.entries:
+            total += entry.getVarspace()
+
+        return total
 
 
 

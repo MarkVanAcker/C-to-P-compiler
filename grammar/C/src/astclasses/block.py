@@ -9,6 +9,10 @@ class BlockNode(ASTNode):
             child.handle(self.symbtable)
 
 
+    def getCode(self):
+        pass
+
+
 
 class RootNode(ASTNode):
     def handle(self,st):
@@ -23,13 +27,24 @@ class RootNode(ASTNode):
 
         code = InstructionList()
 
-        foundmain = False
+        functions = []
 
-        functions = {}
+        globals = []
 
-        globals = {}
+        for child in self.children:
+            if isinstance(child,DeclarationNode):
+                globals.append(child)
 
+        #make place for all the global variables
+        code.AddInstruction(SetPointers(0,self.symbtable.getRequiredSpace()))
+
+        self.symbtable.setupParameters(code)
 
         for globalvar in globals:
             code.AddInstruction(globalvar.getCode(self.symbtable))
+
+
+
+
+        code.AddInstruction(Halt)
         
