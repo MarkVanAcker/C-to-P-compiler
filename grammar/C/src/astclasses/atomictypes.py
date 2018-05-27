@@ -103,7 +103,7 @@ def TypeCheck(node, st, t):
             raise SemanticsError(node.token, "No dynamic conversion supported")
 
     else:
-        raise SemanticsError(self.token, "WEIRD NODE GIVEN AT TYPECHECK")
+        raise SemanticsError(node.token, "WEIRD NODE GIVEN AT TYPECHECK")
 
 class TypeNode(ASTNode):
     def handle(self,st):
@@ -233,21 +233,23 @@ class DeclarationNode(ASTNode):
         if(entryfound is not None):
             if (entryfound.func == False):
                 raise SemanticsError(self.token,"This variable was already declared in the local scope")
-           elif (entryfound.func == True and entryfound.defined == False and definition == True):
-               entryfound.defined = True
-           elif (entryfound.func == True and entryfound.defined == True and definition == True):
+            elif (entryfound.func and not entryfound.defined and definition):
+                entryfound.defined = True
+            elif (entryfound.func and entryfound.defined and definition):
                raise SemanticsError(self.token, "Redefinition of function")
-           else:
+            else:
                raise SemanticsError(self.token, "Redeclaration of function")
 
 
 
         addentry = True
-
-        if (st.GlobalTableLookup(entr)):
+        entryfound = st.GlobalTableLookup(entr)
+        if (entryfound is not None):
             if (entryfound.func == False):
-                #TODO : make general warning function that uses tokens and scope
-                Warning(self.token,"Variable is hiding data")
+                Warning(self.token,"%s is hiding variable" % entr.name)
+            else:
+                Warning(self.token,"%s is hiding function" % entr.name)
+
 
 
 
@@ -315,6 +317,8 @@ def checkdecl(node, ent):
 class FunctionDefinitionNode(ASTNode):
     def handle(self, st: SymbolTable):
 
+        self.symbtable = st
+
         entry = self.getchild(0).handle(st, True)  # declaration visit
 
         # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
@@ -337,6 +341,9 @@ class FunctionDefinitionNode(ASTNode):
         newst.is_function = True
         st.addchild(newst)
 
+        #for code generation
+        self.funcinfo = entry
+
         # checking if all declarations and adding into symbol table
         for par in self.getchild(1).children:
 
@@ -348,6 +355,30 @@ class FunctionDefinitionNode(ASTNode):
                 raise SemanticsError(self.token, "parameter name omitted")
 
         self.getchild(2).handle(newst)
+
+
+    def getCode(self):
+        maxstacksize = 0
+        maxvarsize = 5
+
+        maxvarsize += len(self.funcinfo.params)
+
+        ins = InstructionList()
+        ins.AddInstruction(Label("function_"+self.funcinfo.name))
+
+        self.getchild(2).symbtable.variablestacksize = maxvarsize
+
+        tempins = self.getchild(2).getCode()
+
+        ins.AddInstruction(SetPointers(tempins.maxStackSpace,self.getchild(2).symbtable.variablestacksize))
+
+        ins.AddInstruction(tempins)
+
+
+        return ins
+
+
+
 
 
 class ReturnNode(ASTNode):
