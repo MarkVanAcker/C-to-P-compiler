@@ -1,5 +1,6 @@
 from src.astclasses.AST import *
 from src.astclasses.block import EmptyNode
+from src.astclasses.expression import ComparisonNode
 
 
 
@@ -10,12 +11,17 @@ class ConditionNode(ASTNode):
         if isinstance(self.getchild(0) ,EmptyNode):
             raise SemanticsError(self.token,"Empty conditional statement not supported")
 
-        return self.getchild(0).handle(st,BooleanType) #expression visit
+        # make sure it is a boolean exp if so expr visit it
+        if not isinstance(self.getchild(0) ,ComparisonNode):
+            raise SemanticsError(self.token, "Expected comparison conditional statement which results in a boolean evaluation")
+
+        return self.getchild(0).handle(st) #comp expression visit
 
 class ConditionalNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
         return self.getchild(0).handle(st) #condition
+        #todo finish cond
 
 class WhileNode(ASTNode):
 

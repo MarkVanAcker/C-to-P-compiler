@@ -66,17 +66,23 @@ class ExpressionNode(ASTNode):
 
 
 
-class ComparisonNode(ASTNode):
+class ComparisonNode(ExpressionNode):
 
     def handle(self, st, type=None):
 
-        if type is not BooleanType:
-            raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
+        #check done at conditional statement
+
+        #if type is not BooleanType:
+        #   raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
 
         if self.name == 'empty' or len(self.children) == 0:
-            pass
+            raise SemanticsError(self.token, "Empty conditional statement")
+            # todo true ?
 
-        #TODO handle child 0 and 1
+
+
+
+
 
 
 

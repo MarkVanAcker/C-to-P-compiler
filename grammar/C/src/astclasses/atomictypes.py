@@ -233,9 +233,9 @@ class DeclarationNode(ASTNode):
         if(entryfound is not None):
             if (entryfound.func == False):
                 raise SemanticsError(self.token,"This variable was already declared in the local scope")
-           elif (entryfound.func == True && entryfound.defined == False && definition == True):
+           elif (entryfound.func == True and entryfound.defined == False and definition == True):
                entryfound.defined = True
-           elif (entryfound.func == True && entryfound.defined == True && definition == True):
+           elif (entryfound.func == True and entryfound.defined == True and definition == True):
                raise SemanticsError(self.token, "Redefinition of function")
            else:
                raise SemanticsError(self.token, "Redeclaration of function")
