@@ -655,15 +655,19 @@ class CsubVisitor(CVisitor):
             if ctx.getChild(1).accept(self).name == '<' or ctx.getChild(1).accept(self).name == '>' or ctx.getChild(1).accept(self).name == '==':
                 name = ctx.getChild(1).accept(self).name
                 exprnode = ComparisonNode(name)
-            else:
-                exprnode = ExpressionNode(name)
-            if(name == "="):
+            elif ctx.getChild(1).accept(self).name == '*':
+                exprnode = MultiplyNode("ExpressionNode")
+            elif ctx.getChild(1).accept(self).name == '/':
+                exprnode = DivideNode("ExpressionNode")
+            elif ctx.getChild(1).accept(self).name == '+':
+                exprnode = AdditionNode("ExpressionNode")
+            elif ctx.getChild(1).accept(self).name == '-':
+                exprnode = SubtractionNode("ExpressionNode")
+            elif(ctx.getChild(1).accept(self).name == '='):
                 exprnode = AssignmentNode(name)
             exprnode.addchild(ctx.getChild(0).accept(self))
             exprnode.addchild(ctx.getChild(2).accept(self))
             return exprnode
-
-
 
 
     def tokenHandler(self,name,token):

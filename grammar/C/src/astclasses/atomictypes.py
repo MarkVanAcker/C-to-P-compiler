@@ -75,7 +75,10 @@ def TypeCheck(node, st, t):
 
     # constant value (right?)
     elif isinstance(node,ConstantNode):
+        print("HERE TYPECHECK")
         Ltype = node.Typedcl
+
+        print(Ltype, " ", type(t))
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
             Warning(node.token,"forced type conversion")
@@ -227,6 +230,7 @@ class DeclarationNode(ASTNode):
         if idnode.name in reservedKeys:
             raise SemanticsError(self.token,"Can not use reserved keyword for variable name")
 
+        idnode.symbtable = st
         checkdecl(idnode,entr)
 
         entryfound = st.LocalTableLookup(entr)
@@ -299,8 +303,17 @@ def checkdecl(node, ent):
         ent.array = True
         ent.name = node.name
         for child in reversed(node.children):
-            # todo handle constant folding at compile time for expression, if not raise
-            ent.arrays.append(child.name)
+            # todo handle constant folding at compile time for expression, if not raise IDNODE?
+            print()
+            if  child.name == "ExpressionNode":
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WORKS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                print(type(IntegerType()))
+                ent.arrays.append(child.handle(node.symbtable,IntegerType()))
+            else:
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! umh !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                if child.Typedcl != IntegerType():
+                    raise SemanticsError(child.token,"array argument not of integertype")
+                ent.arrays.append(child.name)
         return
 
     elif node.name == "pointer":

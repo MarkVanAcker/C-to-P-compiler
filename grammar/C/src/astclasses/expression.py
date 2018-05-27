@@ -58,6 +58,7 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
+            print(node.name," TYPECHECK ARRAY")
             TypeCheck(node,st,type)
         else:
             node.handle(st,type) #expression visit
@@ -79,18 +80,17 @@ class ComparisonNode(ExpressionNode):
             raise SemanticsError(self.token, "Empty conditional statement")
             # todo true ?
 
+        if len(self.children) != 2:
+            raise SemanticsError(self.token,"expected comparison of 2 nodes (no boolean support)  2 < 4 == true not possible")
 
-
-
-
+        return super(ComparisonNode, self).handle(st) # handle typecheck the same way as expr
 
 
 
 class AdditionNode(ExpressionNode):
 
     def handle(self,st, type = None):
-        #Jesse
-        pass
+        return super(AdditionNode, self).handle(st,type)
 
     def getCode(self):
 
@@ -107,8 +107,7 @@ class AdditionNode(ExpressionNode):
 class SubtractionNode(ExpressionNode):
 
     def handle(self,st, type = None):
-        #Jesse
-        pass
+        return super(SubtractionNode, self).handle(st, type)
 
     def getCode(self):
 
@@ -125,8 +124,7 @@ class SubtractionNode(ExpressionNode):
 class MultiplyNode(ExpressionNode):
 
     def handle(self,st, type = None):
-        #Jesse
-        pass
+        return super(MultiplyNode, self).handle(st, type)
 
     def getCode(self):
 
@@ -143,8 +141,7 @@ class MultiplyNode(ExpressionNode):
 class DivideNode(ExpressionNode):
 
     def handle(self,st, type = None):
-        #Jesse
-        pass
+        return super(DivideNode, self).handle(st, type)
 
     def getCode(self):
 
