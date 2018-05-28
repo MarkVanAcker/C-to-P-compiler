@@ -1,4 +1,8 @@
-char a = 'c';
-if (a){
-    char d;
+
+int f(){
+return 1;}
+
+int main (){
+    int a = f();
+    return 'a';
 }

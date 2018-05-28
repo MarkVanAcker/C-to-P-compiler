@@ -22,8 +22,7 @@ class ConditionalNode(ASTNode):
     def handle(self,st):
         self.getchild(0).handle(st) #condition
 
-        for i in range(1,len(self.children)):
-            print(("CONDITIONAL: ", i ))
+        for i in range(1,len(self.children)): # create a new st (block for if - else)
             newst = SymbolTable()
             newst.name = "condition"
             st.addchild(newst)
@@ -43,7 +42,7 @@ class WhileNode(ASTNode):
         if not self.getchild(0).handle(st): #conditionvisit
             pass
 
-
+        # block traverse
         newst = SymbolTable()
         newst.name = "iteration"
         st.addchild(newst)

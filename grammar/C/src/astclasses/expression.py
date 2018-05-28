@@ -168,17 +168,14 @@ class AssignmentNode(ASTNode):
         # is l-value memory allocatable variable only (array included)
         entry = st.getVariableEntry(self.getchild(0).name)
         if entry is None:
-            print(self.getchild(0).name)
             raise Exception("Error: undeclared varaible (first use in this function)")
         returnType = entry.type
 
         # Evaluate R-value with given l-value type
 
         if  isinstance(self.getchild(1),ExpressionNode):
-            print("EXPRESSION ASSINMENT")
             self.getchild(1).handle(st, returnType) #expression visit
         else:
-            print("ELSE ASSINMENT")
             TypeCheck(self.getchild(1),st,returnType)
 
 

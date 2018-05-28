@@ -17,7 +17,7 @@ class BlockNode(ASTNode):
 class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
-        for child in self.children:
+        for child in self.children: # traverse
             if isinstance(child,FunctionDefinitionNode) or isinstance(child,DeclarationNode):
                 child.handle(self.symbtable)
             else:
