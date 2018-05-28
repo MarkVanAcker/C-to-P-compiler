@@ -344,6 +344,10 @@ def checkdecl(node, ent):
 class FunctionDefinitionNode(ASTNode):
     def handle(self, st: SymbolTable):
 
+
+        if st.parent is not None:
+            raise SemanticsError(self.token, "Definition must be in global scope")
+
         self.symbtable = st
         entry = self.getchild(0).handle(st, True)  # declaration visit for a definition
 
