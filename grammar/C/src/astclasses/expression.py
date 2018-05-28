@@ -38,7 +38,7 @@ class ExpressionNode(ASTNode):
 
             # constant value (right?)
             else:
-                type = typecast[node.token.type]
+                type = node.Typedcl
 
 
 

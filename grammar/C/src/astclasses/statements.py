@@ -20,8 +20,14 @@ class ConditionNode(ASTNode):
 class ConditionalNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
-        return self.getchild(0).handle(st) #condition
-        #todo finish cond
+        self.getchild(0).handle(st) #condition
+
+        for i in range(1,len(self.children)):
+            print(("CONDITIONAL: ", i ))
+            newst = SymbolTable()
+            newst.name = "condition"
+            st.addchild(newst)
+            self.getchild(i).handle(newst)
 
 class WhileNode(ASTNode):
 

@@ -9,7 +9,18 @@ int testmain (float a){
 
 
 int test (const float a, int d){ return 1;}
-float othertest(const float a, int d){ return 1.0;}
+float othertest(const float a, int d){
+
+    if ( 0 == 0 ){
+        return 2.0 ;
+    }
+    else if ( 3 < 4 ) {
+        return 1.0;
+    }else{
+        return 0.3;
+    }
+
+    return 1.0;}
 
 int main(){
 

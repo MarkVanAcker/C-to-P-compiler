@@ -78,6 +78,7 @@ def TypeCheck(node, st, t):
         Ltype = node.Typedcl
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
+            print("ERROR CONV", Ltype.__class__.__name__, type(t))
             Warning(node.token,"forced type conversion")
             raise SemanticsError(node.token, "No dynamic conversion supported")
             #if isinstance(t, IntegerType):
