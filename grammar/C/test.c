@@ -2,10 +2,11 @@
 
 int x = 5;
 
-int main(int x){
+int main(){
 
-    int a = 5;
+    int a[10][10];
+   int* b = a[8];
 
 
-    return a + 5;
+    return  5;
 }

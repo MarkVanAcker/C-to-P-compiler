@@ -58,7 +58,6 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
-            print(node.name," TYPECHECK ARRAY")
             TypeCheck(node,st,type)
         else:
             node.handle(st,type) #expression visit
@@ -169,6 +168,7 @@ class AssignmentNode(ASTNode):
         # is l-value memory allocatable variable only (array included)
         entry = st.getVariableEntry(self.getchild(0).name)
         if entry is None:
+            print(self.getchild(0).name)
             raise Exception("Error: undeclared varaible (first use in this function)")
         returnType = entry.type
 

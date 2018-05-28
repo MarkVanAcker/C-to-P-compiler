@@ -75,10 +75,7 @@ def TypeCheck(node, st, t):
 
     # constant value (right?)
     elif isinstance(node,ConstantNode):
-        print("HERE TYPECHECK")
         Ltype = node.Typedcl
-
-        print(Ltype, " ", type(t))
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
             Warning(node.token,"forced type conversion")
@@ -99,10 +96,8 @@ def TypeCheck(node, st, t):
             #    node.Typedcl = CharacterType()
             #    node.name = str(node.name)
     elif isinstance(node,ArrayCallNode) or isinstance(node,FunctionCallNode):
-        print(node.handle(st))
         if not isinstance(t, type(node.handle(st))): # let array return type
             Warning(node.token,"forced type conversion")
-            print(type(t), type(node.handle(st)))
             raise SemanticsError(node.token, "No dynamic conversion supported")
 
     else:
@@ -114,11 +109,19 @@ class TypeNode(ASTNode):
 
 
 class ParamNode(ASTNode):
-    def handle(self,st = None):
+    def handle(self,st = None,definition = False):
+        print("!!!!!!!!!!!!!!!!!!!paramnode called!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
         paramlist = []
         for param in self.children:
             if isinstance(param,EmptyNode):
                 continue
+
+            if definition == True:
+                print("DEF TRUE", param.name)
+                param = param.getchild(0)
+                print("DEF TRUE2", param.name)
+
 
             if isinstance(param, TypeNode):
                 if (param.isconst == True):
@@ -128,6 +131,7 @@ class ParamNode(ASTNode):
 
             else:
                 paramlist.append(param.getchild(0).Typedcl)
+        print("ELE PARAM", paramlist)
         return paramlist
 
 
@@ -146,21 +150,9 @@ class FunctionCallNode(ASTNode):
         if not entry.func:
             raise SemanticsError(self.token, "Calling uncallable object")
 
-
-
         arglist = self.getchild(1).handle(st,entry.params)
 
-
-        ## optimalise this
-        #arglist = self.getchild(1).handle()
-        #if len(arglist) != len(entry.params):
-        #    raise SemanticsError(self.token, "parameterlist does not match in size")
-        #else:
-        #    for i in range(len(arglist)):
-        #        if str(arglist[i]) != str((entry).params[i]):
-        #            print(str(arglist[i]))
-        #            print(str((entry).params[i]))
-        #            raise SemanticsError(self.getchild(1).getchild(i).token,"parameterlist item does not match at index: " + str(i))
+        return entry.type
 
 
 
@@ -172,9 +164,9 @@ class ArgumentsNode(ASTNode):
 
         '''     ConstantNode
                 IDNode
-                ArrayCallNode
+                ArrayCallNode checked on name return type
                 ExpressionNode
-                FunctionCallNode
+                FunctionCallNode checked on name return type
         '''
 
 
@@ -186,8 +178,21 @@ class ArgumentsNode(ASTNode):
 
         index = 0
         for arg in self.children:
-            if isinstance(arg,IDNode) or isinstance(arg,ConstantNode):
-                continue
+            if isinstance(arg,ConstantNode):
+                if not isinstance(arg.Typedcl, type(typelist[index])):
+                    raise (arg.token,"Do not support type conversion at funccal argument")
+            elif isinstance(arg,IDNode):
+                entry = st.getVariableEntry(arg.name)
+                if entry is None:
+                    raise SemanticsError(arg.token, "Unknown variable")
+                if not isinstance(entry.type, type(typelist[index])):
+                    raise (arg.token, "Do not support type conversion at funccal argument")
+            elif isinstance(arg, ArrayCallNode) or isinstance(arg, FunctionCallNode) or arg.name == "ExpressionNode":
+                returntype = arg.handle(st)
+                if not isinstance(returntype,type(typelist[index])):
+                    raise (arg.token, "Do not support type conversion at funccal argument")
+
+            index += 1
 
 
 
@@ -249,6 +254,8 @@ class DeclarationNode(ASTNode):
         addentry = True
         entryfound = st.GlobalTableLookup(entr)
         if (entryfound is not None):
+            addentry = False
+            entr = entryfound
             if (entryfound.func == False):
                 Warning(self.token,"%s is hiding variable" % entr.name)
             else:
@@ -266,18 +273,18 @@ class DeclarationNode(ASTNode):
             entr.const = constt
             # if function add params
             if entr.func == True and not definition:
+                print("NO DEF ADDD")
                 paramlist = idnode.getchild(0).handle()
                 for item in paramlist:
                     entr.params.append(item)
-                    print("adding: ", str(item))
             elif entr.func == True and definition:
-                print(self.par.getchild(1).__class__.__name__)
-                paramlist = self.par.getchild(1).handle()
+                print("DEF ADD")
+                paramlist = self.par.getchild(1).handle(st,True)
                 for item in paramlist:
                     entr.params.append(item)
 
 
-
+        print("entry", entr.params)
         return entr
 
 
@@ -304,14 +311,10 @@ def checkdecl(node, ent):
         ent.name = node.name
         for child in reversed(node.children):
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
-            print()
             if  child.name == "ExpressionNode":
-                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WORKS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                print(type(IntegerType()))
                 ent.arrays.append(child.handle(node.symbtable,IntegerType()))
             else:
-                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! umh !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                if child.Typedcl != IntegerType():
+                if not isinstance(child.Typedcl,type(IntegerType())):
                     raise SemanticsError(child.token,"array argument not of integertype")
                 ent.arrays.append(child.name)
         return
@@ -332,19 +335,25 @@ class FunctionDefinitionNode(ASTNode):
 
         self.symbtable = st
 
+        print(self.name)
+
         entry = self.getchild(0).handle(st, True)  # declaration visit
+
+        print("param after decl call", entry.params)
 
         # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
 
         # check the entry paramlist if it matches ( only typechecking )
-        paramlist = self.getchild(1).handle()
+        paramlist = self.getchild(1).handle(st,True)
+        print("curr paramlist", paramlist)
         if len(paramlist) != len(entry.params):
+            print(paramlist, " ", entry.params )
             raise SemanticsError(self.token, "parameterlist does not match in size")
         else:
             for i in range(len(paramlist)):
                 if str(paramlist[i]) != str((entry).params[i]):
                     print(str(paramlist[i]))
-                    print(str((entry).params[i]))
+                    print(str((entry).params))
                     raise SemanticsError(self.getchild(1).getchild(i).token,
                                          "parameterlist item does not match at index: " + str(i))
 
@@ -353,6 +362,8 @@ class FunctionDefinitionNode(ASTNode):
         newst.return_type = entry.type
         newst.is_function = True
         st.addchild(newst)
+
+        print("PASSED")
 
         #for code generation
         self.funcinfo = entry
@@ -422,12 +433,64 @@ class EmptyNode(ASTNode):
         pass
 
 
+def rootcall(node):
+    if not isinstance(node.getchild(0), IDNode):
+        rootcall(node.getchild(0))
+    else:
+        return node
+
+#def refactorarray(root,newroot):
+#    if root == newroot:
+#        return newroot
+#    currentnode = root
+#    arglist = []
+#    while True:
+#        if currentnode == newroot:
+#            return newroot
+#        arglist.insert(0,currentnode.getchild(1))
+
+
+
+
 class ArrayCallNode(ASTNode):
     def handle(self,st, type = None):
-        entry = st.getVariableEntry(self.getchild(0).name)
+
+        #refactor node into 1 arraycallnode leftmostchild id other child accessors
+
+        rootnode = self
+        while True:
+            if not isinstance(rootnode.getchild(0), IDNode):
+                rootnode = rootnode.getchild(0)
+            else:
+                break
+
+        entry = st.getVariableEntry(rootnode.getchild(0).name)
 
         if not entry:
             SemanticsError(self.token,"Undifined array called")
+
+
+        # array calls int types ?
+        currentnode = self
+
+        # todo if you return an array its a pointer, if all args given its an type const value
+        index = 1;
+        while True:
+            if currentnode.getchild(1).name == "ExpressionNode":
+                currentnode.getchild(1).handle(st,IntegerType())
+            else:
+                if not isinstance(currentnode.getchild(1).Typedcl, IntegerType):
+                    print("bad type okokok")
+                    raise SemanticsError(currentnode.getchild(1).token,"Expected integertype at arraycallindex")
+
+            if currentnode != rootnode:
+                currentnode = currentnode.getchild(0)
+            else:
+                break
+            index +=1
+
+        if len(entry.arrays) < index:
+            raise SemanticsError(self.token,'Accessing undefined memory (accessing an dimension from array that was not created')
 
         return entry.type
 
