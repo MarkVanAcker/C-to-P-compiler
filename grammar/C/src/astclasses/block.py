@@ -1,13 +1,28 @@
 from src.astclasses.AST import *
 from src.astclasses.atomictypes import *
 from src.parser.SymbolTable import *
+from src.astclasses.expression import *
 
 class BlockNode(ASTNode):
     #check if variable that is to be returned exists and matches return type
     def handle(self, st):
         self.symbtable = st
-        for child in self.children:
-            child.handle(self.symbtable)
+
+        returnfound = False
+
+        for child in self.children[:]:
+            print(child.name, returnfound)
+            if isinstance(child,ExpressionNode) or returnfound: # removing useless expressions or dead code after return
+                print("REMOVING USELESS OR DEAD")
+                child.par = None
+                self.children.remove(child)
+                continue
+            if isinstance(child,ReturnNode):
+                returnfound = True
+
+            child.handle(self.symbtable) # should be ok or semantic will pop up
+            if isinstance(child,DeclarationNode): # removing declarations from ast
+                self.children.remove(child)
 
 
     def getCode(self):
@@ -18,9 +33,14 @@ class BlockNode(ASTNode):
 class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
-        for child in self.children: # traverse
-            if isinstance(child,FunctionDefinitionNode) or isinstance(child,DeclarationNode) or isinstance(child,IncludeNode):
+        for child in self.children[:]: # traverse
+            if isinstance(child,FunctionDefinitionNode) or isinstance(child,IncludeNode):
                 child.handle(self.symbtable)
+            elif isinstance(child,DeclarationNode):
+                child.handle(self.symbtable)
+                print("removing declaration from ast")
+                # removing declaration from ast
+                self.children.remove(child)
             else:
                 raise SemanticsError(self.token, "Invalid statement in global scope")
 

@@ -1,5 +1,6 @@
 float function (int a, float b, char c){
-    int a = a + 3;
+    a = a + 3;
+    int alfa = 3+4;
     return a;
 }
 
