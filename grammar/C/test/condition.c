@@ -2,7 +2,9 @@
 
 int main () {
 
-    int a2 = 2;
+
+    int x = 10;
+    int a2 [4+3/2+1][3*2*10/2-3][1];
 
     return 1;
 

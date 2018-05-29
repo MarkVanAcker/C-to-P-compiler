@@ -327,11 +327,14 @@ def checkdecl(node, ent):
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
             if child.name == "ExpressionNode":
-                ent.arrays.append(child.handle(node.symbtable,IntegerType()))
+                child.handle(node.symbtable, IntegerType())
+                ent.arrays.append(child.result)
             else:
-                if not isinstance(child.Typedcl,type(IntegerType())):
+                if not isinstance(child.Typedcl,type(IntegerType())): # only constants pass here
                     raise SemanticsError(child.token,"array argument not of integertype")
-                ent.arrays.append(child.name)
+                ent.arrays.append(int(child.name))
+        ent.arrays.reverse()
+        print(ent.arrays)
         return
 
     elif node.name == "pointer":
