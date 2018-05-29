@@ -22,6 +22,8 @@ class ASTNode:
         self.Typedcl = None
         self.symbtable = None
         self.isconst = False
+        self.operator = None
+        self.result = None
 
     def todot(self,file):
 
@@ -74,6 +76,7 @@ class ASTNode:
 
     def getLValue(self):
         pass
+
 
     
 

@@ -173,7 +173,7 @@ class Entry:
         elif self.array:
             tot = 1
             for i in self.arrays:
-                continue #tot *= i todo constant folding, for now i need testing without this statement( errors for me)
+                tot *= i
             return tot
         else:
             return self.size

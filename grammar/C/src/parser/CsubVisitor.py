@@ -654,15 +654,20 @@ class CsubVisitor(CVisitor):
             exprnode = None
             if ctx.getChild(1).accept(self).name == '<' or ctx.getChild(1).accept(self).name == '>' or ctx.getChild(1).accept(self).name == '==':
                 name = ctx.getChild(1).accept(self).name
-                exprnode = ComparisonNode(name)
+                exprnode = ComparisonNode("ExpressionNode")
+                exprnode.operator = name
             elif ctx.getChild(1).accept(self).name == '*':
                 exprnode = MultiplyNode("ExpressionNode")
+                exprnode.operator = "*"
             elif ctx.getChild(1).accept(self).name == '/':
                 exprnode = DivideNode("ExpressionNode")
+                exprnode.operator = "/"
             elif ctx.getChild(1).accept(self).name == '+':
                 exprnode = AdditionNode("ExpressionNode")
+                exprnode.operator = "+"
             elif ctx.getChild(1).accept(self).name == '-':
                 exprnode = SubtractionNode("ExpressionNode")
+                exprnode.operator = "-"
             elif(ctx.getChild(1).accept(self).name == '='):
                 exprnode = AssignmentNode(name)
             exprnode.addchild(ctx.getChild(0).accept(self))

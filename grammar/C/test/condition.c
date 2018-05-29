@@ -2,7 +2,7 @@
 
 int main () {
 
-    4+3;
+    int a2 = 2;
 
     return 1;
 

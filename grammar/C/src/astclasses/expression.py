@@ -8,6 +8,50 @@ from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode
 #check if every variable that is used exists and do type checking for conversions
 #also add constant folding
 
+
+def fold(node1,node2,operant,typeval): # typecheck is already done in the expression visit returning result
+
+        if isinstance(typeval,CharacterType):
+            raise SemanticsError(node2.token,"Can not operate with char values, no usefull result")
+
+        if isinstance(node1,ExpressionNode):
+            node1.name = node1.result
+
+        if isinstance(node2,ExpressionNode):
+            node2.name = node2.result
+
+
+        if operant == '*':
+            if isinstance(typeval,IntegerType):
+                return  int(int(node1.name) * int(node2.name))
+            elif isinstance(typeval,RealType):
+                float(float(node1.name) * float(node2.name))
+            else:
+                raise SemanticsError(node1.token,"operating with nonetypes")
+        elif operant == '/':
+            if isinstance(typeval, IntegerType):
+                return int(int(node1.name) / int(node2.name))
+            elif isinstance(typeval, RealType):
+                float(float(node1.name) / float(node2.name))
+            else:
+                raise SemanticsError(node1.token, "operating with nonetypes")
+        elif operant == '+':
+            if isinstance(typeval, IntegerType):
+                return int(int(node1.name) + int(node2.name))
+            elif isinstance(typeval, RealType):
+                float(float(node1.name) + float(node2.name))
+            else:
+                raise SemanticsError(node1.token, "operating with nonetypes")
+        elif operant == '-':
+            if isinstance(typeval, IntegerType):
+                return int(int(node1.name) - int(node2.name))
+            elif isinstance(typeval, RealType):
+                float(float(node1.name) - float(node2.name))
+            else:
+                raise SemanticsError(node1.token, "operating with nonetypes")
+
+
+
 class ExpressionNode(ASTNode):
 
     def handle(self, st, type = None):
@@ -62,6 +106,18 @@ class ExpressionNode(ASTNode):
         else:
             node.handle(st,type) #expression visit
 
+
+
+        if (isinstance(self.getchild(0),ExpressionNode) and self.getchild(0).result is not None) or isinstance(self.getchild(0),ConstantNode): # compile time evalution of statement is possible
+            if (isinstance(self.getchild(1),ExpressionNode) and self.getchild(1).result is not None) or isinstance(self.getchild(1),ConstantNode): # compile time evalution of statement is possible
+                self.result = fold(self.getchild(0),self.getchild(1),self.operator,type)
+            else:
+                self.result = None
+        else:
+            self.result = None
+
+        print("FOLD RESULT: ", self.result)
+
         return type
 
 
@@ -82,7 +138,9 @@ class ComparisonNode(ExpressionNode):
         if len(self.children) != 2:
             raise SemanticsError(self.token,"expected comparison of 2 nodes (no boolean support)  2 < 4 == true not possible")
 
-        return super(ComparisonNode, self).handle(st) # handle typecheck the same way as expr
+        super(ComparisonNode, self).handle(st) # handle typecheck the same way as expr
+
+        return BooleanType() # we do not want boolean types in normal expressions (expect in conditional , but here comparison node must be topnode so it is ok
 
 
 
