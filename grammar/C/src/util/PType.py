@@ -40,3 +40,7 @@ class RealType(NumericType):
 
     def getType(self):
         return 'r'
+
+class AnyType(PType):
+    def getType(self):
+        return 'any'

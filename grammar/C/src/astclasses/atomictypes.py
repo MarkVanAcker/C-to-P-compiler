@@ -251,8 +251,12 @@ class DeclarationNode(ASTNode):
         if idnode.name in reservedKeys:
             raise SemanticsError(self.token,"Can not use reserved keyword for variable name")
 
+        if idnode.Typedcl == 'func' and st.parent is not None:
+            raise SemanticsError(idnode.token, "Function declararion must be in global scope")
+
         idnode.symbtable = st
         checkdecl(idnode,entr) # set entry values
+
 
         # do we find an entry with that name
         entryfound = st.LocalTableLookup(entr)
@@ -284,6 +288,7 @@ class DeclarationNode(ASTNode):
 
 
         if addentry:
+
             st.addEntry(entr)
             if self.getchild(1).name == '=':  # can only get at this statement if it is a variable (not a func)
                 self.getchild(1).handle(st)  # assignment visit before setting const

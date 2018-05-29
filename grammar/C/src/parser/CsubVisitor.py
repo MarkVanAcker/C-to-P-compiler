@@ -180,7 +180,7 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#include.
     def visitInclude(self, ctx:CParser.IncludeContext):
 
-        node1 = ASTNode("include") # making it ez because it is ... (in our case)
+        node1 = IncludeNode("include") # making it ez because it is ... (in our case)
         node2 = ASTNode("stdio.h")
         node1.addchild(node2)
 

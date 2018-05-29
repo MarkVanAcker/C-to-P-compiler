@@ -1,8 +1,7 @@
+#include 'stdio.h'
 
-int f(){
-return 1;}
+int main () {
 
-int main (){
-    int a = f();
-    return 'a';
+
+    return 1;
 }
