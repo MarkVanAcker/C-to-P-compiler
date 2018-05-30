@@ -7,13 +7,17 @@ from src.astclasses.expression import ComparisonNode
 class ConditionNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
+
+        self.symbtable = st
+        self.getchild(0).symbtable = st
+
         print (self.getchild(0).__class__.__name__)
         if isinstance(self.getchild(0) ,EmptyNode):
-            raise SemanticsError(self.token,"Empty conditional statement not supported")
+            raise SemanticsError(self.getToken(),"Empty conditional statement not supported")
 
         # make sure it is a boolean exp if so expr visit it
         if not isinstance(self.getchild(0) ,ComparisonNode):
-            raise SemanticsError(self.token, "Expected comparison conditional statement which results in a boolean evaluation")
+            raise SemanticsError(self.getToken(), "Expected comparison conditional statement which results in a boolean evaluation")
 
         return self.getchild(0).handle(st) #comp expression visit
 
@@ -21,6 +25,8 @@ class ConditionalNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
         self.getchild(0).handle(st) #condition
+
+        self.symbtable = st
 
         for i in range(1,len(self.children)): # create a new st (block for if - else)
             newst = SymbolTable()
@@ -36,6 +42,8 @@ class WhileNode(ASTNode):
         #  - validate condition
         #  - create new table and traverse block
         #
+
+        self.symbtable = st
 
         # condition vist will validate and detect possible dead block code
         #TODO check if functionallity can be added

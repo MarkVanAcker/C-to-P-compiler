@@ -9,10 +9,10 @@ from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode
 #also add constant folding
 
 
-def fold(node1,node2,operant,typeval): # typecheck is already done in the expression visit returning result
+def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is already done in the expression visit returning result
 
         if isinstance(typeval,CharacterType):
-            raise SemanticsError(node2.token,"Can not operate with char values, no usefull result")
+            raise SemanticsError(node2.getToken(),"Can not operate with char values, no usefull result")
 
         if isinstance(node1,ExpressionNode):
             node1.name = node1.result
@@ -27,28 +27,28 @@ def fold(node1,node2,operant,typeval): # typecheck is already done in the expres
             elif isinstance(typeval,RealType):
                 float(float(node1.name) * float(node2.name))
             else:
-                raise SemanticsError(node1.token,"operating with nonetypes")
+                raise SemanticsError(node1.getToken(),"operating with nonetypes")
         elif operant == '/':
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) / int(node2.name))
             elif isinstance(typeval, RealType):
                 float(float(node1.name) / float(node2.name))
             else:
-                raise SemanticsError(node1.token, "operating with nonetypes")
+                raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '+':
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) + int(node2.name))
             elif isinstance(typeval, RealType):
                 float(float(node1.name) + float(node2.name))
             else:
-                raise SemanticsError(node1.token, "operating with nonetypes")
+                raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '-':
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) - int(node2.name))
             elif isinstance(typeval, RealType):
                 float(float(node1.name) - float(node2.name))
             else:
-                raise SemanticsError(node1.token, "operating with nonetypes")
+                raise SemanticsError(node1.getToken(), "operating with nonetypes")
 
 
 
@@ -57,11 +57,13 @@ class ExpressionNode(ASTNode):
     def handle(self, st, type = None):
 
         if type is BooleanType:
-            raise SemanticsError(self.token, "Expression does not evaluate boolean types, only numeric operants")
+            raise SemanticsError(self.getToken(), "Expression does not evaluate boolean types, only numeric operants")
 
 
         if self.name == 'empty' or len(self.children) == 0:
-            return 4
+            return None
+
+        self.symbtable = st
 
 
         #
@@ -72,6 +74,7 @@ class ExpressionNode(ASTNode):
         # no L-value to assign to OR no type reference on the left side.   EG  if(3 < 5.0)
         # does not happen anymore
         node = self.getchild(0)
+        node.symbtable = st
         if type == None:
             # variable
             if node.Typedcl == 'id':
@@ -101,6 +104,7 @@ class ExpressionNode(ASTNode):
         #
 
         node = self.getchild(1)
+        node.symbtable = st
         if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
             TypeCheck(node,st,type)
         else:
@@ -116,8 +120,6 @@ class ExpressionNode(ASTNode):
         else:
             self.result = None
 
-        print("FOLD RESULT: ", self.result)
-
         return type
 
 
@@ -130,6 +132,8 @@ class ComparisonNode(ExpressionNode):
 
         #if type is not BooleanType:
         #   raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
+
+        self.symbtable = st
 
         if self.name == 'empty' or len(self.children) == 0:
             raise SemanticsError(self.token, "Empty conditional statement")
@@ -224,9 +228,11 @@ class AssignmentNode(ASTNode):
         self.symbtable = st
         # left side must be l-value
         # is l-value memory allocatable variable only (array included)
+        self.getchild(0).symbtable = st
+        self.getchild(1).symbtable = st
         entry = st.getVariableEntry(self.getchild(0).name)
         if entry is None:
-            raise Exception("Error: undeclared varaible (first use in this function)")
+            raise SemanticsError(self.getchild(0).getToken() ,"undeclared varaible (first use in this function)")
         returnType = entry.type
 
         # Evaluate R-value with given l-value type

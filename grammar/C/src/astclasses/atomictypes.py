@@ -44,7 +44,7 @@ class ConstantNode(ASTNode):
 
 
 
-def TypeCheck(node, st, t):
+def TypeCheck(node : ASTNode, st, t):
 
 
     '''     ConstantNode
@@ -54,14 +54,16 @@ def TypeCheck(node, st, t):
             FunctionCallNode
     '''
 
+    node.symbtable = st
+
     # variable
     if isinstance(node,IDNode):
         entry = st.getVariableEntry(node.name)
         if entry is None:
-            raise SemanticsError(node.token,"undeclared variable")
+            raise SemanticsError(node.getToken(),"undeclared variable")
         Ltype = entry.type
         if not isinstance(Ltype, type(t)): # keeping void for what it is
-            raise SemanticsError(node.token,"No dynamic conversion supported")
+            raise SemanticsError(node.getToken(),"No dynamic conversion supported")
 
             #TY to Jesse for this nice tip for multiline commenting ty
             #if type == 1: # void ?
@@ -80,8 +82,8 @@ def TypeCheck(node, st, t):
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
             print("ERROR CONV", Ltype.__class__.__name__, type(t))
-            Warning(node.token,"forced type conversion")
-            raise SemanticsError(node.token, "No dynamic conversion supported")
+            Warning(node.getToken(),"forced type conversion")
+            raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
 
             #if isinstance(t, IntegerType):
@@ -103,12 +105,12 @@ def TypeCheck(node, st, t):
     # other callable types, arrays and functioncalls
     elif isinstance(node,ArrayCallNode) or isinstance(node,FunctionCallNode):
         if not isinstance(t, type(node.handle(st))): # let array return type
-            Warning(node.token,"forced type conversion")
-            raise SemanticsError(node.token, "No dynamic conversion supported")
+            Warning(node.getToken(),"forced type conversion")
+            raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
     else:
         # should not happen
-        raise SemanticsError(node.token, "unknown entity")
+        raise SemanticsError(node.getToken(), "unknown entity")
 
 class TypeNode(ASTNode):
     def handle(self,st):
@@ -122,6 +124,8 @@ class ParamNode(ASTNode):
     # return a parameter list with the types from each parameter
 
     def handle(self,st = None,definition = False):
+
+        self.symbtable = st
 
         paramlist = []
         for param in self.children:
@@ -155,17 +159,20 @@ class FunctionCallNode(ASTNode):
         #
         # Look up is function is defined, later check is arguments are correct, we can not convert
         #
+
+        self.symbtable = st
+
         entry = st.getVariableEntry(self.getchild(0).name)
 
 
         if not entry:
-            raise SemanticsError(self.token, "undefined reference to '"+ self.getchild(0).name + "'")
+            raise SemanticsError(self.getToken(), "undefined reference to '"+ self.getchild(0).name + "'")
 
         if not entry.func:
-            raise SemanticsError(self.token, "Calling uncallable object")
+            raise SemanticsError(self.getToken(), "Calling uncallable object")
 
         if not entry.defined:
-            raise SemanticsError(self.token, "Calling undefined function")
+            raise SemanticsError(self.getToken(), "Calling undefined function")
 
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
@@ -186,6 +193,7 @@ class ArgumentsNode(ASTNode):
                 FunctionCallNode checked on name return type
         '''
 
+        self.symbtable = st
 
         if typelist is None: # nothing to check
             return
@@ -193,23 +201,24 @@ class ArgumentsNode(ASTNode):
 
         # if there are no parameters, no arguments will make a empty node
         if len(typelist) == 0 and not isinstance(self.getchild(0),EmptyNode):
-            raise SemanticsError(self.token,"Incorrect number of arguments given in functioncall")
+            raise SemanticsError(self.getToken(),"Incorrect number of arguments given in functioncall")
 
         index = 0
         for arg in self.children:
+            arg.symbtable = st
             if isinstance(arg,ConstantNode): # constant node handle
                 if not isinstance(arg.Typedcl, type(typelist[index])):
-                    raise (arg.token,"Do not support type conversion at funccal argument")
+                    raise (arg.getToken(),"Do not support type conversion at funccal argument")
             elif isinstance(arg,IDNode): # IDnode handle
                 entry = st.getVariableEntry(arg.name)
                 if entry is None:
-                    raise SemanticsError(arg.token, "Unknown variable")
+                    raise SemanticsError(arg.getToken(), "Unknown variable")
                 if not isinstance(entry.type, type(typelist[index])):
-                    raise (arg.token, "Do not support type conversion at funccal argument")
+                    raise (arg.getToken(), "Do not support type conversion at funccal argument")
             elif isinstance(arg, ArrayCallNode) or isinstance(arg, FunctionCallNode) or arg.name == "ExpressionNode": # other node handles that have children to call upon
                 returntype = arg.handle(st)
                 if not isinstance(returntype,type(typelist[index])):
-                    raise (arg.token, "Do not support type conversion at funccal argument")
+                    raise (arg.getToken(), "Do not support type conversion at funccal argument")
 
             index += 1
 
@@ -222,10 +231,13 @@ class DeclarationNode(ASTNode):
     #maybe rewrite init to make it easier to process
     def handle(self, st, definition = False):
 
+        self.symbtable = st
+
         reservedKeys = ["void", "int", "void", "bool", "float", "char", "default", "do", "double" , "long" , "goto", "case", "extern", "enum", "sizeof", "struct" "if", "else", "where", "for", "break", "continue", "return", "const"]
 
         # get type and create entry
         type = self.getchild(0)
+        type.symbtable = st
         entr = Entry()
         constt = False # we can assign a value and lock it after
 
@@ -243,16 +255,16 @@ class DeclarationNode(ASTNode):
         if self.getchild(1).name == '=':
             idnode = self.getchild(1).getchild(0)
             if idnode.Typedcl == 'func':
-                raise SemanticsError(idnode.token, "Can not assign to a function declaration")
+                raise SemanticsError(idnode.getToken(), "Can not assign to a function declaration")
 
         else:
             idnode = self.getchild(1)
 
         if idnode.name in reservedKeys:
-            raise SemanticsError(self.token,"Can not use reserved keyword for variable name")
+            raise SemanticsError(self.getToken(),"Can not use reserved keyword for variable name")
 
         if idnode.Typedcl == 'func' and st.parent is not None:
-            raise SemanticsError(idnode.token, "Function declararion must be in global scope")
+            raise SemanticsError(idnode.getToken(), "Function declararion must be in global scope")
 
         idnode.symbtable = st
         checkdecl(idnode,entr) # set entry values
@@ -262,13 +274,13 @@ class DeclarationNode(ASTNode):
         entryfound = st.LocalTableLookup(entr)
         if(entryfound is not None):
             if (entryfound.func == False):
-                raise SemanticsError(self.token,"This variable was already declared in the local scope")
+                raise SemanticsError(self.getToken(),"This variable was already declared in the local scope")
             elif (entryfound.func and not entryfound.defined and definition): # allow if function is getting defined (after decl)
                 entryfound.defined = True
             elif (entryfound.func and entryfound.defined and definition):
-               raise SemanticsError(self.token, "Redefinition of function")
+               raise SemanticsError(self.getToken(), "Redefinition of function")
             else:
-               raise SemanticsError(self.token, "Redeclaration of function")
+               raise SemanticsError(self.getToken(), "Redeclaration of function")
 
 
 
@@ -278,9 +290,9 @@ class DeclarationNode(ASTNode):
             addentry = False # entry found no need to add one
             entr = entryfound
             if (entryfound.func == False):
-                Warning(self.token,"%s is hiding variable" % entr.name)
+                Warning(self.getToken(),"%s is hiding variable" % entr.name)
             else:
-                Warning(self.token,"%s is hiding function" % entr.name)
+                Warning(self.getToken(),"%s is hiding function" % entr.name)
 
 
 
@@ -307,11 +319,11 @@ class DeclarationNode(ASTNode):
         return entr
 
 
-def checkdecl(node, ent):
+def checkdecl(node : ASTNode, ent):
 
     if node.Typedcl == "id":
         if ent.type is None:
-            raise SemanticsError(node.token, "Declared variable void")
+            raise SemanticsError(node.getToken(), "Declared variable void")
         ent.name = node.name
         return
 
@@ -331,7 +343,7 @@ def checkdecl(node, ent):
                 ent.arrays.append(child.result)
             else:
                 if not isinstance(child.Typedcl,type(IntegerType())): # only constants pass here
-                    raise SemanticsError(child.token,"array argument not of integertype")
+                    raise SemanticsError(child.getToken(),"array argument not of integertype")
                 ent.arrays.append(int(child.name))
         ent.arrays.reverse()
         print(ent.arrays)
@@ -352,9 +364,8 @@ def checkdecl(node, ent):
 class FunctionDefinitionNode(ASTNode):
     def handle(self, st: SymbolTable):
 
-
         if st.parent is not None:
-            raise SemanticsError(self.token, "Definition must be in global scope")
+            raise SemanticsError(self.getToken(), "Definition must be in global scope")
 
         self.symbtable = st
         entry = self.getchild(0).handle(st, True)  # declaration visit for a definition
@@ -365,11 +376,11 @@ class FunctionDefinitionNode(ASTNode):
         paramlist = self.getchild(1).handle(st,True)
         print("curr paramlist", paramlist)
         if len(paramlist) != len(entry.params):
-            raise SemanticsError(self.token, "parameterlist does not match in size")
+            raise SemanticsError(self.getToken(), "parameterlist does not match in size")
         else:
             for i in range(len(paramlist)):
                 if str(paramlist[i]) != str((entry).params[i]): # could do it other way, works fine
-                    raise SemanticsError(self.getchild(1).getchild(i).token, "parameterlist item does not match at index: " + str(i))
+                    raise SemanticsError(self.getchild(1).getchild(i).getToken(), "parameterlist item does not match at index: " + str(i))
 
         # create new scope and traverse it
         newst = SymbolTable()
@@ -389,7 +400,7 @@ class FunctionDefinitionNode(ASTNode):
             elif par.Typedcl == None and par.name == 'empty':
                 continue
             else:
-                raise SemanticsError(self.token, "parameter name omitted")
+                raise SemanticsError(par.getToken(), "parameter name omitted")
 
         self.getchild(2).handle(newst) # block traverse
 
@@ -423,9 +434,12 @@ class FunctionDefinitionNode(ASTNode):
 class ReturnNode(ASTNode):
     # check if variable that is to be returned exists and matches return type
     def handle(self, st):
+
+        self.symbtable = st
+
         stFunc = st.getFuncRoot()
         if stFunc.parent is None:
-            raise SemanticsError(self.token, "Return in a non definition block")
+            raise SemanticsError(self.getToken(), "Return in a non definition block")
 
         stParent = stFunc.parent
         returnType = ''
@@ -433,7 +447,7 @@ class ReturnNode(ASTNode):
         if len(self.children) == 0:
             # void return
             if funcReturnType is not None: # void is None type (0 children on return statement (empty expr)
-                raise SemanticsError (self.token, "Expected void return but got a type")
+                raise SemanticsError (self.getToken(), "Expected void return but got a type")
         else:
             self.getchild(0).handle(st, funcReturnType)  # evaluate expression statement
 
@@ -469,13 +483,14 @@ class ArrayCallNode(ASTNode):
         # todo if you return an array its a pointer, if all args given its an type const value
         index = 1;
         while True:
+            currentnode.symbtable = st
             if currentnode.getchild(1).name == "ExpressionNode":
                 currentnode.getchild(1).handle(st,IntegerType()) # interger for indexing
             else:
                 # must be const of id (const will be fuckin annoying)
                 #todo const on exp and constant values  (like 5)
                 if not isinstance(currentnode.getchild(1).Typedcl, IntegerType): # if not expression
-                    raise SemanticsError(currentnode.getchild(1).token,"Expected integertype at arraycallindex")
+                    raise SemanticsError(currentnode.getchild(1).getToken(),"Expected integertype at arraycallindex")
 
             if currentnode != rootnode:
                 currentnode = currentnode.getchild(0) # keep going
@@ -485,7 +500,7 @@ class ArrayCallNode(ASTNode):
 
         if len(entry.arrays) < index:
             # doing array[4][5] and calling array[x][c][y]
-            raise SemanticsError(self.token,'Accessing undefined memory (accessing an dimension from array that was not created')
+            raise SemanticsError(self.getToken(),'Accessing undefined memory (accessing an dimension from array that was not created')
 
         return entry.type
 

@@ -68,6 +68,19 @@ class ASTNode:
             return True
 
 
+    def getToken(self): # sick depth first search token finder implementation
+        if self.token is not None:
+            return self.token
+        else:
+            for child in self.children:
+                token = child.getToken()
+                if token is None:
+                    continue
+                else:
+                    return token
+        return None
+
+
     def handle(self,st):
         pass
 

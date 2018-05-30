@@ -4,6 +4,8 @@ from src.parser.SymbolTable import *
 from src.astclasses.expression import *
 
 class BlockNode(ASTNode):
+
+
     #check if variable that is to be returned exists and matches return type
     def handle(self, st):
         self.symbtable = st
@@ -11,9 +13,8 @@ class BlockNode(ASTNode):
         returnfound = False
 
         for child in self.children[:]:
-            print(child.name, returnfound)
+            child.symbtable = st
             if isinstance(child,ExpressionNode) or returnfound: # removing useless expressions or dead code after return
-                print("REMOVING USELESS OR DEAD")
                 child.par = None
                 self.children.remove(child)
                 continue
@@ -34,15 +35,15 @@ class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
         for child in self.children[:]: # traverse
+            child.symbtable = st
             if isinstance(child,FunctionDefinitionNode) or isinstance(child,IncludeNode):
                 child.handle(self.symbtable)
             elif isinstance(child,DeclarationNode):
                 child.handle(self.symbtable)
-                print("removing declaration from ast")
                 # removing declaration from ast
                 self.children.remove(child)
             else:
-                raise SemanticsError(self.token, "Invalid statement in global scope")
+                raise SemanticsError(child.getToken(), "Invalid statement in global scope")
 
     def getCode(self):
 
@@ -72,7 +73,9 @@ class RootNode(ASTNode):
 
 class IncludeNode(ASTNode):
     def handle(self,st : SymbolTable):
-        print("adding stdio into global scope")
+
+        self.symbtable = st
+
         if st.parent is not None:
             raise SemanticsError(self.getchild(0).token,"Inlcude statement in non global scope")
 
@@ -93,4 +96,4 @@ class IncludeNode(ASTNode):
         st.addEntry(ent)
         st.addEntry(ent2)
 
-        
+
