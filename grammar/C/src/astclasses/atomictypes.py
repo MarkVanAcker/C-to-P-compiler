@@ -283,16 +283,16 @@ class DeclarationNode(ASTNode):
                raise SemanticsError(self.getToken(), "Redeclaration of function")
 
 
-
+        # variables in higher scopes
+        # fucntions are only allowed in global
         addentry = True
-        entryfound = st.GlobalTableLookup(entr)
-        if (entryfound is not None):
-            addentry = False # entry found no need to add one
-            entr = entryfound
-            if (entryfound.func == False):
-                Warning(self.getToken(),"%s is hiding variable" % entr.name)
+        entryfoundglobal = st.GlobalTableLookup(entr)
+        if (entryfoundglobal is not None and entryfoundglobal != entryfound): # if both not none and we found an entry in global scope but not in local
+            #entr = entryfoundglobal
+            if (entryfoundglobal.func == False):
+                Warning(idnode.getToken(),"%s is hiding variable" % entr.name)
             else:
-                Warning(self.getToken(),"%s is hiding function" % entr.name)
+                Warning(idnode.getToken(),"%s is hiding function" % entr.name)
 
 
 
@@ -447,7 +447,7 @@ class ReturnNode(ASTNode):
         if len(self.children) == 0:
             # void return
             if funcReturnType is not None: # void is None type (0 children on return statement (empty expr)
-                raise SemanticsError (self.getToken(), "Expected void return but got a type")
+                raise SemanticsError (self.getToken(), "Expected a non void return type but got a void type")
         else:
             self.getchild(0).handle(st, funcReturnType)  # evaluate expression statement
 

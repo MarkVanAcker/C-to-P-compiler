@@ -1,10 +1,10 @@
 
 
-int main(){
+int main(int *, int * d){
 
-int a;
+    int a = 3;
+    int * p = &var;
 
-int b = a+5 + f(9,'c');
 
-return 0;
+    return 1;
 }

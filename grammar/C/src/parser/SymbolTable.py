@@ -161,6 +161,9 @@ class Entry:
 
         #TODO: This is not so shallow
 
+        if other is None:
+            return False
+
         if( self.name == other.name):
             return True
         else:
