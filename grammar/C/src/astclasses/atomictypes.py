@@ -134,6 +134,8 @@ class ParamNode(ASTNode):
 
             if definition == True:
                 # in a definition each parameter is a declaration (int a)
+                if not isinstance(param,DeclarationNode):
+                    raise SemanticsError(param.getToken(), "Parameter name ommitted")
                 param = param.getchild(0)
 
 
@@ -395,6 +397,7 @@ class FunctionDefinitionNode(ASTNode):
         # checking if all declarations and adding into symbol table of the new scope!
         for par in self.getchild(1).children:
 
+            print(par)
             if isinstance(par, DeclarationNode):
                 par.handle(newst) # NEWST
             elif par.Typedcl == None and par.name == 'empty':

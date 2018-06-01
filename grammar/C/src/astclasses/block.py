@@ -14,7 +14,7 @@ class BlockNode(ASTNode):
 
         for child in self.children[:]:
             child.symbtable = st
-            if isinstance(child,ExpressionNode) or returnfound: # removing useless expressions or dead code after return
+            if returnfound: # removing useless or dead code after return
                 child.par = None
                 self.children.remove(child)
                 continue
@@ -22,8 +22,6 @@ class BlockNode(ASTNode):
                 returnfound = True
 
             child.handle(self.symbtable) # should be ok or semantic will pop up
-            if isinstance(child,DeclarationNode): # removing declarations from ast
-                self.children.remove(child)
 
 
     def getCode(self):
@@ -40,8 +38,6 @@ class RootNode(ASTNode):
                 child.handle(self.symbtable)
             elif isinstance(child,DeclarationNode):
                 child.handle(self.symbtable)
-                # removing declaration from ast
-                self.children.remove(child)
             else:
                 raise SemanticsError(child.getToken(), "Invalid statement in global scope")
 
@@ -64,6 +60,7 @@ class RootNode(ASTNode):
 
         for globalvar in globals:
             code.AddInstruction(globalvar.getCode(self.symbtable))
+
 
 
 

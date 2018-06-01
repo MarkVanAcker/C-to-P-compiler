@@ -1,2 +1,8 @@
 
-int main(int * n1, int *, const float *);
+int func(const int);
+
+
+int main(int){
+
+    return 1;
+}
