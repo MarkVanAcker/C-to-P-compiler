@@ -1,8 +1,8 @@
 
-int func(const int);
+int func();
 
 
-int main(int){
+int main(){
 
     return 1;
 }

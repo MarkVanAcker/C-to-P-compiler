@@ -309,9 +309,10 @@ class DeclarationNode(ASTNode):
             entr.const = constt
             # if function add params
             if entr.func == True and not definition:
-                paramlist = idnode.getchild(0).handle() # different place if decl , and if defin
-                for item in paramlist:
-                    entr.params.append(item)
+                if len(idnode.children) > 0:
+                    paramlist = idnode.getchild(0).handle() # different place if decl , and if defin
+                    for item in paramlist:
+                        entr.params.append(item)
             elif entr.func == True and definition:
                 paramlist = self.par.getchild(1).handle(st,True)
                 for item in paramlist:
