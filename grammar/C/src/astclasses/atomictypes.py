@@ -4,8 +4,14 @@ class IDNode(ASTNode):
     def handle(self, st, type=None):
 
         self.symbtable = st # symbol table link
-
         # typecheck
+
+        entry = self.symbtable.getVariableEntry(self.name)
+
+
+        if entry is None or entry.func:
+            raise SemanticsError(self.token, "Usage of undefined variable \'" + self.name + "\'")
+
         if type is not None:
             TypeCheck(self, st, type)
 
@@ -136,20 +142,26 @@ class ParamNode(ASTNode):
                 # in a definition each parameter is a declaration (int a)
                 if not isinstance(param,DeclarationNode):
                     raise SemanticsError(param.getToken(), "Parameter name ommitted")
-                param = param.getchild(0)
+
 
 
             if isinstance(param, TypeNode):
                 if (param.isconst == True):
                     # const is a seperate node, take child
-                    paramlist.append(param.getchild(0).Typedcl)
+                    param = param.getchild(0)
+                    e = Entry(param.name,param.Typedcl)
+                    e.const = True
+
                 else:
                     # type from node
-                    paramlist.append(param.Typedcl)
+                    e = Entry(param.name,param.Typedcl)
+
+                e.ptr = param.ptrcount
+                paramlist.append(e)
 
             else:
                 # eg array
-                paramlist.append(param.getchild(0).Typedcl)
+                paramlist.append(param.handle(SymbolTable()))
         return paramlist
 
 
@@ -266,11 +278,12 @@ class DeclarationNode(ASTNode):
             raise SemanticsError(self.getToken(),"Can not use reserved keyword for variable name")
 
         if idnode.Typedcl == 'func' and st.parent is not None:
-            raise SemanticsError(idnode.getToken(), "Function declararion must be in global scope")
+            raise SemanticsError(idnode.getToken(), "Function declaration must be in global scope")
 
         idnode.symbtable = st
         checkdecl(idnode,entr) # set entry values
 
+        addentry = True
 
         # do we find an entry with that name
         entryfound = st.LocalTableLookup(entr)
@@ -279,6 +292,8 @@ class DeclarationNode(ASTNode):
                 raise SemanticsError(self.getToken(),"This variable was already declared in the local scope")
             elif (entryfound.func and not entryfound.defined and definition): # allow if function is getting defined (after decl)
                 entryfound.defined = True
+                addentry = False
+                entr = entryfound
             elif (entryfound.func and entryfound.defined and definition):
                raise SemanticsError(self.getToken(), "Redefinition of function")
             else:
@@ -287,7 +302,6 @@ class DeclarationNode(ASTNode):
 
         # variables in higher scopes
         # fucntions are only allowed in global
-        addentry = True
         entryfoundglobal = st.GlobalTableLookup(entr)
         if (entryfoundglobal is not None and entryfoundglobal != entryfound): # if both not none and we found an entry in global scope but not in local
             #entr = entryfoundglobal
@@ -299,11 +313,8 @@ class DeclarationNode(ASTNode):
 
 
 
-
-
         if addentry:
 
-            st.addEntry(entr)
             if self.getchild(1).name == '=':  # can only get at this statement if it is a variable (not a func)
                 self.getchild(1).handle(st)  # assignment visit before setting const
             entr.const = constt
@@ -317,6 +328,8 @@ class DeclarationNode(ASTNode):
                 paramlist = self.par.getchild(1).handle(st,True)
                 for item in paramlist:
                     entr.params.append(item)
+
+            st.addEntry(entr)
             # add parameters to the entry, so we can check on later calls
 
         return entr
@@ -328,17 +341,20 @@ def checkdecl(node : ASTNode, ent):
         if ent.type is None:
             raise SemanticsError(node.getToken(), "Declared variable void")
         ent.name = node.name
+        ent.ptr = node.ptrcount
         return
 
     elif node.Typedcl == "func":
 
         ent.func = True
         ent.name = node.name
+        ent.ptr = node.ptrcount
 
 
     elif node.Typedcl == "array":
         ent.array = True
         ent.name = node.name
+        ent.ptr = node.ptrcount
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
             if child.name == "ExpressionNode":
@@ -346,15 +362,10 @@ def checkdecl(node : ASTNode, ent):
                 ent.arrays.append(child.result)
             else:
                 if not isinstance(child.Typedcl,type(IntegerType())): # only constants pass here
-                    raise SemanticsError(child.getToken(),"array argument not of integertype")
+                    raise SemanticsError(child.getToken(),"invalid array size type")
                 ent.arrays.append(int(child.name))
         ent.arrays.reverse()
         print(ent.arrays)
-        return
-
-    elif node.name == "pointer":
-        ent.ptr += 1
-        checkdecl(node.getchild(0),ent)
         return
 
 
@@ -372,7 +383,6 @@ class FunctionDefinitionNode(ASTNode):
 
         self.symbtable = st
         entry = self.getchild(0).handle(st, True)  # declaration visit for a definition
-
         # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
 
         # check the entry paramlist if it matches ( only typechecking )
@@ -382,7 +392,7 @@ class FunctionDefinitionNode(ASTNode):
             raise SemanticsError(self.getToken(), "parameterlist does not match in size")
         else:
             for i in range(len(paramlist)):
-                if str(paramlist[i]) != str((entry).params[i]): # could do it other way, works fine
+                if not paramlist[i].typecompare(entry.params[i]):
                     raise SemanticsError(self.getchild(1).getchild(i).getToken(), "parameterlist item does not match at index: " + str(i))
 
         # create new scope and traverse it
@@ -477,15 +487,16 @@ class ArrayCallNode(ASTNode):
         # leftbalanced tree with leftmost node having id
         entry = st.getVariableEntry(rootnode.getchild(0).name)
 
-        if not entry:
-            SemanticsError(self.token,"Undifined array called")
+        if entry is None or entry.func or not entry.array:
+            SemanticsError(self.token,"Undefined array called")
+
 
 
         # array calls int types ?
         currentnode = self
 
         # todo if you return an array its a pointer, if all args given its an type const value
-        index = 1;
+        index = 1
         while True:
             currentnode.symbtable = st
             if currentnode.getchild(1).name == "ExpressionNode":
@@ -508,3 +519,21 @@ class ArrayCallNode(ASTNode):
 
         return entry.type
 
+
+
+class DerefNode(ASTNode):
+
+    def handle(self,st,type = None):
+        pass
+
+    def getCode(self):
+        pass
+
+
+class AddressNode(ASTNode):
+
+    def handle(self,st,type = None):
+        pass
+
+    def getCode(self):
+        pass

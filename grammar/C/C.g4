@@ -103,6 +103,8 @@ assignment_expression
 
 primary_expression
 	: value
+	| pointer value
+	| ADDRESS value
 	| LPAREN expression RPAREN
 	;
 
@@ -194,8 +196,11 @@ parameter_list
 // all possible type declarations (supporting void and passing functions as arg)
 parameter_declaration
 	: declaration_specifier declarator
+	| declaration_specifier pointer
 	| declaration_specifier
 	;
+
+
 
 assignment_operator
     : '='
@@ -229,8 +234,11 @@ type_specifier
 
 // pointer type ('*')
 pointer
-    : POINTER
+    : '*'
+    | '*' pointer
     ;
+
+
 
 // qualifiers
 type_qualifier
@@ -260,7 +268,7 @@ ELSE: 'else';
 CHAR: 'char';
 FLOAT: 'float';
 INT: 'int';
-POINTER: '*';
+ADDRESS: '&';
 
 FILENAME: 'stdio.h';
 CONST: 'const';

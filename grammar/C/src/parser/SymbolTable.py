@@ -152,7 +152,11 @@ class Entry:
         self.size = s
 
     def typecompare(self,other):
-        if (self.type == other.type and self.ptr  == other.ptr):
+
+        if other is None:
+            return False
+
+        if (isinstance(self.type,type(other.type)) and self.ptr  == other.ptr and self.array == other.array):
             return True
         else:
             return False
@@ -180,6 +184,9 @@ class Entry:
             return tot
         else:
             return self.size
+
+    def __str__(self):
+        return str(self.ptr) + " " +str(self.type)
 
 
 def ToDotST(root):

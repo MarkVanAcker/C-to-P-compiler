@@ -24,6 +24,7 @@ class ASTNode:
         self.isconst = False
         self.operator = None
         self.result = None
+        self.ptrcount = 0
 
     def todot(self,file):
 
@@ -81,7 +82,7 @@ class ASTNode:
         return None
 
 
-    def handle(self,st):
+    def handle(self,st,type = None):
         pass
 
     def getCode(self):

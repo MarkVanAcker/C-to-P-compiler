@@ -21,12 +21,16 @@ class BlockNode(ASTNode):
             if isinstance(child,ReturnNode):
                 returnfound = True
 
+            if isinstance(child,IDNode) or isinstance(child,ConstantNode) or isinstance(child,ExpressionNode):
+                self.children.remove(child)
+                continue
+
             child.handle(self.symbtable) # should be ok or semantic will pop up
+
 
 
     def getCode(self):
         pass
-
 
 
 class RootNode(ASTNode):

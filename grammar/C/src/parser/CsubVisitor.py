@@ -191,7 +191,7 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#conditional_statement.
     def visitConditional_statement(self, ctx:CParser.Conditional_statementContext):
-        node = ConditionalNode("if")
+        node = ConditionalNode("if",ctx.getChild(0).accept(self).token)
         node2 = ConditionNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -246,7 +246,8 @@ class CsubVisitor(CVisitor):
     # Visit a parse tree produced by CParser#while_statement.
     def visitWhile_statement(self, ctx:CParser.While_statementContext):
 
-        node = WhileNode("while")
+
+        node = WhileNode("while",ctx.getChild(0).accept(self).token)
         node2 = ConditionNode("condition")
         condition_st = ctx.getChild(2).accept(self)
         node2.addchild(condition_st)
@@ -272,7 +273,7 @@ class CsubVisitor(CVisitor):
 
     #TODO : refactor thise with while
 
-    def visitFor_statement(self, ctx:CParser.For_statementContext):
+    def visitFor_statement(self, ctx:CParser.For_statementContext,):
 
         returnlist = []
         prenode = ctx.getChild(2).accept(self)
@@ -281,7 +282,7 @@ class CsubVisitor(CVisitor):
             returnlist.append(prenode)
 
 
-        node = WhileNode("while")
+        node = WhileNode("while",ctx.getChild(0).accept(self).token)
         node2 = ConditionNode("condition")
         condition_st = ctx.getChild(3).accept(self)
         node2.addchild(condition_st)
@@ -337,12 +338,24 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#primary_expression.
     def visitPrimary_expression(self, ctx:CParser.Primary_expressionContext):
-
+        tnode = ctx.getChild(0).accept(self)
         if (ctx.getChildCount() == 1):
             return self.visitChildren(ctx)
 
-        else:
+        elif (ctx.getChildCount() == 3):
             return ctx.getChild(1).accept(self)
+
+        elif (isinstance(ctx.getChild(0),CParser.PointerContext)):
+            child = ctx.getChild(1).accept(self)
+            node = DerefNode("deref",child.token)
+            node.ptrcount = tnode
+            node.addchild(child)
+            return node
+
+        elif (tnode.name == '&'):
+            node = AddressNode("address",ctx.getChild(0).accept(self).token)
+            node.addchild(ctx.getChild(1).accept(self))
+            return node
 
 
     # Visit a parse tree produced by CParser#postfix_expression.
@@ -467,11 +480,12 @@ class CsubVisitor(CVisitor):
         n = ctx.getChild(0)
 
         if isinstance(n, CParser.PointerContext):
-            r = ASTNode("pointer")
-            r.addchild(ctx.getChild(1).accept(self))
-            return r
+            node = ctx.getChild(1).accept(self)
+            node.ptrcount = n.accept(self)
+            return node
         else:
             return n.accept(self)
+
 
     # Visit a parse tree produced by CParser#direct_declarator.
     def visitDirect_declarator(self, ctx:CParser.Direct_declaratorContext):
@@ -584,6 +598,10 @@ class CsubVisitor(CVisitor):
             typenode = self.TypeCheck(ctx.getChild(0).accept(self))
             return typenode
 
+        elif(isinstance(ctx.getChild(1),CParser.PointerContext)):
+            typenode = self.TypeCheck(ctx.getChild(0).accept(self))
+            typenode.ptrcount = ctx.getChild(1).accept(self)
+            return typenode
         else:
             tempnode = DeclarationNode("paramdecl")
             typenode = self.TypeCheck(ctx.getChild(0).accept(self))
@@ -620,7 +638,12 @@ class CsubVisitor(CVisitor):
 
     # Visit a parse tree produced by CParser#pointer.
     def visitPointer(self, ctx:CParser.PointerContext):
-        return self.visitChildren(ctx)
+        if (ctx.getChildCount() == 1):
+            return 1
+
+        count = ctx.getChild(1).accept(self)
+        count += 1
+        return count
 
 
     # Visit a parse tree produced by CParser#type_qualifier.

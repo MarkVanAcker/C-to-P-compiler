@@ -10,5 +10,5 @@ class CParser_e(CParser):
         line = offendingToken.line
         column = offendingToken.column
         listener = self.getErrorListenerDispatch()
-        listener.syntaxError(self, offendingToken, line, column, msg, e)
-        raise Exception()
+        #listener.syntaxError(self, offendingToken, line, column, msg, e)
+        raise Exception("Syntax Error: "+str(line)+":"+str(column)+" "+msg)

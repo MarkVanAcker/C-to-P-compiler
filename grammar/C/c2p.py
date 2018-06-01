@@ -17,14 +17,14 @@ def main(argv):
         tree = parser.program()
         visitor = CsubVisitor()
         ast = visitor.visit(tree)
-        ToDotAST(ast)
         st = SymbolTable()
         ast.handle(st)
+        ToDotAST(ast)
         ToDotST(st)
     except SemanticsError as e:
         print(e)
     #except Exception as e:
-    #    print("Compilation terminated: ", e.args)
+    #    print(e)
 
 
 

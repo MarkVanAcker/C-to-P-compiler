@@ -25,7 +25,7 @@ def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is alread
             if isinstance(typeval,IntegerType):
                 return  int(int(node1.name) * int(node2.name))
             elif isinstance(typeval,RealType):
-                float(float(node1.name) * float(node2.name))
+                return float(float(node1.name) * float(node2.name))
             else:
                 raise SemanticsError(node1.getToken(),"operating with nonetypes")
         elif operant == '/':
@@ -75,12 +75,14 @@ class ExpressionNode(ASTNode):
         # does not happen anymore
         node = self.getchild(0)
         node.symbtable = st
+        entry = st.getVariableEntry(node.name)
         if type == None:
             # variable
             if node.Typedcl == 'id':
-                entry = st.getVariableEntry(node.name)
                 if entry is None:
-                    raise Exception("Error: undeclared variable (first use in this function)")
+                    raise SemanticsError(node.token,"undeclared variable (first use in this function)")
+
+
                 type = entry.type
 
             # constant value (right?)
@@ -90,7 +92,7 @@ class ExpressionNode(ASTNode):
 
 
         else:
-            if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
+            if  isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
                 TypeCheck(node, st, type)
             else:
                 node.handle(st, type)  # expression visit
@@ -105,18 +107,39 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         node.symbtable = st
-        if isinstance(node,IDNode) or isinstance(node,ConstantNode) or isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
-            TypeCheck(node,st,type)
-        else:
-            node.handle(st,type) #expression visit
+        node.handle(st,type) #expression visit
+        TypeCheck(node, st, type)
 
 
 
         if (isinstance(self.getchild(0),ExpressionNode) and self.getchild(0).result is not None) or isinstance(self.getchild(0),ConstantNode): # compile time evalution of statement is possible
             if (isinstance(self.getchild(1),ExpressionNode) and self.getchild(1).result is not None) or isinstance(self.getchild(1),ConstantNode): # compile time evalution of statement is possible
                 self.result = fold(self.getchild(0),self.getchild(1),self.operator,type)
+
+                new = ConstantNode(self.result,self.getchild(0).token)
+                new.Typedcl = type
+                new.par = self.par
+                self.par.children.insert(self.par.children.index(self),new)
+                self.par.children.remove(self)
+                self.clearchildren()
+
             else:
+
+                #check null sequence
+                if (self.operator == '+' and fold(self.getchild(0),ASTNode(0),self.operator,type) == 0) or (self.operator == '*' and fold(self.getchild(0),ASTNode(1),self.operator,type) == 1):
+                    new = self.getchild(1)
+                    new.par = self.par
+                    self.par.children.insert(self.par.children.index(self), new)
+                    self.par.children.remove(self)
+
                 self.result = None
+        elif (isinstance(self.getchild(1), ExpressionNode) and self.getchild(1).result is not None) or isinstance(self.getchild(1), ConstantNode):
+            if (self.operator == '+' and fold(self.getchild(1), ASTNode(0), self.operator, type) == 0) or (
+                    self.operator == '*' and fold(self.getchild(1), ASTNode(1), self.operator, type) == 1):
+                new = self.getchild(0)
+                new.par = self.par
+                self.par.children.insert(self.par.children.index(self), new)
+                self.par.children.remove(self)
         else:
             self.result = None
 
@@ -235,12 +258,19 @@ class AssignmentNode(ASTNode):
             raise SemanticsError(self.getchild(0).getToken() ,"undeclared varaible (first use in this function)")
         returnType = entry.type
 
-        # Evaluate R-value with given l-value type
+        if entry.const:
+            raise SemanticsError(self.getchild(0).getToken(), "trying to assign to const variable \'" + self.getchild(0).name+"\'")
 
-        if  isinstance(self.getchild(1),ExpressionNode):
-            self.getchild(1).handle(st, returnType) #expression visit
-        else:
-            TypeCheck(self.getchild(1),st,returnType)
+        if entry.func:
+            raise SemanticsError(self.getchild(0).getToken(), "trying to assign to function \'" + self.getchild(0).name+"\'")
+
+        # Evaluate R-value with given l-value type
+        self.getchild(1).handle(st, returnType)
+        if isinstance(self.getchild(1),IDNode):
+            if(self.getchild(1).name == entry.name):
+                self.par.children.remove(self)
+
+
 
 
 
