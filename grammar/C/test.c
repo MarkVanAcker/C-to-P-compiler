@@ -1,14 +1,13 @@
 
-int func(int * , int * d);
 int main(){
 
     int var = 5;
-     int *func2 = &var;
-    int ** func = &func2;
+    int func2 = var;
+    int  func = func2;
 
     if(3 < 4){
 
-        int al = 4+ (**func);
+        int al = 4 + (func);
         return al;
     }
 
