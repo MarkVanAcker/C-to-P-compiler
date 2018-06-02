@@ -22,12 +22,17 @@ class IDNode(ASTNode):
 
     def getCode(self):
 
-        inl = InstructionList()
 
-        inl.AddInstruction(self.getLValue())
-        inl.AddInstruction(LoadIndirectly(self.symbtable.getType(self.name)))
+        glob = self.symbtable.isGlobal(Entry(self.name))
+        scopeval = 0
+        if glob:
+            scopeval = 1  # global scope
 
-        return inl
+        addr = self.symbtable.getLvalue(self.name)
+        t = self.symbtable.getType(self.name)
+
+
+        return ProcedureLoadValue(t,glob,addr)
 
     def getLValue(self):
         return LoadConstant(AddressType(),self.symbtable.getLvalue(self.name))
@@ -185,8 +190,9 @@ class FunctionCallNode(ASTNode):
         if not entry.func:
             raise SemanticsError(self.getToken(), "Calling uncallable object")
 
-        if not entry.defined:
-            raise SemanticsError(self.getToken(), "Calling undefined function")
+        #functie moet niet gedefinieerd zijn om te kunnen callen
+        #if not entry.defined:
+        #    raise SemanticsError(self.getToken(), "Calling undefined function")
 
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
@@ -221,18 +227,18 @@ class ArgumentsNode(ASTNode):
         for arg in self.children:
             arg.symbtable = st
             if isinstance(arg,ConstantNode): # constant node handle
-                if not isinstance(arg.Typedcl, type(typelist[index])):
-                    raise (arg.getToken(),"Do not support type conversion at funccal argument")
+                if not isinstance(arg.Typedcl, type(typelist[index].type)):
+                    raise SemanticsError(arg.getToken(),"Do not support type conversion at funccal argument")
             elif isinstance(arg,IDNode): # IDnode handle
                 entry = st.getVariableEntry(arg.name)
                 if entry is None:
                     raise SemanticsError(arg.getToken(), "Unknown variable")
-                if not isinstance(entry.type, type(typelist[index])):
-                    raise (arg.getToken(), "Do not support type conversion at funccal argument")
+                if not isinstance(entry.type, type(typelist[index].type)):
+                    raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
             elif isinstance(arg, ArrayCallNode) or isinstance(arg, FunctionCallNode) or arg.name == "ExpressionNode": # other node handles that have children to call upon
                 returntype = arg.handle(st)
-                if not isinstance(returntype,type(typelist[index])):
-                    raise (arg.getToken(), "Do not support type conversion at funccal argument")
+                if not isinstance(returntype,type(typelist[index].type)):
+                    raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
 
             index += 1
 
@@ -262,7 +268,6 @@ class DeclarationNode(ASTNode):
         else:
             entr.type = type.Typedcl
 
-
         idnode = None
 
         # assignment
@@ -279,6 +284,7 @@ class DeclarationNode(ASTNode):
 
         if idnode.Typedcl == 'func' and st.parent is not None:
             raise SemanticsError(idnode.getToken(), "Function declaration must be in global scope")
+
 
         idnode.symbtable = st
         checkdecl(idnode,entr) # set entry values
@@ -312,14 +318,14 @@ class DeclarationNode(ASTNode):
 
 
 
-
         if addentry:
-
+            st.addEntry(entr)
             if self.getchild(1).name == '=':  # can only get at this statement if it is a variable (not a func)
                 self.getchild(1).handle(st)  # assignment visit before setting const
             entr.const = constt
             # if function add params
             if entr.func == True and not definition:
+                self.par.children.remove(self)
                 if len(idnode.children) > 0:
                     paramlist = idnode.getchild(0).handle() # different place if decl , and if defin
                     for item in paramlist:
@@ -329,11 +335,33 @@ class DeclarationNode(ASTNode):
                 for item in paramlist:
                     entr.params.append(item)
 
-            st.addEntry(entr)
+
             # add parameters to the entry, so we can check on later calls
+
+        self.entry = entr
 
         return entr
 
+    def getCode(self):
+
+        self.symbtable.addSymbol(self.entry.name)
+
+        #if its an assignment assign directly otherwise assign to zero
+        if self.getchild(1).name == '=':
+            return self.getchild(1).getCode()
+        else:
+
+            default = 0
+            t = self.symbtable.getType(self.entry.name)
+            addr = self.symbtable.getLvalue(self.entry.name)
+            if isinstance(t,RealType):
+                default = 0.0
+
+            ins = InstructionList()
+            ins.AddInstruction(LoadConstant(t,default))
+            ins.AddInstruction(ProcedureStore(t,0,addr))
+
+            return ins
 
 def checkdecl(node : ASTNode, ent):
 

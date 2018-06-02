@@ -36,16 +36,29 @@ class BlockNode(ASTNode):
 class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
-        for child in self.children[:]: # traverse
+        childidx = 0
+        currlen = len(self.children)
+        while childidx < len(self.children): # traverse
+            child = self.children[childidx]
             child.symbtable = st
             if isinstance(child,FunctionDefinitionNode) or isinstance(child,IncludeNode):
                 child.handle(self.symbtable)
             elif isinstance(child,DeclarationNode):
                 child.handle(self.symbtable)
+
+                #if a function declaration node was deleted continue the loop without incrementing
+                if(len(self.children) < currlen):
+                    currlen = len(self.children)
+                    continue
+
             else:
                 raise SemanticsError(child.getToken(), "Invalid statement in global scope")
 
+            childidx += 1
+
     def getCode(self):
+
+        self.symbtable.variablestacksize = 0
 
         code = InstructionList()
 
@@ -57,19 +70,19 @@ class RootNode(ASTNode):
             if isinstance(child,DeclarationNode):
                 globals.append(child)
 
-        #make place for all the global variables
-        code.AddInstruction(SetPointers(0,self.symbtable.getRequiredSpace()))
+            elif isinstance(child, FunctionDefinitionNode):
+                functions.append(child)
 
-        self.symbtable.setupParameters(code)
+        #make place for all the global variables
+        code.AddInstruction(SetStackPointer(self.symbtable.getRequiredSpace()))
 
         for globalvar in globals:
-            code.AddInstruction(globalvar.getCode(self.symbtable))
+            code.AddInstruction(globalvar.getCode())
 
 
+        code.AddInstruction(Halt())
 
-
-
-        code.AddInstruction(Halt)
+        return code
 
 
 class IncludeNode(ASTNode):

@@ -253,7 +253,7 @@ class BoundaryCheck(PInstruction):
 ########## Loading and storing for difference in nesting depths   #######
 
 
-class ProcedureLoadType(PInstruction):
+class ProcedureLoadValue(PInstruction):
 
     def __init__(self, t: PType,p: int, q: int):
         self.type = t
@@ -272,7 +272,7 @@ class ProcedureLoadAddress(PInstruction):
     def write(self):
         return 'lda %i %i' % ( self.depth,self.address)
 
-class ProcedureStoreType(PInstruction):
+class ProcedureStore(PInstruction):
 
     def __init__(self, t: PType,p: int, q: int):
         self.type = t

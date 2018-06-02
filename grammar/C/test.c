@@ -1,27 +1,34 @@
 
-int const * g(int ** a);
 
-int *g(int ** b){
+int a(int);
+
+float xx = 7.0;
+
+float x = 2.0 + 4.0 + xx;
+
+int main(){
+
+    int y = a(7) + 9;
+
+    if (y < a(9)){
+        int z = 8;
+    }else{
+        int z = 9;
+        int p = 10;
+        int q = p + z;
+    }
+
+    float zz  = 0.1;
 
 
-    return b;
+    return 0;
+
+
 }
 
-int main( float const ***** b){
 
-    int x[8];
-    int a;
 
-    a = a+0;
-    a = 0+a;
-    a = 1*a;
-    a = a*1;
-
-    5+7;
-    a+9;
-    9;
-    a;
-
-    return 1 + 3 + 5;
+int a(int b){
+    int z = b+5;
+    return z;
 }
-

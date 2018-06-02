@@ -11,6 +11,7 @@ class InstructionList:
 
     def AddInstruction(self,ins):
 
+
         if isinstance(ins,InstructionList):
 
             if self.maxStackSpace < ins.maxStackSpace:
@@ -27,8 +28,8 @@ class InstructionList:
     def printProgram(self):
 
         f = open('program.p','w')
-
         for ins in self.instructionlist:
-            f.write(ins.write)
+            f.write(ins.write())
+            f.write('\n')
 
         f.close()

@@ -32,21 +32,21 @@ def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is alread
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) / int(node2.name))
             elif isinstance(typeval, RealType):
-                float(float(node1.name) / float(node2.name))
+                return float(float(node1.name) / float(node2.name))
             else:
                 raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '+':
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) + int(node2.name))
             elif isinstance(typeval, RealType):
-                float(float(node1.name) + float(node2.name))
+                return float(float(node1.name) + float(node2.name))
             else:
                 raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '-':
             if isinstance(typeval, IntegerType):
                 return int(int(node1.name) - int(node2.name))
             elif isinstance(typeval, RealType):
-                float(float(node1.name) - float(node2.name))
+                return float(float(node1.name) - float(node2.name))
             else:
                 raise SemanticsError(node1.getToken(), "operating with nonetypes")
 
@@ -180,8 +180,8 @@ class AdditionNode(ExpressionNode):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
-        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(0).getCode())
+        inl.AddInstruction(self.getchild(1).getCode())
 
         inl.AddInstruction(Add(self.getchild(0).Typedcl))
 
@@ -197,8 +197,8 @@ class SubtractionNode(ExpressionNode):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
-        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(0).getCode())
+        inl.AddInstruction(self.getchild(1).getCode())
 
         inl.AddInstruction(Subtract(self.getchild(0).Typedcl))
 
@@ -214,8 +214,8 @@ class MultiplyNode(ExpressionNode):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
-        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(0).getCode())
+        inl.AddInstruction(self.getchild(1).getCode())
 
         inl.AddInstruction(Multiply(self.getchild(0).Typedcl))
 
@@ -231,8 +231,8 @@ class DivideNode(ExpressionNode):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getCode(self.symbtable))
-        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
+        inl.AddInstruction(self.getchild(0).getCode())
+        inl.AddInstruction(self.getchild(1).getCode())
 
         inl.AddInstruction(Divide(self.getchild(0).Typedcl))
 
@@ -255,7 +255,7 @@ class AssignmentNode(ASTNode):
         self.getchild(1).symbtable = st
         entry = st.getVariableEntry(self.getchild(0).name)
         if entry is None:
-            raise SemanticsError(self.getchild(0).getToken() ,"undeclared varaible (first use in this function)")
+            raise SemanticsError(self.getchild(0).getToken() ,"undeclared variable (first use in this function)")
         returnType = entry.type
 
         if entry.const:
@@ -263,6 +263,9 @@ class AssignmentNode(ASTNode):
 
         if entry.func:
             raise SemanticsError(self.getchild(0).getToken(), "trying to assign to function \'" + self.getchild(0).name+"\'")
+
+        #for codegen
+        self.entry = entry
 
         # Evaluate R-value with given l-value type
         self.getchild(1).handle(st, returnType)
@@ -278,11 +281,17 @@ class AssignmentNode(ASTNode):
 
         inl = InstructionList()
 
-        inl.AddInstruction(self.getchild(0).getL(self.symbtable))
+        glob = self.symbtable.isGlobal(self.entry)
+        scopeval = 0
+        if glob:
+            scopeval = 1 #global scope
 
-        inl.AddInstruction(self.getchild(1).getCode(self.symbtable))
+        addr = self.symbtable.getLvalue(self.entry.name)
+        t = self.symbtable.getType(self.entry.name)
 
-        inl.AddInstruction(StoreStack(self.getchild(0).Typedcl))
+        inl.AddInstruction(self.getchild(1).getCode())
+
+        inl.AddInstruction(ProcedureStore(t, scopeval, addr))
 
         return inl
 

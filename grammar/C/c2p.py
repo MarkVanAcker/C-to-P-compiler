@@ -17,10 +17,13 @@ def main(argv):
         tree = parser.program()
         visitor = CsubVisitor()
         ast = visitor.visit(tree)
+        ToDotAST(ast)
         st = SymbolTable()
         ast.handle(st)
         ToDotAST(ast)
         ToDotST(st)
+        code = ast.getCode()
+        code.printProgram()
     except SemanticsError as e:
         print(e)
     #except Exception as e:

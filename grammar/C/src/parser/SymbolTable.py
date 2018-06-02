@@ -47,6 +47,21 @@ class SymbolTable:
 
         return None
 
+    def isGlobal(self,entr,depth=0):
+
+        if self.parent is None:
+            if depth == 0:
+                return False
+            else:
+                return True
+
+
+        for entry in self.entries:
+            if (entry.name == entr.name):
+                return False
+
+        return self.parent.isGlobal(entr,depth + 1)
+
     def getVariableEntry(self,name):
         for entry in self.entries:
             if (entry.name == name):
@@ -79,6 +94,7 @@ class SymbolTable:
 
     #Environment functions
 
+
     def getLvalue(self,symbol:str):
         return self.symbollist[symbol][1]
 
@@ -91,9 +107,11 @@ class SymbolTable:
 
     def addSymbol(self,name):
 
-        entry = self.GlobalTableLookup(name)
-
-        self.symbollist[name] = (entry.type,self.variablestacksize)
+        entry = self.GlobalTableLookup(Entry(name))
+        if entry.ptr > 0:
+            self.symbollist[entry.name] = (AddressType(),self.variablestacksize)
+        else:
+            self.symbollist[entry.name] = (entry.type,self.variablestacksize)
         self.variablestacksize += entry.getVarspace()
 
 
