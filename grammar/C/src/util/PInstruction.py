@@ -2,12 +2,32 @@ from src.util.PType import *
 
 #TODO: Document + maybe split up in different modules?
 
+
+
+
 class PInstruction:
 
     def write(self):
         pass
 
+######### LABEL
 
+uniquelabeltracker = {}
+
+class Label(PInstruction):
+    def __init__(self,name:str):
+        if name in uniquelabeltracker:
+            self.name = name + str(uniquelabeltracker[name])
+            uniquelabeltracker[name] += 1
+        else:
+            self.name = name
+            uniquelabeltracker[name] = 1
+
+    def write(self):
+        return "%s:" % self.name
+
+    def __str__(self):
+        return self.name
 
 ########## Arithmetic instructions  #######
 
@@ -179,28 +199,28 @@ class StoreStack(PInstruction):
 
 class UnconditionalJump(PInstruction):
 
-    def __init__(self,l:str):
+    def __init__(self,l:Label):
         self.label = l
 
     def write(self):
-        return 'ujp %s' % self.label
+        return 'ujp %s' % str(self.label)
 
 
 class ConditionalJump(PInstruction):
 
-    def __init__(self,l:str):
+    def __init__(self,l:Label):
         self.label = l
 
     def write(self):
-        return 'fjp %s' % self.label
+        return 'fjp %s' % str(self.label)
 
 class IndexedJump(PInstruction):
 
-    def __init__(self,l:str):
+    def __init__(self,l:Label):
         self.label = l
 
     def write(self):
-        return 'ixj %s' % self.label
+        return 'ixj %s' % str(self.label)
 
 #computation of indexed address
 class IndexComp(PInstruction):
@@ -295,12 +315,12 @@ class MarkStack(PInstruction):
 
 class CallUserProcedure(PInstruction):
 
-    def __init__(self,p: int, q: str):
+    def __init__(self,p: int, q: Label):
         self.storage = p
         self.label = q
 
     def write(self):
-        return 'cup %i %s' % ( self.storage,self.label)
+        return 'cup %i %s' % ( self.storage,str(self.label))
 
 class SetStackPointer(PInstruction):
 
@@ -435,18 +455,3 @@ class Conversion(PInstruction):
 
 
 
-######### LABEL
-
-uniquelabeltracker = {}
-
-class Label(PInstruction):
-    def __init__(self,name:str):
-        if name in uniquelabeltracker:
-            self.name = name + str(uniquelabeltracker[name])
-            uniquelabeltracker[name] += 1
-        else:
-            self.name = name
-            uniquelabeltracker[name] = 1
-
-    def write(self):
-        return "%s:" % self.name

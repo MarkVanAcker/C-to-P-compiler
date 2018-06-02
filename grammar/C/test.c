@@ -9,11 +9,15 @@ int main(){
 
     int y = 9;
 
-    int xxx = y+y;
+    int xxx = y+y*7;
+
+    x = 8.9;
 
     if(y == 8 + y){
 
        return 1;
+    }else{
+        return 2;
     }
 
 

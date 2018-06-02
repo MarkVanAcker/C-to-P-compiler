@@ -384,7 +384,7 @@ def checkdecl(node : ASTNode, ent):
             raise SemanticsError(node.getToken(), "Declared variable void")
         ent.name = node.name
         ent.ptr = node.ptrcount
-        node.ptrcount = 0;
+        node.ptrcount = 0
         return
 
     elif node.Typedcl == "func":
@@ -398,7 +398,7 @@ def checkdecl(node : ASTNode, ent):
         ent.array = True
         ent.name = node.name
         ent.ptr = node.ptrcount
-        node.ptrcount = 0;
+        node.ptrcount = 0
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
             if child.name == "ExpressionNode":

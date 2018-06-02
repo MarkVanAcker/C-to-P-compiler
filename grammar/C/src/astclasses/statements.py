@@ -3,6 +3,21 @@ from src.astclasses.block import EmptyNode
 from src.astclasses.expression import ComparisonNode
 
 
+class LabelFactory():
+
+
+    def getIfendLabel(self):
+        return Label("endif")
+
+    def getIffalseLabel(self):
+        return Label("falseif")
+
+    def getWhilebeginLabel(self):
+        return Label("beginwhile")
+
+    def getWhileendLabel(self):
+        return Label("endwhile")
+
 
 class ConditionNode(ASTNode):
     #typecheck condition and validity
@@ -21,6 +36,9 @@ class ConditionNode(ASTNode):
 
         return self.getchild(0).handle(st) #comp expression visit
 
+    def getCode(self):
+        return self.children[0].getCode()
+
 class ConditionalNode(ASTNode):
     #typecheck condition and validity
     def handle(self,st):
@@ -33,6 +51,30 @@ class ConditionalNode(ASTNode):
             newst.name = "condition"
             st.addchild(newst)
             self.getchild(i).handle(newst)
+
+    def getCode(self):
+
+        self.iffalse = LabelFactory().getIffalseLabel()
+        self.ifend = None
+
+
+        ins = InstructionList()
+
+        ins.AddInstruction(self.children[0].getCode())
+        ins.AddInstruction(ConditionalJump(self.iffalse))
+        self.children[1].symbtable.setEnvironment()
+        ins.AddInstruction(self.children[1].getCode())
+
+        if(len(self.children) == 3):
+            self.ifend = LabelFactory().getIfendLabel()
+            ins.AddInstruction(UnconditionalJump(self.ifend))
+        ins.AddInstruction(self.iffalse)
+        if (len(self.children) == 3):
+            self.children[2].symbtable.setEnvironment()
+            ins.AddInstruction(self.children[2].getCode())
+            ins.AddInstruction(self.ifend)
+        return ins
+
 
 class WhileNode(ASTNode):
 
