@@ -1,4 +1,4 @@
-
+/*
 int * fun(int ** );
 int * fun(int  ** a){
 
@@ -33,14 +33,13 @@ int main(){
 
 
 }
+*/
 
-/* if (*t < 4){
-     return 1;
-    }
+int main(){
 
-    int * ptr = &t;
-    int *ptr2 = ptr;
+    int y = 8;
+    int o = y;
 
+    return 1;
+}
 
-    int a = *ptr + &ptr + **ptr2 + ptr2;
-    */
