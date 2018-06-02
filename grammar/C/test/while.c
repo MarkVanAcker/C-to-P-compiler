@@ -32,10 +32,6 @@ int main(){
     int a = *ptr + 6 + **ptr2 + *ptr;
 
 
-
-
-
-    return 1;
 }
 
 /* if (*t < 4){

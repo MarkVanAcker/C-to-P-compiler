@@ -278,7 +278,7 @@ INTEGER: (('1'..'9')('0'..'9')*  | '0');
 DECIMAL: (('1'..'9')('0'..'9')*  | '0')('.')('0'..'9')+;
 CHARACTER: ('"' .*? '"' | '\'' .*? '\'' );
 WS: ('\t' | '\n' | ' ' | '\r')+ -> skip; //toss out whitespace
-COMMENT: ('/*' .*? '*/' ) -> skip; // toss out comments
+COMMENT: ('/*' .*? '*/'  | '//' ~('\n'|'\r')*) -> skip; // toss out comments
 LPAREN : '(';
 RPAREN : ')';
 LCURL : '{' ;
