@@ -30,7 +30,12 @@ class BlockNode(ASTNode):
 
 
     def getCode(self):
-        pass
+        ins = InstructionList()
+
+        for child in self.children:
+            ins.AddInstruction(child.getCode())
+
+        return ins
 
 
 class RootNode(ASTNode):
@@ -78,6 +83,11 @@ class RootNode(ASTNode):
 
         for globalvar in globals:
             code.AddInstruction(globalvar.getCode())
+
+
+
+        for function in functions:
+            code.AddInstruction(function.getCode())
 
 
         code.AddInstruction(Halt())

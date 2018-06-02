@@ -13,13 +13,10 @@ class InstructionList:
 
 
         if isinstance(ins,InstructionList):
-
             if self.maxStackSpace < ins.maxStackSpace:
                 self.maxStackSpace = ins.maxStackSpace
             self.instructionlist.extend(ins.instructionlist)
         elif isinstance(ins,PInstruction):
-            if self.maxStackSpace < 1:
-                self.maxStackSpace = 1
             self.instructionlist.append(ins)
 
         else:
