@@ -1,5 +1,5 @@
 from src.astclasses.AST import *
-from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode, IDNode, ArrayCallNode
+from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode, IDNode, ArrayCallNode, DerefNode, AddressNode
 
 
 
@@ -56,6 +56,8 @@ class ExpressionNode(ASTNode):
 
     def handle(self, st, type = None):
 
+        print("HERE")
+
         if type is BooleanType:
             raise SemanticsError(self.getToken(), "Expression does not evaluate boolean types, only numeric operants")
 
@@ -75,14 +77,29 @@ class ExpressionNode(ASTNode):
         # does not happen anymore
         node = self.getchild(0)
         node.symbtable = st
-        entry = st.getVariableEntry(node.name)
+
+
+        if isinstance(node,AddressNode):
+            raise SemanticsError(node.getToken(),"No addressing allowed in expression")
+
+        if isinstance(node,DerefNode):
+            print("out0")
+            print("out0")
+
+            node.handle(st,[None,0]) # node handled is ok (no typecheck just pointer check is it is a variable with value
+            node = node.getchild(0)
+
+        node.symbtable = st
+        entry = None
         if type == None:
             # variable
             if node.Typedcl == 'id':
+                entry = st.getVariableEntry(node.name)
                 if entry is None:
                     raise SemanticsError(node.token,"undeclared variable (first use in this function)")
 
-
+                if 0 != entry.ptr + node.ptrcount:
+                    raise SemanticsError(node.getToken(), "No addresses allowed in expression")
                 type = entry.type
 
             # constant value (right?)
@@ -94,8 +111,14 @@ class ExpressionNode(ASTNode):
         else:
             if  isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
                 TypeCheck(node, st, type)
+            elif not isinstance(node,ExpressionNode):
+                ent = node.handle(st, type)  # handle calls of all sorts (idnode, const node) they return an entry with ptr
+                if 0 != ent.ptr + node.ptrcount:
+                    raise SemanticsError(node.getToken(), "No addresses allowed in expression")
+
             else:
-                node.handle(st, type)  # expression visit
+                node.handle(st, type)  # expression
+
 
 
         if len(self.children) == 1:
@@ -107,8 +130,28 @@ class ExpressionNode(ASTNode):
 
         node = self.getchild(1)
         node.symbtable = st
-        node.handle(st,type) #expression visit
-        TypeCheck(node, st, type)
+
+
+        if isinstance(node,AddressNode):
+            raise SemanticsError(node.getToken(),"No addressing allowed in expression")
+
+        if isinstance(node,DerefNode):
+            node.handle(st,[type,0]) # node handled is ok (type and pointer check and check if it is a variable with value)
+            node = node.getchild(0)
+            node.symbtable = st
+
+        # node.handle(st,type)
+        #TypeCheck(node, st, type)
+
+        if isinstance(node, ArrayCallNode) or isinstance(node, FunctionCallNode):
+            TypeCheck(node, st, type)
+        elif not isinstance(node, ExpressionNode): # if no exp
+            ent = node.handle(st, type)  # handle calls of all sorts (idnode, const node) they return an entry with ptr
+            if 0 != ent.ptr + node.ptrcount:
+                raise SemanticsError(node.getToken(), "No addresses allowed in expression")
+
+        else:
+            node.handle(st, type)  # expression
 
 
 
@@ -247,6 +290,7 @@ class DivideNode(ExpressionNode):
 class AssignmentNode(ASTNode):
     #check if L-value and R-value are ok
     def handle(self, st):
+        print("ASSIGNMENT")
 
         self.symbtable = st
         # left side must be l-value
@@ -267,8 +311,35 @@ class AssignmentNode(ASTNode):
         #for codegen
         self.entry = entry
 
+
+        pointer = self.getchild(0).pointerlevel(st)  # get the pointer level is   >= 0
+        print(pointer, "FROM ", self.getchild(0).name)
+
         # Evaluate R-value with given l-value type
-        self.getchild(1).handle(st, returnType)
+        # handle has to take into account the pointer levels and accessor node
+
+        # do not want to do calculations with addresses
+        if isinstance(self.getchild(1),ExpressionNode) and pointer > 0:
+            raise SemanticsError(self.getchild(1), "Not alllowed to assign an expression to an address")
+        print([returnType,pointer])
+
+        if isinstance(self.getchild(1),DerefNode) or isinstance(self.getchild(1),AddressNode):
+            self.getchild(1).handle(st, [returnType,pointer])
+        elif isinstance(self.getchild(1),IDNode) or isinstance(self.getchild(1),ConstantNode):
+            # could also just be an idnode as rvalue of assignment which can be a counter (without * or &) such as int ** ptr2 = ptr -> ptr is pointer
+
+            # checking return type and retrieve entry
+            entry = self.getchild(1).handle(st, returnType)
+
+            #checking pointer levels
+            if pointer != entry.ptr:
+                raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable")
+
+
+        else: # expression
+            self.getchild(1).handle(st, returnType)
+
+        # useless code elimination
         if isinstance(self.getchild(1),IDNode):
             if(self.getchild(1).name == entry.name):
                 self.par.children.remove(self)

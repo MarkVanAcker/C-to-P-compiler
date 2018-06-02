@@ -14,9 +14,10 @@ int main()
     */
     char charType;
     char c = 'c';
+    int a = 1;
     int b = a + 5;
 
-    int a = 0;
+    a = 0;
     for(a=2;a<10;a=a+1){
 
         /* Sizeof operator is used to evaluate the size of a variable
