@@ -33,8 +33,10 @@ class IDNode(ASTNode):
         addr = self.symbtable.getLvalue(self.name)
         t = self.symbtable.getType(self.name)
 
-
-        return ProcedureLoadValue(t,glob,addr)
+        ins = InstructionList()
+        ins.maxStackSpace = 1
+        ins.AddInstruction(ProcedureLoadValue(t,glob,addr))
+        return ins
 
     def getLValue(self):
         return LoadConstant(AddressType(),self.symbtable.getLvalue(self.name))
@@ -51,11 +53,14 @@ class ConstantNode(ASTNode):
             TypeCheck(self,st,type)
 
         e = Entry()
-        e.ptr = 0;
+        e.ptr = 0
         return e
 
     def getCode(self, env:SymbolTable = None):
-        return LoadConstant(self.Typedcl,self.name)
+        ins = InstructionList()
+        ins.maxStackSpace = 1
+        ins.AddInstruction(LoadConstant(self.Typedcl,self.name))
+        return ins
 
 
 

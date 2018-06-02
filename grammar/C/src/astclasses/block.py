@@ -79,7 +79,7 @@ class RootNode(ASTNode):
                 functions.append(child)
 
         #make place for all the global variables
-        code.AddInstruction(SetStackPointer(self.symbtable.getRequiredSpace()))
+        code.AddInstruction(SetStackPointer(self.symbtable.getGlobalSpace()))
 
         for globalvar in globals:
             code.AddInstruction(globalvar.getCode())

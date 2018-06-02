@@ -186,18 +186,31 @@ class ExpressionNode(ASTNode):
         else:
             self.result = None
 
+        self.t = type
+
         return type
 
+    def getCode(self):
+        inl = InstructionList()
 
+        cleft = self.getchild(0).getCode()
+        cright = self.getchild(1).getCode()
+        inl.AddInstruction(cleft)
+        inl.AddInstruction(cright)
+        inl.maxStackSpace= max(cleft.maxStackSpace,1+cright.maxStackSpace)
+
+        return inl
 
 class ComparisonNode(ExpressionNode):
 
-    def handle(self, st, type=None):
+    def handle(self, st, type=None, l=[]):
 
         #check done at conditional statement
 
         #if type is not BooleanType:
         #   raise SemanticsError(self.token,"Condition statement does not evaluate to a boolean type")
+
+        operatormap = {">" : Greater, "<" : Lesser, "==" : Equal, "<=": LesserOrEqual}
 
         self.symbtable = st
 
@@ -208,9 +221,15 @@ class ComparisonNode(ExpressionNode):
         if len(self.children) != 2:
             raise SemanticsError(self.token,"expected comparison of 2 nodes (no boolean support)  2 < 4 == true not possible")
 
-        super(ComparisonNode, self).handle(st) # handle typecheck the same way as expr
+        type = super().handle(st) # handle typecheck the same way as expr
+
+        self.operator = operatormap[self.operator](type)
 
         return BooleanType() # we do not want boolean types in normal expressions (expect in conditional , but here comparison node must be topnode so it is ok
+
+    def getCode(self):
+        inl = super().getCode()
+        inl.AddInstruction(self.operator)
 
 
 
@@ -221,12 +240,8 @@ class AdditionNode(ExpressionNode):
 
     def getCode(self):
 
-        inl = InstructionList()
-
-        inl.AddInstruction(self.getchild(0).getCode())
-        inl.AddInstruction(self.getchild(1).getCode())
-
-        inl.AddInstruction(Add(self.getchild(0).Typedcl))
+        inl = super().getCode()
+        inl.AddInstruction(Add(self.t))
 
         return inl
 
@@ -238,12 +253,9 @@ class SubtractionNode(ExpressionNode):
 
     def getCode(self):
 
-        inl = InstructionList()
+        inl = super().getCode()
 
-        inl.AddInstruction(self.getchild(0).getCode())
-        inl.AddInstruction(self.getchild(1).getCode())
-
-        inl.AddInstruction(Subtract(self.getchild(0).Typedcl))
+        inl.AddInstruction(Subtract(self.t))
 
         return inl
 
@@ -255,12 +267,9 @@ class MultiplyNode(ExpressionNode):
 
     def getCode(self):
 
-        inl = InstructionList()
+        inl = super().getCode()
 
-        inl.AddInstruction(self.getchild(0).getCode())
-        inl.AddInstruction(self.getchild(1).getCode())
-
-        inl.AddInstruction(Multiply(self.getchild(0).Typedcl))
+        inl.AddInstruction(Multiply(self.t))
 
         return inl
 
@@ -272,12 +281,9 @@ class DivideNode(ExpressionNode):
 
     def getCode(self):
 
-        inl = InstructionList()
+        inl = super().getCode()
 
-        inl.AddInstruction(self.getchild(0).getCode())
-        inl.AddInstruction(self.getchild(1).getCode())
-
-        inl.AddInstruction(Divide(self.getchild(0).Typedcl))
+        inl.AddInstruction(Divide(self.t))
 
         return inl
 
@@ -289,7 +295,7 @@ class DivideNode(ExpressionNode):
 
 class AssignmentNode(ASTNode):
     #check if L-value and R-value are ok
-    def handle(self, st):
+    def handle(self, st,type = None):
         print("ASSIGNMENT")
 
         self.symbtable = st

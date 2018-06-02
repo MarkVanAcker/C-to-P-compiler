@@ -9,7 +9,12 @@ int main(){
 
     int y = 9;
 
+    int xxx = y+y;
 
+    if(y == 8 + y){
+
+       return 1;
+    }
 
 
     return 0;
