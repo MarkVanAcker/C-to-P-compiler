@@ -335,10 +335,10 @@ class AssignmentNode(ASTNode):
             # could also just be an idnode as rvalue of assignment which can be a counter (without * or &) such as int ** ptr2 = ptr -> ptr is pointer
 
             # checking return type and retrieve entry
-            entry = self.getchild(1).handle(st, returnType)
+            ent = self.getchild(1).handle(st, returnType)
 
             #checking pointer levels
-            if pointer != entry.ptr:
+            if pointer != ent.ptr:
                 raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable")
 
 
@@ -348,6 +348,7 @@ class AssignmentNode(ASTNode):
         # useless code elimination
         if isinstance(self.getchild(1),IDNode):
             if(self.getchild(1).name == entry.name):
+                print("ELEMINATION")
                 self.par.children.remove(self)
 
 
