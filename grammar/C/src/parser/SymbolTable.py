@@ -101,8 +101,8 @@ class SymbolTable:
     def getType(self,symbol:str):
         return self.symbollist[symbol][0]
 
-    def setEnvironment(self,sl:dict):
-        self.symbollist = copy(sl)
+    def setEnvironment(self):
+        self.symbollist = copy(self.parent.symbollist)
 
 
     def addSymbol(self,name):
@@ -114,13 +114,19 @@ class SymbolTable:
             self.symbollist[entry.name] = (entry.type,self.variablestacksize)
         self.variablestacksize += entry.getVarspace()
 
+    #returns the required global space
+    def getGlobalSpace(self):
+        counter = 0
+
+        for entry in self.entries:
+            if entry.func:
+                continue
+            counter  += 1
+
+        return counter
 
     def getRequiredSpace(self):
-        total = 0
-        for entry in self.entries:
-            total += entry.getVarspace()
-
-        return total
+        return self.variablestacksize
 
 
 

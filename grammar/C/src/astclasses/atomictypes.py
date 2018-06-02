@@ -169,8 +169,11 @@ class ParamNode(ASTNode):
                 paramlist.append(param.handle(SymbolTable()))
         return paramlist
 
+    def getCode(self):
 
-
+        for child in self.children:
+            child.symbtable = self.symbtable
+            child.getCode()
 
 
 class FunctionCallNode(ASTNode):
@@ -449,20 +452,27 @@ class FunctionDefinitionNode(ASTNode):
         entry.defined = True
 
 
-    def getCode(self):
-        maxstacksize = 0
-        maxvarsize = 5
 
-        maxvarsize += len(self.funcinfo.params)
+
+    def getCode(self):
+
+
+        newst = self.getchild(2).symbtable
+
+        newst.setEnvironment()
+
+        self.getchild(1).symbtable = newst
+
+        #initialize
+        self.getchild(1).getCode()
 
         ins = InstructionList()
         ins.AddInstruction(Label("function_"+self.funcinfo.name))
 
-        self.getchild(2).symbtable.variablestacksize = maxvarsize
 
         tempins = self.getchild(2).getCode()
 
-        ins.AddInstruction(SetPointers(tempins.maxStackSpace,self.getchild(2).symbtable.variablestacksize))
+        ins.AddInstruction(SetPointers(tempins.maxStackSpace,newst.variablestacksize))
 
         ins.AddInstruction(tempins)
 
@@ -492,6 +502,15 @@ class ReturnNode(ASTNode):
                 raise SemanticsError (self.getToken(), "Expected a non void return type but got a void type")
         else:
             self.getchild(0).handle(st, funcReturnType)  # evaluate expression statement
+
+    def getCode(self):
+        if len(self.children) == 0:
+            return ReturnNoResult()
+        else:
+            ins = InstructionList()
+            ins.AddInstruction(self.children[0].getCode())
+            ins.AddInstruction(ReturnResult())
+            return ins
 
 
 class EmptyNode(ASTNode):
