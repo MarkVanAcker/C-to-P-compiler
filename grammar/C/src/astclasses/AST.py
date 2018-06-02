@@ -68,6 +68,22 @@ class ASTNode:
         else:
             return True
 
+    def pointerlevel(self,st : SymbolTable,number=0):
+        if self.symbtable is not None:
+            st = self.symbtable
+
+        p = 0
+        if self.Typedcl == 'id':
+            entr = st.getVariableEntry(self.name)
+            p = entr.ptr - self.ptrcount
+            print("P ", entr.ptr, " - ", self.ptrcount)
+        else:
+            if self.ptrcount > 0:
+                raise SemanticsError(self.getToken(),"Dereferncing non variables")
+        if p < 0:
+            raise SemanticsError(self.getCode(),"Accessing non pointer memory")
+        return p
+
 
     def getToken(self): # sick depth first search token finder implementation
         if self.token is not None:

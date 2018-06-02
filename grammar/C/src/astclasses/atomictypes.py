@@ -15,6 +15,8 @@ class IDNode(ASTNode):
         if type is not None:
             TypeCheck(self, st, type)
 
+        return entry
+
 
 
 
@@ -47,6 +49,10 @@ class ConstantNode(ASTNode):
     def handle(self,st,type=None):
         if type is not None:
             TypeCheck(self,st,type)
+
+        e = Entry()
+        e.ptr = 0;
+        return e
 
     def getCode(self, env:SymbolTable = None):
         return LoadConstant(self.Typedcl,self.name)
@@ -373,6 +379,7 @@ def checkdecl(node : ASTNode, ent):
             raise SemanticsError(node.getToken(), "Declared variable void")
         ent.name = node.name
         ent.ptr = node.ptrcount
+        node.ptrcount = 0;
         return
 
     elif node.Typedcl == "func":
@@ -386,6 +393,7 @@ def checkdecl(node : ASTNode, ent):
         ent.array = True
         ent.name = node.name
         ent.ptr = node.ptrcount
+        node.ptrcount = 0;
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
             if child.name == "ExpressionNode":
@@ -415,6 +423,17 @@ class FunctionDefinitionNode(ASTNode):
         self.symbtable = st
         entry = self.getchild(0).handle(st, True)  # declaration visit for a definition
         # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
+
+        # check return types
+        print(entry.type, self.getchild(0).getchild(0).Typedcl)
+
+        if str(entry.type)!= str(self.getchild(0).getchild(0).Typedcl):
+            raise SemanticsError(self.getchild(0).getchild(0).getToken(), "Conflict for types: " + entry.name)
+        else:
+            #pointer level is correct
+            print("WUT", entry.ptr, self.getchild(0).getchild(1).ptrcount)
+            if entry.ptr != self.getchild(0).getchild(1).ptrcount:
+                raise SemanticsError(self.getchild(0).getchild(0).getToken(), "Confict for types (pointer): " + entry.name)
 
         # check the entry paramlist if it matches ( only typechecking )
         paramlist = self.getchild(1).handle(st,True)
@@ -494,14 +513,41 @@ class ReturnNode(ASTNode):
             raise SemanticsError(self.getToken(), "Return in a non definition block")
 
         stParent = stFunc.parent
-        returnType = ''
         funcReturnType = stParent.getVariableEntry(stFunc.name).type # scope is under global scope, can only define in global scope
+        funcpointer = stParent.getVariableEntry(stFunc.name).ptr
         if len(self.children) == 0:
             # void return
             if funcReturnType is not None: # void is None type (0 children on return statement (empty expr)
                 raise SemanticsError (self.getToken(), "Expected a non void return type but got a void type")
+
         else:
-            self.getchild(0).handle(st, funcReturnType)  # evaluate expression statement
+
+            print(funcpointer, "FROM FUNC RETURN", self.getchild(0).name)
+
+            # Evaluate R-value with given l-value type
+            # handle has to take into account the pointer levels and accessor node
+
+            # do not want to do calculations with addresses
+            if self.getchild(0).name == "ExpressionNode" and funcpointer > 0:
+                raise SemanticsError(self.getchild(0), "Not alllowed to assign an expression to an address")
+            print([funcReturnType, funcpointer])
+
+            if isinstance(self.getchild(0), DerefNode) or isinstance(self.getchild(0), AddressNode):
+                self.getchild(0).handle(st, [funcReturnType, funcpointer])
+            elif isinstance(self.getchild(0), IDNode) or isinstance(self.getchild(0), ConstantNode):
+                # could also just be an idnode as rvalue of assignment which can be a counter (without * or &) such as int ** ptr2 = ptr -> ptr is pointer
+
+                # checking return type and retrieve entry
+                entry = self.getchild(0).handle(st, funcReturnType)
+
+                # checking pointer levels
+                if funcpointer != entry.ptr:
+                    raise SemanticsError(self.getchild(0).getToken(), "Pointer referces not correct in variable")
+
+
+            else:  # expression
+                self.getchild(0).handle(st, funcReturnType)
+
 
     def getCode(self):
         if len(self.children) == 0:
@@ -571,7 +617,21 @@ class ArrayCallNode(ASTNode):
 class DerefNode(ASTNode):
 
     def handle(self,st,type = None):
-        pass
+        if len(self.children) ==0 :
+            # should not happen
+            raise SemanticsError(self.getToken(), "deference called of non object")
+
+        entry = None
+        if not isinstance(self.getchild(0),IDNode):
+            raise SemanticsError(self.getchild(0).getToken(),"Calling deref of non variable")
+        else:
+            self.getchild(0).ptrcount = -(self.ptrcount) # setting number of pointers
+            print("Setting" , self.getchild(0).name ,self.getchild(0).ptrcount)
+            entry = self.getchild(0).handle(st,type[0])
+
+        print(type[1], entry.ptr + self.getchild(0).ptrcount)
+        if type[1] != entry.ptr + self.getchild(0).ptrcount:
+            raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment or in expression")
 
     def getCode(self):
         pass
@@ -580,7 +640,23 @@ class DerefNode(ASTNode):
 class AddressNode(ASTNode):
 
     def handle(self,st,type = None):
-        pass
+        if len(self.children) ==0 :
+            # should not happen
+            raise SemanticsError(self.getToken(), "Address called of non object")
+
+        entry = None
+        if not isinstance(self.getchild(0),IDNode):
+            raise SemanticsError(self.getchild(0).getToken(),"Calling address of non variable")
+        else:
+            self.getchild(0).ptrcount = 1
+            entry = self.getchild(0).handle(st,type[0])
+
+        print(type[1],entry.ptr + self.getchild(0).ptrcount)
+        if type[1] != entry.ptr + self.getchild(0).ptrcount:
+            raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
+
+
+
 
     def getCode(self):
         pass

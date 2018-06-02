@@ -21,7 +21,7 @@ class BlockNode(ASTNode):
             if isinstance(child,ReturnNode):
                 returnfound = True
 
-            if isinstance(child,IDNode) or isinstance(child,ConstantNode) or isinstance(child,ExpressionNode):
+            if isinstance(child,IDNode) or isinstance(child,ConstantNode):
                 self.children.remove(child)
                 continue
 

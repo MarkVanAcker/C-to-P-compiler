@@ -5,9 +5,10 @@ int testmain ( const float);
 
 
 
-int test (const float a, int d){ return 1;}
+int test (const float a, int ** d){ return 1;}
 float othertest(const float a, int d){
 
+    int var = &d;
     if ( 0 == 0 ){
         return 2.0 ;
     }
