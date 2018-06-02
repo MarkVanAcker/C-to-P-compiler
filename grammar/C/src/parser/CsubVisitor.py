@@ -304,7 +304,11 @@ class CsubVisitor(CVisitor):
         if isinstance(state, CParser.StatementContext):
             nodeblock = BlockNode("block") # make block
             templist = []
-            templist.extend(state.accept(self))  # state could be node or list of nodes
+            mstate = state.accept(self)
+            if type(mstate) is list:
+                templist.extend(mstate)
+            else:
+                templist.append(mstate)  # state could be node or list of nodes
             for i in templist:
                 nodeblock.addchild(i)
             if ctx.getChildCount() == 7:
@@ -348,7 +352,8 @@ class CsubVisitor(CVisitor):
         elif (isinstance(ctx.getChild(0),CParser.PointerContext)):
             child = ctx.getChild(1).accept(self)
             node = DerefNode("deref",child.token)
-            node.ptrcount = tnode
+            node.ptrog = tnode
+            node.ptrcount = node.ptrog
             node.addchild(child)
             return node
 
@@ -481,7 +486,8 @@ class CsubVisitor(CVisitor):
 
         if isinstance(n, CParser.PointerContext):
             node = ctx.getChild(1).accept(self)
-            node.ptrcount = n.accept(self)
+            node.ptrog = n.accept(self)
+            node.ptrcount = node.ptrog
             return node
         else:
             return n.accept(self)
@@ -600,7 +606,8 @@ class CsubVisitor(CVisitor):
 
         elif(isinstance(ctx.getChild(1),CParser.PointerContext)):
             typenode = self.TypeCheck(ctx.getChild(0).accept(self))
-            typenode.ptrcount = ctx.getChild(1).accept(self)
+            typenode.ptrog = ctx.getChild(1).accept(self)
+            typenode.ptrcount = typenode.ptrog
             return typenode
         else:
             tempnode = DeclarationNode("paramdecl")

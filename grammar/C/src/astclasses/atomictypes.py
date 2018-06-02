@@ -383,7 +383,7 @@ def checkdecl(node : ASTNode, ent):
         if ent.type is None:
             raise SemanticsError(node.getToken(), "Declared variable void")
         ent.name = node.name
-        ent.ptr = node.ptrcount
+        ent.ptr = node.ptrog
         node.ptrcount = 0
         return
 
@@ -391,13 +391,13 @@ def checkdecl(node : ASTNode, ent):
 
         ent.func = True
         ent.name = node.name
-        ent.ptr = node.ptrcount
+        ent.ptr = node.ptrog
 
 
     elif node.Typedcl == "array":
         ent.array = True
         ent.name = node.name
-        ent.ptr = node.ptrcount
+        ent.ptr = node.ptrog
         node.ptrcount = 0
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
@@ -447,6 +447,7 @@ class FunctionDefinitionNode(ASTNode):
             raise SemanticsError(self.getToken(), "parameterlist does not match in size")
         else:
             for i in range(len(paramlist)):
+                print("PP" ,paramlist, entry.params)
                 if not paramlist[i].typecompare(entry.params[i]):
                     raise SemanticsError(self.getchild(1).getchild(i).getToken(), "parameterlist item does not match at index: " + str(i))
 
