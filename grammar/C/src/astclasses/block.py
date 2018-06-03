@@ -56,6 +56,10 @@ class RootNode(ASTNode):
     def handle(self,st):
         self.symbtable = st
         childidx = 0
+
+        if len(self.children) == 1 and isinstance(self.getchild(0),EmptyNode):
+            raise SemanticsError(None, "No main function found")
+
         currlen = len(self.children)
         while childidx < len(self.children): # traverse
             child = self.children[childidx]

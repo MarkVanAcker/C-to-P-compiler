@@ -1,4 +1,5 @@
 from src.astclasses.AST import *
+from src.astclasses.io import *
 
 class IDNode(ASTNode):
     def handle(self, st, type=None):
@@ -217,6 +218,9 @@ class FunctionCallNode(ASTNode):
         #
 
         self.symbtable = st
+
+        if isinstance(self.getchild(0),AddressNode):
+            raise  SemanticsError(self.getToken(), "No support for addressing on return node, also bad/useless coding")
 
         entry = st.getVariableEntry(self.getchild(0).name)
 
@@ -736,6 +740,9 @@ class DerefNode(ASTNode):
         if not isinstance(node,IDNode) and not isinstance(node,ArrayCallNode) and not (node,FunctionCallNode):
             raise SemanticsError(node.getToken(),"Calling deref of address object")
         else:
+            if isinstance(node,PrintfNode) or isinstance(node,ScanfNode):
+                raise SemanticsError(self.token, "Sneaky deferencing at hardcoded printf/scanf node, we do not support that")
+
             if isinstance(node,IDNode) or isinstance(node,ArrayCallNode) or (node,FunctionCallNode):
                 node.ptrcount = -(self.ptrcount) # setting number of pointers
                 print("Setting" , node.name ,node.ptrcount)

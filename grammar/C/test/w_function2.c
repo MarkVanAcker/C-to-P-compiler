@@ -20,7 +20,10 @@ int main(){
     float list [3];
     int lista [5];
 
-    int result = test(list[1],1);
+    int * p = & d;
+    int ** pointer = & p;
+
+    int result = test(list[1],pointer);
 
     return 1;
 

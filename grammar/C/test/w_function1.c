@@ -1,7 +1,7 @@
 int testmain (const float);
 
 
-int test (const float a, int ** d){ return 1;}
+int test (const float a, int  d){ return 1;}
 
 float othertest(const float a, int d){
 

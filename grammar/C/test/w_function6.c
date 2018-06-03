@@ -9,7 +9,7 @@ int main(){
     float list [3];
     int lista [5];
     int ** pointer;
-    int result = othertest(list[1],1, test(1.0,pointer));
+    int result = **othertest(list[1],1, test(1.0,pointer));
 
     return 1;
 
