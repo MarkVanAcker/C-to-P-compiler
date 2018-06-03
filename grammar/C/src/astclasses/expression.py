@@ -370,7 +370,7 @@ class AssignmentNode(ASTNode):
     def getCode(self):
 
         inl = InstructionList()
-
+        inl.maxStackSpace = 4
         glob = self.symbtable.isGlobal(self.entry)
         scopeval = 0
         if glob:
@@ -379,9 +379,19 @@ class AssignmentNode(ASTNode):
         addr = self.symbtable.getLvalue(self.entry.name)
         t = self.symbtable.getType(self.entry.name)
 
+        if (len(self.getchild(0).children) > 0):
+            inl.AddInstruction(ProcedureLoadAddress(scopeval,addr))
+            inl.AddInstruction(self.getchild(0).getchild(0).getCode())
+            inl.AddInstruction(IndexComp(1))
+
+
+
         inl.AddInstruction(self.getchild(1).getCode())
 
-        inl.AddInstruction(ProcedureStore(t, scopeval, addr))
+        if(len(self.getchild(0).children) == 0):
+            inl.AddInstruction(ProcedureStore(t, scopeval, addr))
+        else:
+            inl.AddInstruction(StoreStack(self.entry.type))
 
         return inl
 
