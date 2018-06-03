@@ -186,9 +186,6 @@ class Entry:
         if other is None:
             return False
 
-        print(self.type,type(other.type))
-        print(self.ptr, other.ptr )
-        print(self.array , other.array)
         if (isinstance(self.type,type(other.type)) and self.ptr  == other.ptr):
             return True
         else:

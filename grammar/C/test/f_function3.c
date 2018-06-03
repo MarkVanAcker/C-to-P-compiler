@@ -5,4 +5,4 @@ void function(int *){
     rerturn p;
 }
 
-int main();
+int main();  // main not defined

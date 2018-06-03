@@ -2,5 +2,5 @@ int main (){
 
     int a;
     int * p = &a;
-    return p;
+    return p; // wrong return type (address)
 }

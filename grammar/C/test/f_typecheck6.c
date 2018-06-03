@@ -1,5 +1,5 @@
 int main (){
 
     int array [10];
-    return array;
+    return array; // wrong return type
 }

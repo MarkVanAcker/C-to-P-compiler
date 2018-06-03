@@ -1,5 +1,5 @@
 int f();
-float f();
+float f(); // redeclaration with other type
 
 int main(){
 

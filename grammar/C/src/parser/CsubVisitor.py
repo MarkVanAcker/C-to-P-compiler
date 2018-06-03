@@ -384,7 +384,6 @@ class CsubVisitor(CVisitor):
             if childnode.name == "scanf":
                 self.longchar = True
                 tempnode = ScanfNode("scanf")
-            print("LONG B",  self.longchar)
             if(ctx.getChildCount() == 3):
                 tempnode.addchild(childnode)
                 tempnode.addchild(paramnode)
@@ -395,7 +394,6 @@ class CsubVisitor(CVisitor):
                 tempnode.addchild(paramnode)
                 paramnode.addchildren(ctx.getChild(2).accept(self))
                 self.longchar = False
-            print("LONGAFTER", self.longchar)
 
             node = tempnode.getchild(0)
             if isinstance(node,DerefNode):
@@ -765,7 +763,6 @@ class CsubVisitor(CVisitor):
             elif token.type == CParser.CHARACTER:
                 n.Typedcl = CharacterType()
                 n.name = n.name[1:-1]
-                print("EVAL", self.longchar, n.name)
                 if self.longchar == False and len(n.name)> 1:
                     raise SemanticsError(n.getToken(),"Character must have only a single value")
         #int, float, char

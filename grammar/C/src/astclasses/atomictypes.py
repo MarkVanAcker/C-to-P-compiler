@@ -140,7 +140,6 @@ def TypeCheck(node : ASTNode, st, t):
         Ltype = node.Typedcl
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
-            print("ERROR CONV", Ltype.__class__.__name__, type(t))
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
 
@@ -198,10 +197,8 @@ class ParamNode(ASTNode):
 
 
             if isinstance(param, TypeNode):
-                print(param.name)
                 e = None
                 if (param.isconst == True):
-                    print("PARAM IS CONST")
                     # const is a seperate node, take child
                     p = param.ptrog
                     param = param.getchild(0)
@@ -213,7 +210,6 @@ class ParamNode(ASTNode):
                     # type from node
                     e = Entry(param.name,param.Typedcl)
                     e.ptr = param.ptrog
-                print(param.ptrog)
                 paramlist.append(e)
 
             else:
@@ -253,7 +249,6 @@ class FunctionCallNode(ASTNode):
         #if not entry.defined:
         #    raise SemanticsError(self.getToken(), "Calling undefined function")
 
-        print("FUNC PPAR", entry.params)
 
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
@@ -530,18 +525,15 @@ class FunctionDefinitionNode(ASTNode):
             raise SemanticsError(node.getToken(), "Conflict for types: " + entry.name)
         else:
             #pointer level is correct
-            print("WUT", entry.ptr, self.getchild(0).getchild(1).ptrcount)
             if entry.ptr != self.getchild(0).getchild(1).ptrcount:
                 raise SemanticsError(node.getToken(), "Confict for types (pointer): " + entry.name)
 
         # check the entry paramlist if it matches ( only typechecking )
         paramlist = self.getchild(1).handle(st,True)
-        print("curr paramlist", paramlist)
         if len(paramlist) != len(entry.params):
             raise SemanticsError(self.getToken(), "parameterlist does not match in size")
         else:
             for i in range(len(paramlist)):
-                print("PP" ,paramlist, entry.params)
                 if not paramlist[i].typecompare(entry.params[i]):
                     raise SemanticsError(self.getchild(1).getchild(i).getToken(), "parameterlist item does not match at index: " + str(i))
 
@@ -558,7 +550,6 @@ class FunctionDefinitionNode(ASTNode):
         # checking if all declarations and adding into symbol table of the new scope!
         for par in self.getchild(1).children:
 
-            print(par)
             if isinstance(par, DeclarationNode):
                 par.handle(newst) # NEWST
             elif par.Typedcl == None and par.name == 'empty':
@@ -634,7 +625,6 @@ class ReturnNode(ASTNode):
 
         else:
 
-            print(funcpointer, "FROM FUNC RETURN", self.getchild(0).name)
 
             # Evaluate R-value with given l-value type
             # handle has to take into account the pointer levels and accessor node
@@ -642,7 +632,6 @@ class ReturnNode(ASTNode):
             # do not want to do calculations with addresses
             if self.getchild(0).name == "ExpressionNode" and funcpointer > 0:
                 raise SemanticsError(self.getchild(0), "Not alllowed to assign an expression to an address")
-            print([funcReturnType, funcpointer])
 
             if isinstance(self.getchild(0), DerefNode) or isinstance(self.getchild(0), AddressNode):
                 self.getchild(0).handle(st, [funcReturnType, funcpointer])
@@ -706,8 +695,9 @@ class ArrayCallNode(ASTNode):
         currentnode = self
 
         # todo if you return an array its a pointer, if all args given its an type const value
-        index = 1
+        index = 0
         while True:
+            index += 1
             currentnode.symbtable = st
             if currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == False:
                 currentnode.getchild(1).handle(st,IntegerType()) # interger for indexing
@@ -718,7 +708,7 @@ class ArrayCallNode(ASTNode):
                 # must be const of id (const will be fuckin annoying)
                 #todo const on exp and constant values  (like 5)
                 if not isinstance(currentnode.getchild(1).Typedcl, IntegerType): # if not expression
-                    raise SemanticsError(currentnode.getchild(1).getToken(),"Expected integertype at arraycallindex")
+                    raise SemanticsError(currentnode.getchild(1).getToken(),"Expected integertype at arraycall possition" + index)
 
             if currentnode != rootnode:
                 currentnode = currentnode.getchild(0) # keep going
@@ -781,14 +771,12 @@ class DerefNode(ASTNode):
 
             if isinstance(node,IDNode) or isinstance(node,ArrayCallNode) or (node,FunctionCallNode):
                 node.ptrcount = -(self.ptrcount) # setting number of pointers
-                print("Setting" , node.name ,node.ptrcount)
                 entry = node.handle(st,type[0])
             if isinstance(node,ArrayCallNode):
                 node.ptrcount = -(self.ptrcount)  # setting number of pointers
                 entry = node.handle(st, type[0])
 
 
-        print(type[1], entry.ptr + node.ptrcount)
         if type[1] != entry.ptr + node.ptrcount:
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
@@ -837,14 +825,12 @@ class AddressNode(ASTNode):
             node = self.getchild(0)
             if isinstance(node, IDNode) or isinstance(node, ArrayCallNode):
                 node.ptrcount = 1  # setting number of pointers
-                print("Setting", node.name, node.ptrcount)
                 entry = node.handle(st, type[0])
             if isinstance(node, ArrayCallNode):
                 node.ptrcount = -(self.ptrcount)  # setting number of pointers
                 entry = node.handle(st, type[0])
 
 
-        print(type[1],entry.ptr + self.getchild(0).ptrcount)
         if type[1] != entry.ptr + self.getchild(0).ptrcount:
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
 

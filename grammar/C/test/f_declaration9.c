@@ -1,5 +1,5 @@
 int main(){
 
-    void a;
+    void a; // void variable
     return 1;
 }

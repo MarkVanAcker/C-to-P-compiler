@@ -4,7 +4,7 @@ int f(){
     return 1;
 }
 
-float f();
+float f(); // redeclaration of a defined function
 
 int main(){
 

@@ -2,6 +2,8 @@ void function(int *){
 
     int* p;
 
-    rerturn p;
+    return p;
 }
+
+// no main function
 

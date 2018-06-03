@@ -1,5 +1,5 @@
 int main (){
 
 
-    return;
+    return; // wrong return type
 }
