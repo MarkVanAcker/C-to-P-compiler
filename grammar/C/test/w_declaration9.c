@@ -2,7 +2,7 @@ int a;
 
 float b,c;
 
-char c;
+char d;
 
 int main (){
 

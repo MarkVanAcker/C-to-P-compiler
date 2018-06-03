@@ -13,21 +13,21 @@ def main(argv):
     lexer = CLexer(input)
     stream = CommonTokenStream(lexer)
     parser = CParser_e(stream)
-    try:
-        tree = parser.program()
-        visitor = CsubVisitor()
-        ast = visitor.visit(tree)
-        ToDotAST(ast)
-        st = SymbolTable()
-        ast.handle(st)
-        ToDotAST(ast)
-        ToDotST(st)
+    #try:
+    tree = parser.program()
+    visitor = CsubVisitor()
+    ast = visitor.visit(tree)
+    ToDotAST(ast)
+    st = SymbolTable()
+    ast.handle(st)
+    ToDotAST(ast)
+    ToDotST(st)
         #code = ast.getCode()
         #code.printProgram()
-    except SemanticsError as e:
-        print(e)
-    #except Exception as e:
-    #    print(e)
+        #except SemanticsError as e:
+        #print(e)
+        #except Exception as e:
+        #    print(e)
 
 
 

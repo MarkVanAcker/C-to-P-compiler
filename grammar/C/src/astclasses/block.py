@@ -61,6 +61,19 @@ class RootNode(ASTNode):
 
             childidx += 1
 
+        for ent in st.entries:
+            if ent.func == True and ent.defined == False:
+                raise SemanticsError(None,"Linking error, function not defined: " + ent.name)
+
+        for ent in st.entries:
+            if ent.func == True and ent.defined == False:
+                raise SemanticsError(None,"Linking error, function not defined: " + ent.name)
+
+        for ent in st.entries:
+            if ent.func == True and ent.name == "main":
+                return
+        raise SemanticsError(None,"No main function found")
+
     def getCode(self):
 
         self.symbtable.variablestacksize = 0

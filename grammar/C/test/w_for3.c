@@ -7,8 +7,8 @@ float func(){
 int main(){
 
     float a;
-    float var = 0;
-    for(a=-1.0; a  == func(); a = a+1.0){
+    float var = 0.0;
+    for(a= 0.0; a  == func(); a = a+1.0){
         var = a +0.01;
     }
 

@@ -28,3 +28,6 @@ int main(){
     return 1;
 
 }
+
+
+int testmain(float a){return 1;}

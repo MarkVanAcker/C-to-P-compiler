@@ -47,6 +47,7 @@ class CsubVisitor(CVisitor):
 
         node = TypeNode(n.name,n.token)
         node.Typedcl = n.Typedcl
+        node.isconst = n.isconst
         if n.hasChild():
             for m in n.children:
                 node.addchild(self.myDeepCopy(m))
@@ -769,6 +770,7 @@ class CsubVisitor(CVisitor):
                 else:
                     constbool = True
                     quant = i
+                    quant.isconst = True
                     continue
 
             if type is None:
@@ -782,6 +784,6 @@ class CsubVisitor(CVisitor):
         if quant is None:
             return type
         else:
-
+            quant.isconst = True
             quant.addchild(type)
             return quant

@@ -139,6 +139,7 @@ class TypeNode(ASTNode):
         pass
 
 
+
 class ParamNode(ASTNode):
 
     # handles declaration and definition parameters
@@ -162,21 +163,27 @@ class ParamNode(ASTNode):
 
 
             if isinstance(param, TypeNode):
+                print(param.name)
+                e = None
                 if (param.isconst == True):
+                    print("PARAM IS CONST")
                     # const is a seperate node, take child
+                    p = param.ptrog
                     param = param.getchild(0)
                     e = Entry(param.name,param.Typedcl)
                     e.const = True
+                    e.ptr = p
 
                 else:
                     # type from node
                     e = Entry(param.name,param.Typedcl)
-
-                e.ptr = param.ptrcount
+                    e.ptr = param.ptrog
+                print(param.ptrog)
                 paramlist.append(e)
 
             else:
                 # eg array
+                print("DECL NODE" , param.handle(SymbolTable()).ptr)
                 paramlist.append(param.handle(SymbolTable()))
         return paramlist
 
@@ -430,15 +437,18 @@ class FunctionDefinitionNode(ASTNode):
         # important: it is not required to check for const for the parameters, only usefull at definition, can defer in decl and def arg list
 
         # check return types
-        print(entry.type, self.getchild(0).getchild(0).Typedcl)
+        node = self.getchild(0).getchild(0)
+        if isinstance(node,TypeNode) and node.isconst == True:
+            node = node.getchild(0)
 
-        if str(entry.type)!= str(self.getchild(0).getchild(0).Typedcl):
-            raise SemanticsError(self.getchild(0).getchild(0).getToken(), "Conflict for types: " + entry.name)
+
+        if str(entry.type)!= str(node.Typedcl):
+            raise SemanticsError(node.getToken(), "Conflict for types: " + entry.name)
         else:
             #pointer level is correct
             print("WUT", entry.ptr, self.getchild(0).getchild(1).ptrcount)
             if entry.ptr != self.getchild(0).getchild(1).ptrcount:
-                raise SemanticsError(self.getchild(0).getchild(0).getToken(), "Confict for types (pointer): " + entry.name)
+                raise SemanticsError(node.getToken(), "Confict for types (pointer): " + entry.name)
 
         # check the entry paramlist if it matches ( only typechecking )
         paramlist = self.getchild(1).handle(st,True)

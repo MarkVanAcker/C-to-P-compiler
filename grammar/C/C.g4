@@ -274,7 +274,7 @@ FILENAME: 'stdio.h';
 CONST: 'const';
 VOID: 'void';
 IDENTIFIER: ('_' | 'a'..'z'| 'A'..'Z')('_' | 'a'..'z'| 'A'..'Z' | '0'..'9')*;
-INTEGER: (('1'..'9')('0'..'9')*  | '0');
+INTEGER: (('1'..'9')('0'..'9')*  | '0'); // negative ('-')?
 DECIMAL: (('1'..'9')('0'..'9')*  | '0')('.')('0'..'9')+;
 CHARACTER: ('"' .*? '"' | '\'' .*? '\'' );
 WS: ('\t' | '\n' | ' ' | '\r')+ -> skip; //toss out whitespace

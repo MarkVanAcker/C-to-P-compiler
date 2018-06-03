@@ -1,6 +1,7 @@
 int main (){
 
     int var = 0;
+    int a = 1;
 
     while (a <10){
 
