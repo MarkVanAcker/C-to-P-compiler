@@ -1,5 +1,5 @@
 from src.astclasses.AST import *
-from src.astclasses.atomictypes import ConstantNode
+#from src.astclasses.atomictypes import ConstantNode
 
 
 class PrintfNode(ASTNode):

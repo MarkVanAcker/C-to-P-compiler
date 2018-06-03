@@ -662,6 +662,7 @@ class ReturnNode(ASTNode):
         else:
             ins = InstructionList()
             ins.AddInstruction(self.children[0].getCode())
+            ins.AddInstruction(ProcedureStore(self.fr,0,0))
             ins.AddInstruction(ReturnResult())
             return ins
 
