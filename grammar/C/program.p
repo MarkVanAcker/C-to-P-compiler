@@ -2,12 +2,29 @@ ssp 0
 mst 0
 cup 0 function_main
 hlt
+function_func:
+ent 2 6
+ldc i 4
+str i 0 5
+lod i 0 5
+ldc i 3
+les i
+fjp falseif
+ldc i 0
+str i 0 0
+retf
+ujp endif
+falseif:
+ldc i 10
+str i 0 0
+retf
+endif:
+hlt
 function_main:
-ent 1 7
-ldc c a
-str c 0 5
-ldc c 0
-str c 0 6
+ent 1 6
+mst 1
+cup 1 function_func
+str i 0 5
 ldc i 1
 str i 0 0
 retf
