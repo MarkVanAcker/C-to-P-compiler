@@ -35,7 +35,15 @@ class IDNode(ASTNode):
     def getCode(self):
 
 
+        if self.symbtable is None:
+            self.symbtable = self.par.symbtable
+
         glob = self.symbtable.isGlobal(Entry(self.name))
+        entr = self.symbtable.GlobalTableLookup(Entry(self.name))
+
+        if entr.array:
+            return self.getLValue()
+
         scopeval = 0
         if glob:
             scopeval = 1  # global scope
@@ -49,6 +57,10 @@ class IDNode(ASTNode):
         return ins
 
     def getLValue(self):
+
+
+        if self.symbtable is None:
+            self.symbtable = self.par.symbtable
 
         glob = self.symbtable.isGlobal(Entry(self.name))
         scopeval = 0
@@ -675,6 +687,7 @@ class ArrayCallNode(ASTNode):
         # leftbalanced tree with leftmost node having id
         entry = st.getVariableEntry(rootnode.getchild(0).name)
 
+
         if entry is None or entry.func:
             raise SemanticsError(self.getToken(),"Undefined variable called")
         if entry.ptr < 1  or entry.func:
@@ -721,16 +734,33 @@ class ArrayCallNode(ASTNode):
         e.params = entry.params
         e.type = entry.type
 
+        self.entry = e
+
         return e
 
 
     def getCode(self):
-        pass
+
+        ins = InstructionList()
+        ins.maxStackSpace = 1
+        if self.entry.array:
+            ins.AddInstruction(self.getchild(0).getLValue())
+        else:
+            ins.AddInstruction(self.getchild(0).getCode())
+
+        ins.AddInstruction(self.getchild(1).getCode())
+        ins.AddInstruction(IndexComp(1))
+        ins.AddInstruction(LoadIndirectly(self.entry.type))
+
+        return ins
+
 
 
 class DerefNode(ASTNode):
 
     def handle(self,st,type = None):
+
+        self.symbtable = st
         if len(self.children) ==0 :
             # should not happen
             raise SemanticsError(self.getToken(), "deference called of non object")
@@ -756,22 +786,25 @@ class DerefNode(ASTNode):
         if type[1] != entry.ptr + node.ptrcount:
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
+        #for codegeneration
+        self.entry = entry
+        self.entry.ptr -= self.ptrcount
+
         return entry
+
+
+
 
     def getCode(self):
 
-        node = self.getchild(0)
-        if isinstance(self.getchild(0),ArrayCallNode):
-            node = node.getchild(0)
-
-        entryname = self.getchild(0).name
+        entry = None
+        if isinstance(self.getchild(0),ArrayCallNode) or isinstance(self.getchild(0),FunctionCallNode):
+            entry = self.getchild(0).entry
 
 
-        glob = self.symbtable.isGlobal(Entry(entryname))
-        scopeval = 0
-        if glob:
-            scopeval = 1  # global scope
-        entry = self.symbtable.GlobalTableLookup(Entry(entryname))
+        else:
+            entryname = self.getchild(0).name
+            entry = self.symbtable.GlobalTableLookup(Entry(entryname))
 
         ins = InstructionList()
         ins.AddInstruction(self.getchild(0).getCode())
@@ -809,10 +842,18 @@ class AddressNode(ASTNode):
         if type[1] != entry.ptr + self.getchild(0).ptrcount:
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
 
+        self.entry = entry
+        self.entry.ptr += 1
+
         return entry
 
 
 
 
     def getCode(self):
-        return self.children[0].getLValue()
+        if isinstance(self.getchild(0),IDNode):
+            return self.children[0].getLValue()
+        elif isinstance(self.getchild(0),ArrayCallNode):
+            ins = self.getchild(0).getCode()
+            ins.instructionlist.pop()
+            return ins

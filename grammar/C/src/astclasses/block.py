@@ -46,8 +46,11 @@ class BlockNode(ASTNode):
             if isinstance(child,ExpressionNode):
                 #write garbage to address 0
                 ins.AddInstruction(StoreAbsolute(child.type,0))
-            elif isinstance(child,FunctionCallNode):
-                ins.AddInstruction(StoreAbsolute(child.entry.type,0))
+            elif isinstance(child,FunctionCallNode) or isinstance(child,ArrayCallNode) or isinstance(child,DerefNode) or isinstance(child,AddressNode):
+                if child.entry.ptr > 0:
+                    ins.AddInstruction(StoreAbsolute(AddressType(), 0))
+                else:
+                    ins.AddInstruction(StoreAbsolute(child.entry.type, 0))
 
         return ins
 
