@@ -9,6 +9,7 @@ class SymbolTable:
         self.children = []
         self.parent = None
         self.name = ""
+        self.io = False
 
 
 
@@ -78,6 +79,7 @@ class SymbolTable:
 
     def addchild(self,st):
         st.parent = self
+        st.io = self.io
         self.children.append(st)
 
 

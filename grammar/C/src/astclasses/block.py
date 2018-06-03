@@ -133,21 +133,21 @@ class IncludeNode(ASTNode):
         if st.parent is not None:
             raise SemanticsError(self.getchild(0).token,"Inlcude statement in non global scope")
 
-        ent = Entry('printf')
-        ent.func = True
-        ent.defined = True
-        ent.type = IntegerType()
-        ent.defined = True
-        ent.params = [CharacterType(), AnyType()]
+        #ent = Entry('printf')
+        #ent.func = True
+        #ent.defined = True
+        #ent.type = IntegerType()
+        #ent.defined = True
+        #ent.params = [CharacterType(), AnyType()]
+#
+        #ent2 = Entry('scanf')
+        #ent2.func = True
+        #ent2.defined = True
+        #ent2.type = IntegerType()
+        #ent2.defined = True
+        #ent2.params = [CharacterType(), AnyType()]
 
-        ent2 = Entry('scanf')
-        ent2.func = True
-        ent2.defined = True
-        ent2.type = IntegerType()
-        ent2.defined = True
-        ent2.params = [CharacterType(), AnyType()]
 
-        st.addEntry(ent)
-        st.addEntry(ent2)
+        st.io = True
 
 

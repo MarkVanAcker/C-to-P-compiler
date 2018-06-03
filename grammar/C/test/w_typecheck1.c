@@ -7,7 +7,7 @@ int main(){
     int a = 6;
     int  *p = & a;
 
-    return  ***array;
+    return  **** array;
 
 
 }

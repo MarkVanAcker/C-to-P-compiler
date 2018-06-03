@@ -1,5 +1,3 @@
-
-
 int main(){
 
     int  *** array[10];
@@ -7,7 +5,7 @@ int main(){
     int a = 6;
     int  *p = & a;
 
-    return  ***array;
+    return  *** array[6];
 
 
 }
