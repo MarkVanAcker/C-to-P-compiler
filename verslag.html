@@ -71,7 +71,7 @@ to overwrite the order of operations. Also, the basic comparison operators >, <,
   <li>Constant folding: Expression that can be evaluated at compile time are calculated and replaced in the AST (and therefore not present in P). &#10004;</li>
   <li>Unreachable code and dead code: We do not generate code for statements that appear after a return statement in a function. &#10004;</li>
   <li>Initialization of variables without initializer: Default initializers are set for variables. &#10004;</li>
-  <li>Visusualisations (AST, Symboltable): We create for both the Symboltable and AST clear pictures to give a good overview of the tested c file.  &#10004;</li>
+  <li>Visualizations (AST, Symboltable): We create for both the Symboltable and AST clear pictures to give a good overview of the tested c file.  &#10004;</li>
 
 </ul>
 
@@ -88,6 +88,17 @@ We have chosen some optional features which looked interesting and challenging t
     to change the stored value. &#10004; </li>
     <li>Constant propagation, Substitute the values of known constants in expressions
 at compile time. This can then be used for further constant folding: This is supported, expressions are folded recursively if possible and they can dynamically change to AST occording to the results. &#10004; </li>
+</ul>
+
+    <br><br>
+
+
+<h4>Notes</h4>
+
+
+<ul>
+    <li>Our printf doesn't use the width parameter &#10004;</li>
+    <li>If you want to print an character array or pointer you have to close off your array with the ASCII character 0 &#10004; </li>
 </ul>
 
 
