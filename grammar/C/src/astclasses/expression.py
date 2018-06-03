@@ -97,6 +97,7 @@ class ExpressionNode(ASTNode):
             temptype = entry.type
 
             # checking pointer levels must be 0
+            print(entry.name,entry.ptr)
             if 0 != entry.ptr:
                 raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable in expression")
 

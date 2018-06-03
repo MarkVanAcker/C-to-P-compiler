@@ -1,4 +1,5 @@
 from src.astclasses.AST import *
+from copy import deepcopy as dp
 
 class IDNode(ASTNode):
     def handle(self, st, type=None):
@@ -786,7 +787,7 @@ class DerefNode(ASTNode):
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
         #for codegeneration
-        self.entry = entry
+        self.entry = dp(entry)
         self.entry.ptr -= self.ptrcount
 
         return entry
@@ -841,7 +842,7 @@ class AddressNode(ASTNode):
         if type[1] != entry.ptr + self.getchild(0).ptrcount:
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
 
-        self.entry = entry
+        self.entry = dp(entry)
         self.entry.ptr += 1
 
         return entry
