@@ -2,7 +2,7 @@ void function(int *){
 
     int* p;
 
-    rerturn p;
+    return p;
 }
 
 int main();  // main not defined
