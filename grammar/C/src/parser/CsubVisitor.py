@@ -375,13 +375,18 @@ class CsubVisitor(CVisitor):
 
             tempnode = FunctionCallNode("funccall")
             paramnode = ArgumentsNode("paramlist")
+            childnode = ctx.getChild(0).accept(self)
+            if childnode.name == "printf":
+                tempnode = PrintfNode("printf")
+            if childnode.name == "scanf":
+                tempnode = ScanfNode("scanf")
             if(ctx.getChildCount() == 3):
-                tempnode.addchild(ctx.getChild(0).accept(self))
+                tempnode.addchild(childnode)
                 tempnode.addchild(paramnode)
                 paramnode.addchild(EmptyNode("empty")) #TODO: maybe remove
 
             else:
-                tempnode.addchild(ctx.getChild(0).accept(self))
+                tempnode.addchild(childnode)
                 tempnode.addchild(paramnode)
                 paramnode.addchildren(ctx.getChild(2).accept(self))
 
@@ -392,11 +397,25 @@ class CsubVisitor(CVisitor):
 
         elif(node.token.type == CParser.LSQUARE):
             tempnode = ArrayCallNode("access")
-            tempnode.addchild(ctx.getChild(0).accept(self))
-            tempnode.addchild(ctx.getChild(2).accept(self))
+            node = ctx.getChild(0).accept(self)
 
-            return tempnode
+            if isinstance(node,DerefNode) or isinstance(node,AddressNode):
+                ref = node
 
+
+                tempnode.addchild(ref.getchild(0))
+                tempnode.addchild(ctx.getChild(2).accept(self))
+
+                ref.children = []
+                ref.addchild(tempnode)
+
+                return ref
+            else:
+                tempnode.addchild(ctx.getChild(0).accept(self))
+                tempnode.addchild(ctx.getChild(2).accept(self))
+                return tempnode
+
+        return tempnode
 
 
     # Visit a parse tree produced by CParser#expression.
@@ -688,6 +707,7 @@ class CsubVisitor(CVisitor):
                 name = ctx.getChild(1).accept(self).name
                 exprnode = ComparisonNode("ExpressionNode")
                 exprnode.operator = name
+                exprnode.comp = True
             elif ctx.getChild(1).accept(self).name == '*':
                 exprnode = MultiplyNode("ExpressionNode")
                 exprnode.operator = "*"

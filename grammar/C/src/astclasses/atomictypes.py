@@ -15,6 +15,15 @@ class IDNode(ASTNode):
         if type is not None:
             TypeCheck(self, st, type)
 
+        if entry.array == True:
+            e = Entry()
+            e.ptr = entry.ptr
+            e.name = entry.name
+            e.params = entry.params
+            e.type = entry.type
+            entry = e
+
+
         return entry
 
 
@@ -113,7 +122,6 @@ def TypeCheck(node : ASTNode, st, t):
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
             print("ERROR CONV", Ltype.__class__.__name__, type(t))
-            Warning(node.getToken(),"forced type conversion")
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
 
@@ -136,7 +144,6 @@ def TypeCheck(node : ASTNode, st, t):
     # other callable types, arrays and functioncalls
     elif isinstance(node,ArrayCallNode) or isinstance(node,FunctionCallNode):
         if not isinstance(t, type(node.handle(st))): # let array return type
-            Warning(node.getToken(),"forced type conversion")
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
     else:
@@ -336,7 +343,7 @@ class DeclarationNode(ASTNode):
 
 
         idnode.symbtable = st
-        checkdecl(idnode,entr) # set entry values
+        checkdecl(idnode,entr,st) # set entry values
 
         addentry = True
 
@@ -412,7 +419,7 @@ class DeclarationNode(ASTNode):
 
             return ins
 
-def checkdecl(node : ASTNode, ent):
+def checkdecl(node : ASTNode, ent, st = None):
 
     if node.Typedcl == "id":
         if ent.type is None:
@@ -424,6 +431,9 @@ def checkdecl(node : ASTNode, ent):
 
     elif node.Typedcl == "func":
 
+        if node.name in ["scanf","printf"] and st.io:
+            raise SemanticsError(node.getToken(),"Redeclaration of existing function")
+
         ent.func = True
         ent.name = node.name
         ent.ptr = node.ptrog
@@ -432,19 +442,23 @@ def checkdecl(node : ASTNode, ent):
     elif node.Typedcl == "array":
         ent.array = True
         ent.name = node.name
-        ent.ptr = node.ptrog
+        ent.ptr = node.ptrog + 1
         node.ptrcount = 0
+        if len(node.children) > 1:
+            raise SemanticsError(node.getToken(), "No support for multidimensional arrays")
+
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
-            if child.name == "ExpressionNode":
+            if child.name == "ExpressionNode" and child.comp == False:
                 child.handle(node.symbtable, IntegerType())
                 ent.arrays.append(child.result)
+            elif child.name == "ExpressionNode" and child.comp == True:
+                raise SemanticsError(child.getToken(), "Array does not support boolean evaluation for array size")
             else:
                 if not isinstance(child.Typedcl,type(IntegerType())): # only constants pass here
                     raise SemanticsError(child.getToken(),"invalid array size type")
                 ent.arrays.append(int(child.name))
         ent.arrays.reverse()
-        print(ent.arrays)
         return
 
 
@@ -587,7 +601,7 @@ class ReturnNode(ASTNode):
 
             if isinstance(self.getchild(0), DerefNode) or isinstance(self.getchild(0), AddressNode):
                 self.getchild(0).handle(st, [funcReturnType, funcpointer])
-            elif isinstance(self.getchild(0), IDNode) or isinstance(self.getchild(0), ConstantNode):
+            elif isinstance(self.getchild(0), IDNode) or isinstance(self.getchild(0), ConstantNode) or isinstance(self.getchild(0), ArrayCallNode):
                 # could also just be an idnode as rvalue of assignment which can be a counter (without * or &) such as int ** ptr2 = ptr -> ptr is pointer
 
                 # checking return type and retrieve entry
@@ -598,7 +612,7 @@ class ReturnNode(ASTNode):
                     raise SemanticsError(self.getchild(0).getToken(), "Pointer referces not correct in variable")
 
 
-            else:  # expression
+            else:  # expression / arraycall
                 self.getchild(0).handle(st, funcReturnType)
 
 
@@ -608,7 +622,6 @@ class ReturnNode(ASTNode):
         else:
             ins = InstructionList()
             ins.AddInstruction(self.children[0].getCode())
-            ins.AddInstruction(ProcedureStore(self.fr,0,0))
             ins.AddInstruction(ReturnResult())
             return ins
 
@@ -634,8 +647,11 @@ class ArrayCallNode(ASTNode):
         # leftbalanced tree with leftmost node having id
         entry = st.getVariableEntry(rootnode.getchild(0).name)
 
-        if entry is None or entry.func or not entry.array:
-            SemanticsError(self.token,"Undefined array called")
+        if entry is None or entry.func:
+            raise SemanticsError(self.getToken(),"Undefined variable called")
+        if entry.ptr < 1  or entry.func:
+            raise SemanticsError(self.getToken(),"Calling array operator on invalid type")
+
 
 
 
@@ -646,8 +662,11 @@ class ArrayCallNode(ASTNode):
         index = 1
         while True:
             currentnode.symbtable = st
-            if currentnode.getchild(1).name == "ExpressionNode":
+            if currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == False:
                 currentnode.getchild(1).handle(st,IntegerType()) # interger for indexing
+            elif currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == True:
+                raise SemanticsError(currentnode.getchild(1).getToken(), "Array does not evaluate boolean types as argument")
+
             else:
                 # must be const of id (const will be fuckin annoying)
                 #todo const on exp and constant values  (like 5)
@@ -656,15 +675,25 @@ class ArrayCallNode(ASTNode):
 
             if currentnode != rootnode:
                 currentnode = currentnode.getchild(0) # keep going
+            if isinstance(currentnode,DerefNode) or isinstance(currentnode,AddressNode):
+                currentnode.handle(st,[entry.type,entry.ptr])
+                break
             else:
                 break
             index +=1
 
-        if len(entry.arrays) < index:
-            # doing array[4][5] and calling array[x][c][y]
-            raise SemanticsError(self.getToken(),'Accessing undefined memory (accessing an dimension from array that was not created')
 
-        return entry.type
+        #if len(entry.arrays) < index:
+        #    # doing array[4][5] and calling array[x][c][y]
+        #    raise SemanticsError(self.getToken(),'Accessing undefined memory (accessing an dimension from array that was not created')
+
+        e = Entry()
+        e.ptr = entry.ptr - 1
+        e.name = entry.name
+        e.params = entry.params
+        e.type = entry.type
+
+        return e
 
 
     def getCode(self):
@@ -679,18 +708,35 @@ class DerefNode(ASTNode):
             raise SemanticsError(self.getToken(), "deference called of non object")
 
         entry = None
-        if not isinstance(self.getchild(0),IDNode):
-            raise SemanticsError(self.getchild(0).getToken(),"Calling deref of non variable")
+        node = self.getchild(0)
+        if not isinstance(node,IDNode) and not isinstance(node,ArrayCallNode):
+            raise SemanticsError(node.getToken(),"Calling deref of address object")
         else:
-            self.getchild(0).ptrcount = -(self.ptrcount) # setting number of pointers
-            print("Setting" , self.getchild(0).name ,self.getchild(0).ptrcount)
-            entry = self.getchild(0).handle(st,type[0])
+            if isinstance(node,IDNode) or isinstance(node,ArrayCallNode):
+                node.ptrcount = -(self.ptrcount) # setting number of pointers
+                print("Setting" , node.name ,node.ptrcount)
+                entry = node.handle(st,type[0])
+            if isinstance(node,ArrayCallNode):
+                node.ptrcount = -(self.ptrcount)  # setting number of pointers
+                entry = node.handle(st, type[0])
 
-        print(type[1], entry.ptr + self.getchild(0).ptrcount)
-        if type[1] != entry.ptr + self.getchild(0).ptrcount:
-            raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment or in expression")
+    # vb
+    # int *** array[10]
+    # ** array[4]
+    # 4 - 1 -> 3
+    # -2
+    # 1 != entryptr (3) + dere -2 -> 1
+
+
+        print(type[1], entry.ptr + node.ptrcount)
+        if type[1] != entry.ptr + node.ptrcount:
+            raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
     def getCode(self):
+
+        node = self.getchild(0)
+        if isinstance(self.getchild(0),ArrayCallNode):
+            node = node.getchild(0)
 
         entryname = self.getchild(0).name
 

@@ -9,24 +9,24 @@ from src.astclasses.AST import *
 from src.error.Error import SemanticsError
 
 def main(argv):
-    try:
-        input = FileStream(argv[1])
-        lexer = CLexer(input)
-        stream = CommonTokenStream(lexer)
-        parser = CParser_e(stream)
-        #try:
-        tree = parser.program()
-        visitor = CsubVisitor()
-        ast = visitor.visit(tree)
-        ToDotAST(ast)
-        st = SymbolTable()
-        ast.handle(st)
-        ToDotAST(ast)
-        ToDotST(st)
-        code = ast.getCode()
-        code.printProgram()
-    except SemanticsError as e:
-        print(e)
+    #try:
+    input = FileStream(argv[1])
+    lexer = CLexer(input)
+    stream = CommonTokenStream(lexer)
+    parser = CParser_e(stream)
+    #try:
+    tree = parser.program()
+    visitor = CsubVisitor()
+    ast = visitor.visit(tree)
+    ToDotAST(ast)
+    st = SymbolTable()
+    ast.handle(st)
+    ToDotAST(ast)
+    ToDotST(st)
+    #code = ast.getCode()
+    #code.printProgram()
+    #except SemanticsError as e:
+    #print(e)
     #except Exception as e:
     #    print(e)
 
