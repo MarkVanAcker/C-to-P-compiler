@@ -91,7 +91,11 @@ class ConstantNode(ASTNode):
     def getCode(self, env:SymbolTable = None):
         ins = InstructionList()
         ins.maxStackSpace = 1
-        ins.AddInstruction(LoadConstant(self.Typedcl,self.name))
+
+        if isinstance(self.Typedcl, CharacterType):
+            ins.AddInstruction(LoadConstant(self.Typedcl, ord(self.name)))
+        else:
+            ins.AddInstruction(LoadConstant(self.Typedcl,self.name))
         return ins
 
 

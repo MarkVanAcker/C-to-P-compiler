@@ -1,3 +1,5 @@
+
+/*
 int faculty(int f){
 
 if(f==2)
@@ -13,4 +15,13 @@ int main(){
 int x = faculty(10);
 
 
+}
+
+*/
+
+
+int main(){
+
+    char c = 'c';
+    return 1;
 }

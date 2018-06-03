@@ -60,16 +60,19 @@ class ExpressionNode(ASTNode):
 
     def handle(self, st, type = None, folding = True):
 
-        print("HERE")
 
         if type is BooleanType:
-            raise SemanticsError(self.getToken(), "Expression does not evaluate boolean types, only numeric operants")
+            raise SemanticsError(self.getToken(), "Expression does not evaluate boolean types, only numeric types")
 
 
         if self.name == 'empty' or len(self.children) == 0:
             return None
 
         self.symbtable = st
+
+        if folding == True:
+            if (isinstance(self.getchild(0),ConstantNode) and isinstance(self.getchild(0).Typedcl,CharacterType)) or (isinstance(self.getchild(1),ConstantNode) and isinstance(self.getchild(1).Typedcl,CharacterType)):
+                raise SemanticsError(self.getchild(0).getToken(),"No support for Character operands")
 
 
         #
@@ -117,9 +120,10 @@ class ExpressionNode(ASTNode):
         if len(self.children) == 1:
             return type
 
+        if folding == True:
+            if isinstance(type,CharacterType):
+                raise SemanticsError(self.getchild(0).getToken(),"No support for Character operands")
 
-        print("TYPE IS NOT SET>LEFT HAND DONE ", type)
-        print("I FOUND  ", temptype)
 
 
         #
