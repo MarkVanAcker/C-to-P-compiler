@@ -682,7 +682,6 @@ class ArrayCallNode(ASTNode):
 
         # leftbalanced tree with leftmost node having id
         entry = st.getVariableEntry(rootnode.getchild(0).name)
-        self.entry = entry
 
 
         if entry is None or entry.func:
@@ -731,6 +730,8 @@ class ArrayCallNode(ASTNode):
         e.params = entry.params
         e.type = entry.type
 
+        self.entry = e
+
         return e
 
 
@@ -778,6 +779,10 @@ class DerefNode(ASTNode):
         if type[1] != entry.ptr + node.ptrcount:
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
+        #for codegeneration
+        self.entry = entry
+        self.entry.ptr -= self.ptrcount
+
         return entry
 
 
@@ -785,18 +790,14 @@ class DerefNode(ASTNode):
 
     def getCode(self):
 
-        node = self.getchild(0)
-        if isinstance(self.getchild(0),ArrayCallNode):
-            node = node.getchild(0)
-
-        entryname = self.getchild(0).name
+        entry = None
+        if isinstance(self.getchild(0),ArrayCallNode) or isinstance(self.getchild(0),FunctionCallNode):
+            entry = self.getchild(0).entry
 
 
-        glob = self.symbtable.isGlobal(Entry(entryname))
-        scopeval = 0
-        if glob:
-            scopeval = 1  # global scope
-        entry = self.symbtable.GlobalTableLookup(Entry(entryname))
+        else:
+            entryname = self.getchild(0).name
+            entry = self.symbtable.GlobalTableLookup(Entry(entryname))
 
         ins = InstructionList()
         ins.AddInstruction(self.getchild(0).getCode())
@@ -835,7 +836,7 @@ class AddressNode(ASTNode):
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
 
         self.entry = entry
-        self.entry.type = AddressType()
+        self.entry.ptr += 1
 
         return entry
 
