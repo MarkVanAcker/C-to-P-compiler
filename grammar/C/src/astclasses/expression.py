@@ -144,7 +144,7 @@ class ExpressionNode(ASTNode):
                                      "Pointer referces not correct in variable in expression")
 
         elif node.name == "ExpressionNode" and node.comp == True:
-            raise SemanticsError(arg.getToken(), "No boolean types evaluated in expression")
+            raise SemanticsError(node.getToken(), "No boolean types evaluated in expression")
         elif node.name == "ExpressionNode" and node.comp == False:
             node.handle(st, type)
 
@@ -346,8 +346,12 @@ class AssignmentNode(ASTNode):
                 raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable")
 
 
+        elif isinstance(self.getchild(1), ExpressionNode) and self.getchild(1).comp == True:
+            raise SemanticsError(self.getchild(1).getToken(),"Do not support boolean assignments")
+
         elif isinstance(self.getchild(1),ExpressionNode) : # expression
             self.getchild(1).handle(st, returnType)
+
 
         # useless code elimination
         if isinstance(self.getchild(1),IDNode):
