@@ -230,6 +230,7 @@ class ComparisonNode(ExpressionNode):
     def getCode(self):
         inl = super().getCode()
         inl.AddInstruction(self.operator)
+        return inl
 
 
 

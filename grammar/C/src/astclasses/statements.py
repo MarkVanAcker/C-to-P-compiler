@@ -64,6 +64,8 @@ class ConditionalNode(ASTNode):
         ins.AddInstruction(ConditionalJump(self.iffalse))
         self.children[1].symbtable.setEnvironment()
         ins.AddInstruction(self.children[1].getCode())
+        s1 = self.children[1].symbtable.getRequiredSpace()
+        s2 = 0
 
         if(len(self.children) == 3):
             self.ifend = LabelFactory().getIfendLabel()
@@ -73,6 +75,13 @@ class ConditionalNode(ASTNode):
             self.children[2].symbtable.setEnvironment()
             ins.AddInstruction(self.children[2].getCode())
             ins.AddInstruction(self.ifend)
+            s2 = self.children[2].symbtable.getRequiredSpace()
+
+        print(self.symbtable.getRequiredSpace())
+        if(self.symbtable.getRequiredSpace() < max(s1,s2)):
+            self.symbtable.maxvariablestacksize = max(s1,s2)
+
+
         return ins
 
 
@@ -97,3 +106,26 @@ class WhileNode(ASTNode):
         newst.name = "iteration"
         st.addchild(newst)
         self.getchild(1).handle(newst)
+
+
+    def getCode(self):
+
+        ins = InstructionList()
+
+        self.beginlabel = LabelFactory().getWhilebeginLabel()
+        self.endlabel = LabelFactory().getWhileendLabel()
+
+        ins.AddInstruction(self.beginlabel)
+        ins.AddInstruction(self.children[0].getCode())
+        ins.AddInstruction(ConditionalJump(self.endlabel))
+        self.children[1].symbtable.setEnvironment()
+        ins.AddInstruction(self.children[1].getCode())
+        s = self.children[1].symbtable.getRequiredSpace()
+        ins.AddInstruction(UnconditionalJump(self.beginlabel))
+        ins.AddInstruction(self.endlabel)
+        if self.symbtable.getRequiredSpace() < s:
+            self.symbtable.maxvariablestacksize = s
+
+        return ins
+
+

@@ -63,7 +63,7 @@ class RootNode(ASTNode):
 
     def getCode(self):
 
-        self.symbtable.variablestacksize = 0
+        self.symbtable.variablestacksize = 1
 
         code = InstructionList()
 
@@ -85,12 +85,15 @@ class RootNode(ASTNode):
             code.AddInstruction(globalvar.getCode())
 
 
+        code.AddInstruction(MarkStack(0))
+
+        code.AddInstruction(CallUserProcedure(0,Label("function_main")))
+
+        code.AddInstruction(Halt())
 
         for function in functions:
             code.AddInstruction(function.getCode())
 
-
-        code.AddInstruction(Halt())
 
         return code
 

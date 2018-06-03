@@ -24,6 +24,8 @@ class SymbolTable:
 
         self.variablestacksize = 5
 
+        self.maxvariablestacksize = 0
+
 
     def addEntry(self,entry):
         self.variablespace += entry.getVarspace()
@@ -102,6 +104,8 @@ class SymbolTable:
         return self.symbollist[symbol][0]
 
     def setEnvironment(self):
+        if self.parent.parent is not None:
+            self.variablestacksize = self.parent.variablestacksize
         self.symbollist = copy(self.parent.symbollist)
 
 
@@ -126,7 +130,7 @@ class SymbolTable:
         return counter
 
     def getRequiredSpace(self):
-        return self.variablestacksize
+        return max(self.variablestacksize,self.maxvariablestacksize)
 
 
 
