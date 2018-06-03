@@ -25,6 +25,7 @@ class ASTNode:
         self.operator = None
         self.result = None
         self.ptrcount = 0
+        self.ptrog = 0
 
     def todot(self,file):
 

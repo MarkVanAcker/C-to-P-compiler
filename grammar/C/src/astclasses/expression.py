@@ -41,6 +41,7 @@ def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is alread
             elif isinstance(typeval, RealType):
                 return float(float(node1.name) + float(node2.name))
             else:
+                print("TYPE",typeval)
                 raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '-':
             if isinstance(typeval, IntegerType):
@@ -54,7 +55,7 @@ def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is alread
 
 class ExpressionNode(ASTNode):
 
-    def handle(self, st, type = None):
+    def handle(self, st, type = None, folding = True):
 
         print("HERE")
 
@@ -103,8 +104,11 @@ class ExpressionNode(ASTNode):
                 type = entry.type
 
             # constant value (right?)
-            else:
+            elif node.Typedcl is not None:
                 type = node.Typedcl
+            else:
+                type = node.handle(st, type)
+
 
 
 
@@ -153,7 +157,9 @@ class ExpressionNode(ASTNode):
         else:
             node.handle(st, type)  # expression
 
-
+        if folding == False:
+            self.t = type
+            return type
 
         if (isinstance(self.getchild(0),ExpressionNode) and self.getchild(0).result is not None) or isinstance(self.getchild(0),ConstantNode): # compile time evalution of statement is possible
             if (isinstance(self.getchild(1),ExpressionNode) and self.getchild(1).result is not None) or isinstance(self.getchild(1),ConstantNode): # compile time evalution of statement is possible
@@ -221,7 +227,7 @@ class ComparisonNode(ExpressionNode):
         if len(self.children) != 2:
             raise SemanticsError(self.token,"expected comparison of 2 nodes (no boolean support)  2 < 4 == true not possible")
 
-        type = super().handle(st) # handle typecheck the same way as expr
+        type = super().handle(st,None,False) # handle typecheck the same way as expr
 
         self.operator = operatormap[self.operator](type)
 

@@ -34,7 +34,9 @@ class ConditionNode(ASTNode):
         if not isinstance(self.getchild(0) ,ComparisonNode):
             raise SemanticsError(self.getToken(), "Expected comparison conditional statement which results in a boolean evaluation")
 
-        return self.getchild(0).handle(st) #comp expression visit
+        save = self.getchild(0).handle(st) #comp expression visit
+
+        print("IMPORTANT", self.getchild(0), self.getchild(0).result, self.getchild(0).name)
 
     def getCode(self):
         return self.children[0].getCode()
