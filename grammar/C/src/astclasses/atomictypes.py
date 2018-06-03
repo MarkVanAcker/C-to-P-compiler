@@ -67,6 +67,7 @@ class IDNode(ASTNode):
         if glob:
             scopeval = 1  # global scope
 
+
         ins = InstructionList()
         ins.maxStackSpace = 1
         ins.AddInstruction(ProcedureLoadAddress(scopeval,self.symbtable.getLvalue(self.name)))

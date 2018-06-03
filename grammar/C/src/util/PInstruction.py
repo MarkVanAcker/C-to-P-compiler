@@ -459,3 +459,15 @@ class Conversion(PInstruction):
 
 
 
+
+
+class Duplicate(PInstruction):
+
+    def __init__(self, t: PType):
+        self.type = t
+
+    def write(self):
+        return 'dpl %s' % self.type
+
+
+

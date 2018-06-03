@@ -110,6 +110,54 @@ class PrintfNode(ASTNode):
             self.printlist.append(ord(val))
 
 
+    def getCode(self):
+
+        ins = InstructionList()
+        ins.maxStackSpace = 1
+        for printchar in self.printlist:
+            if isinstance(printchar,int):
+                ins.AddInstruction(LoadConstant(CharacterType(),printchar))
+                ins.AddInstruction(OutCharacter())
+
+            elif printchar[2] != 's':
+                ins.AddInstruction(printchar[0].getCode())
+                if printchar[2] == 'd':
+                    ins.AddInstruction(OutInteger())
+                elif printchar[2] == 'f':
+                    ins.AddInstruction(OutReal())
+                else:
+                    ins.AddInstruction(OutCharacter())
+
+            else:
+                ins.AddInstruction(self.printloop(printchar))
+
+        return ins
+
+    def printloop(self,arr):
+
+        self.beginloop = Label("printloopb")
+        self.endloop = Label("printloope")
+
+        ins = InstructionList()
+        ins.maxStackSpace = 4
+
+        ins.AddInstruction(arr[0].getCode()) # address
+        ins.AddInstruction(self.beginloop)
+        ins.AddInstruction(Duplicate(AddressType())) #address address
+        ins.AddInstruction(LoadIndirectly(CharacterType())) #address val(address)
+        ins.AddInstruction(LoadConstant(CharacterType(),0))#address val(address) 0
+        ins.AddInstruction(NotEqual(CharacterType())) #address bool
+        ins.AddInstruction(ConditionalJump(self.endloop))
+        ins.AddInstruction(Duplicate(AddressType())) #address address
+        ins.AddInstruction(LoadIndirectly(CharacterType())) #address val(address)
+        ins.AddInstruction(OutCharacter())
+        ins.AddInstruction(Increment(AddressType(),1)) #address + 1
+        ins.AddInstruction(UnconditionalJump(self.beginloop))
+        ins.AddInstruction(self.endloop)
+
+        return ins
+
+
 
 
 
@@ -187,4 +235,25 @@ class ScanfNode(ASTNode):
             pass
 
 
+    def getCode(self):
 
+        ins = InstructionList()
+        ins.maxStackSpace = 3
+        for printchar in self.printlist:
+
+            if printchar[2] != 's':
+                ins.AddInstruction(printchar[0].getCode())
+                if printchar[2] == 'd':
+                    ins.AddInstruction(InInteger())
+                elif printchar[2] == 'f':
+                    ins.AddInstruction(InReal())
+                else:
+                    ins.AddInstruction(InCharacter())
+
+                ins.AddInstruction(StoreStack(printchar[1]))
+
+            else:
+                pass
+                #ins.AddInstruction(self.printloop(printchar))
+
+        return ins
