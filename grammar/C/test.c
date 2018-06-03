@@ -1,15 +1,16 @@
 #include <stdio.h>
 
+int x(int b,int c){
 
-void main(){
+return b;
+}
 
-    int y = 4;
+int main(){
 
-    int * z;
-    int ** x;
-    z= &y;
+    67+9;
 
-    x = &z;
+    int y = 66;
+    x(y+5,y);
+    y+5;
 
-    y = **x;
 }

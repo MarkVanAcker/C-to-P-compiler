@@ -213,6 +213,7 @@ class FunctionCallNode(ASTNode):
 
         entry = st.getVariableEntry(self.getchild(0).name)
 
+        self.entry = entry
 
         if not entry:
             raise SemanticsError(self.getToken(), "undefined reference to '"+ self.getchild(0).name + "'")
@@ -227,6 +228,15 @@ class FunctionCallNode(ASTNode):
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
         return entry.type
+
+
+    def getCode(self):
+        ins = InstructionList()
+        ins.AddInstruction(MarkStack(1))
+        ins.AddInstruction(self.getchild(1).getCode())
+        ins.AddInstruction(CallUserProcedure(len(self.getchild(1).children),Label("function_"+str(self.entry.name))))
+
+        return ins
 
 
 
@@ -271,6 +281,15 @@ class ArgumentsNode(ASTNode):
                     raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
 
             index += 1
+
+
+    def getCode(self):
+        ins = InstructionList()
+
+        for child in self.children:
+            ins.AddInstruction(child.getCode())
+
+        return ins
 
 
 
@@ -647,6 +666,9 @@ class ArrayCallNode(ASTNode):
 
         return entry.type
 
+
+    def getCode(self):
+        pass
 
 
 class DerefNode(ASTNode):

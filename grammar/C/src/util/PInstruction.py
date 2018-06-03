@@ -16,7 +16,7 @@ uniquelabeltracker = {}
 
 class Label(PInstruction):
     def __init__(self,name:str):
-        if name == "function_main":
+        if "function_" in name:
             self.name = name
             return
 
