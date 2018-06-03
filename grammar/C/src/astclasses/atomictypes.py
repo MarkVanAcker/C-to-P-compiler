@@ -1,5 +1,5 @@
 from src.astclasses.AST import *
-from src.astclasses.io import *
+from copy import deepcopy as dp
 
 class IDNode(ASTNode):
     def handle(self, st, type=None):
@@ -771,7 +771,7 @@ class DerefNode(ASTNode):
         if not isinstance(node,IDNode) and not isinstance(node,ArrayCallNode) and not (node,FunctionCallNode):
             raise SemanticsError(node.getToken(),"Calling deref of address object")
         else:
-            if isinstance(node,PrintfNode) or isinstance(node,ScanfNode):
+            if node.name == 'scanf' or node.name == 'printf':
                 raise SemanticsError(self.token, "Sneaky deferencing at hardcoded printf/scanf node, we do not support that")
 
             if isinstance(node,IDNode) or isinstance(node,ArrayCallNode) or (node,FunctionCallNode):
@@ -788,7 +788,7 @@ class DerefNode(ASTNode):
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
 
         #for codegeneration
-        self.entry = entry
+        self.entry = dp(entry)
         self.entry.ptr -= self.ptrcount
 
         return entry
@@ -843,7 +843,7 @@ class AddressNode(ASTNode):
         if type[1] != entry.ptr + self.getchild(0).ptrcount:
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment")
 
-        self.entry = entry
+        self.entry = dp(entry)
         self.entry.ptr += 1
 
         return entry
