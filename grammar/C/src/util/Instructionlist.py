@@ -22,9 +22,9 @@ class InstructionList:
         else:
             pass # can this even occur?
 
-    def printProgram(self):
+    def printProgram(self,name = 'program.p'):
 
-        f = open('program.p','w')
+        f = open('output/' + name,'w')
         for ins in self.instructionlist:
             f.write(ins.write())
             f.write('\n')

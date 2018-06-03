@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<article>
+    <h1>Project Compilers: Jesse Smits & Mark Van Acker</h1>
+
+
+
+    <h2> Goal </h2>
+
+In this project we had to integrate the compiler techniques from theory classes to a functioning compiler
+for a simple language. In this process, we can acquire practical insight on the workings of a compiler,
+and learn how parser generator tools such as ANTLR can be of assistance.
+<br><br><br>
+
+<h2> Assignment </h2>
+
+Invoking the “build” command in your base dir should result in the generation of necessary C
+compiler classes including a Python script named c2p.py. This script, when invoked with python
+c2p.py c prog p prog, will compile the C grammar(s) and start the compilation of an input C
+program c prog into a P code file named p prog. Additionally, provide a “test” command that
+generates the necessary C compiler classes and subsequently executes all tests. Your commands
+should be simple, cross-platform scripts, that can make use of commands “java”, “python” and/or
+“python3” with expected behaviour.
+<br><br><br>
+
+
+    <h3>overview of appendices</h3>
+
+    For this project we used a Pmachine created by The University of Antwerp and antlr4 for lexical analysis. <br><br><br>
+
+
+    <h3>instructions for testing the compiler</h3>
+
+    Building the project:<br><br><br>
+
+    - To build the project and create all the needed antlr4 files you can use the command 'python3 build.py' from the 'C folder' (root/grammar/C).
+        These files are placed in the build folder.<br><br><br>
+
+    Running the project: <br><br><br>
+
+    - The name of the testfile indicates what is being tested, also the prefix 'f_' and 'w_' indicates if the file should work (run smoothly) or fail.
+    <br><br>
+    - To run all testfiles which are located in 'root/grammar/C/test/' you can use the command 'python3 runtests.py from the 'C folder' (root/grammar/C). <br>
+    The results of all these testcases are stored in root/grammar/C/testoutput). In this folder there are 2 more subfolders, one for the AST's and one for the Symboltables.
+    The names of these files indicate which c file is used to create them.
+    <br><br>
+    - If you prefer to run a single file and have a look at the AST, Symboltable or the generated p code you can use the command 'python3 c2p.py file.c' from the 'C folder' (root/grammar/C).
+    The output from this command is stored in the output folder (root/grammar/C/output). The dot file of the AST and Symboltable are hiden (.AST.dot and .ST.dot). They can be converted to an image of any kind
+    with a dot command.
+    <br><br><br>
+
+<h3>Implemented features</h3>
+
+
+<h4>Mandatory features</h4>
+
+<ul>
+  <li>Types: Support for the primitive data types char, float, int, and pointer types.  &#10004;</li>
+  <li>Import: Support for import of stdio.h to use printf and scanf. &#10004;</li>
+  <li>Reserved words: Using reserved keyword list for our C language. &#10004;</li>
+  <li>Local and global variables: Difference between local and global scope is implemented. &#10004;</li>
+  <li>Comments: Single and multiline comments are supported. &#10004;</li>
+  <li>Operations: The basic binary operations +, -, *, and / are supported, as well as brackets
+to overwrite the order of operations. Also, the basic comparison operators >, <, and == are supported. &#10004;</li>
+  <li>Functions: Functions are supported with all possible types (pointers, addressing const, arrays, etc). &#10004;</li>
+  <li>Arrays: Array declarations and operations are supported. We only support 1 dimensional arrays and we make sure that the size can be evaluated at compile time. &#10004;</li>
+  <li>Error Analysis: Semantic and syntax errors are displayed with sufficient information about the position and the error type. &#10004;</li>
+  <li>Null sequences: Useless operations are removed from the AST and optimized (and therefore not present in P). &#10004;</li>
+  <li>Constant folding: Expression that can be evaluated at compile time are calculated and replaced in the AST (and therefore not present in P). &#10004;</li>
+  <li>Unreachable code and dead code: We do not generate code for statements that appear after a return statement in a function. &#10004;</li>
+  <li>Initialization of variables without initializer: Default initializers are set for variables. &#10004;</li>
+  <li>Visusualisations (AST, Symboltable): We create for both the Symboltable and AST clear pictures to give a good overview of the tested c file.  &#10004;</li>
+
+</ul>
+
+<br><br>
+
+<h4>Optional features</h4>
+
+We have chosen some optional features which looked interesting and challenging to implement.
+
+<ul>
+    <li>For: For is supported and converted to a while loop without losing any information. &#10004;</li>
+    <li>Const: Const is supported. Const can be passed to parameters, declaration, return types, ... .
+        We make sure that the const correctness is not broken by having a clear design in our Symboltable. After initialization (with possible assignment) it is no longer possible
+    to change the stored value. &#10004; </li>
+    <li>Constant propagation, Substitute the values of known constants in expressions
+at compile time. This can then be used for further constant folding: This is supported, expressions are folded recursively if possible and they can dynamically change to AST occording to the results. &#10004; </li>
+</ul>
+
+
+</body>
+</html>

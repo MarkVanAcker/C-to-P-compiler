@@ -1,5 +1,0 @@
-int main (){
-
-    float a;
-    return a;
-}

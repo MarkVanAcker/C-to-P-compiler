@@ -1,6 +1,6 @@
 int main(){
 
-    void f();
+    void f(); // function not defined
     return 1;
 }
 
