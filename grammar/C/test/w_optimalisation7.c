@@ -1,7 +1,8 @@
 int main (){
 
     float c = 1.0;
-    c = c;
+
+    float d = c - 0.0;
 
 
     return 1;

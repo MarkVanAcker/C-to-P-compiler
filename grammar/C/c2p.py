@@ -30,8 +30,8 @@ def main(argv):
             code.printProgram()
     except SemanticsError as e:
         print(e)
-    #except Exception as e:
-    #    print(e)
+    except Exception as e:
+        print(e)
 
 
 
