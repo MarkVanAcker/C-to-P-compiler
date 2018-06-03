@@ -6,6 +6,6 @@ void function(){
 
 int main (){
 
-    char character = function();
+    char character = function(); // wrong return from function (which is void)
     return 1;
 }

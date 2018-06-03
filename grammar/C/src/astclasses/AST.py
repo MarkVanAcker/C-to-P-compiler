@@ -79,7 +79,6 @@ class ASTNode:
         if self.Typedcl == 'id':
             entr = st.getVariableEntry(self.name)
             p = entr.ptr - self.ptrcount
-            print("P ", entr.ptr, " - ", self.ptrcount)
         else:
             if self.ptrcount > 0:
                 raise SemanticsError(self.getToken(),"Dereferncing non variables")

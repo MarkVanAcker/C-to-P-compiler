@@ -7,7 +7,6 @@ def checknode(arg,type,pointer,st):
     entry = None
 
     if isinstance(arg, ConstantNode) or isinstance(arg, IDNode) or isinstance(arg, FunctionCallNode) or isinstance(arg,ArrayCallNode):  # constant node handle
-        print("calling eval", arg, arg.name)
         entry = arg.handle(st, type)
 
         # checking pointer levels
@@ -47,14 +46,11 @@ class PrintfNode(ASTNode):
         if len(argnode.children) == 0:
             raise SemanticsError(self.getToken(), "Printf takes at least 1 argument")
 
-        print(argnode.getchild(0))
         if not isinstance(argnode.getchild(0),ConstantNode):
             raise (argnode.getToken(), "Expected Char array as first argument of printf")
 
         argumentsavailable = len(argnode.children) -1
-        print("AV ", argumentsavailable)
         charstring = argnode.getchild(0).name
-        print("String ", charstring)
 
 
         # all children must avulatie to const values , no addresses
@@ -82,7 +78,6 @@ class PrintfNode(ASTNode):
                 elif val == 'f':
                     evaltype = RealType()
                     pointer = 0
-                    print("EVAL %F")
                     checknode(argnode.getchild(index),evaltype,0,st)
                     self.printlist.append((argnode.getchild(index), evaltype,val))
 
@@ -141,14 +136,11 @@ class ScanfNode(ASTNode):
         if len(argnode.children) == 0:
             raise SemanticsError(self.getToken(), "Scanf takes at least 1 argument")
 
-        print(argnode.getchild(0))
         if not isinstance(argnode.getchild(0),ConstantNode):
             raise (argnode.getToken(), "Expected Char array as first argument of scanf")
 
         argumentsavailable = len(argnode.children) -1
-        print("AV ", argumentsavailable)
         charstring = argnode.getchild(0).name
-        print("String ", charstring)
 
         if argumentsavailable > 1:
             raise SemanticsError(self.getToken(), "Scanf takes exactely 2 arguments")
@@ -162,7 +154,6 @@ class ScanfNode(ASTNode):
         if charstring[0] != "%" or len(charstring) != 2:
             raise SemanticsError(self.getToken(), "format string has wrong format in scanf")
 
-        print("HELP",(charstring[1]))
         if charstring[1] != 'd' and charstring[1] != 's' and charstring[1] != 'f' and charstring[1] != 'c':
             raise SemanticsError(self.getToken(), "format string has wrong format (after %) in scanf")
 

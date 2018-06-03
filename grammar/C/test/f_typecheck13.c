@@ -7,7 +7,7 @@ int main(){
     int a = 6;
     int  *p = & a;
 
-    return  ***array;
+    return  ***array; // wrong pointer value (pointer depth wrong) should be 4 deref
 
 
 }

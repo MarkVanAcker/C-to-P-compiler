@@ -12,8 +12,6 @@ from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode
 def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is already done in the expression visit returning result
 
 
-        print("FOLD WITH TYPE ",typeval)
-
         if isinstance(typeval,CharacterType):
             raise SemanticsError(node2.getToken(),"Can not operate with char values, no usefull result")
 
@@ -44,7 +42,6 @@ def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is alread
             elif isinstance(typeval, RealType):
                 return float(float(node1.name) + float(node2.name))
             else:
-                print("TYPE",typeval)
                 raise SemanticsError(node1.getToken(), "operating with nonetypes")
         elif operant == '-':
             if isinstance(typeval, IntegerType):
@@ -96,11 +93,9 @@ class ExpressionNode(ASTNode):
 
         if isinstance(node, ConstantNode) or isinstance(node, IDNode) or isinstance(node,FunctionCallNode) or isinstance(node, ArrayCallNode):
             entry = node.handle(st,type)
-            print("1 if found ", entry.type)
             temptype = entry.type
 
             # checking pointer levels must be 0
-            print(entry.name,entry.ptr)
             if 0 != entry.ptr:
                 raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable in expression")
 
@@ -304,7 +299,6 @@ class DivideNode(ExpressionNode):
 class AssignmentNode(ASTNode):
     #check if L-value and R-value are ok
     def handle(self, st,type = None):
-        print("ASSIGNMENT")
 
         self.symbtable = st
         # left side must be l-value
@@ -327,7 +321,6 @@ class AssignmentNode(ASTNode):
 
 
         pointer = self.getchild(0).pointerlevel(st)  # get the pointer level is   >= 0
-        print(pointer, "FROM ", self.getchild(0).name)
 
         # Evaluate R-value with given l-value type
         # handle has to take into account the pointer levels and accessor node
@@ -335,7 +328,6 @@ class AssignmentNode(ASTNode):
         # do not want to do calculations with addresses
         if isinstance(self.getchild(1),ExpressionNode) and pointer > 0:
             raise SemanticsError(self.getchild(1), "Not alllowed to assign an expression to an address")
-        print([returnType,pointer])
 
         if isinstance(self.getchild(1),DerefNode) or isinstance(self.getchild(1),AddressNode):
             self.getchild(1).handle(st, [returnType,pointer])
@@ -360,7 +352,6 @@ class AssignmentNode(ASTNode):
         # useless code elimination
         if isinstance(self.getchild(1),IDNode):
             if(self.getchild(1).name == entry.name):
-                print("ELEMINATION")
                 self.par.children.remove(self)
 
 

@@ -1,5 +1,5 @@
 int main(){
 
     int * a;
-    return a;
+    return a; // wrong return type (pointer)
 }

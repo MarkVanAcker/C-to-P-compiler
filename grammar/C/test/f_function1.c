@@ -1,4 +1,4 @@
-void function(int *);
+void function(int *); // no definition found
 
 
 int main(){

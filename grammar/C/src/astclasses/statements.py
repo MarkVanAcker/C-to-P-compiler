@@ -26,7 +26,6 @@ class ConditionNode(ASTNode):
         self.symbtable = st
         self.getchild(0).symbtable = st
 
-        print (self.getchild(0).__class__.__name__)
         if isinstance(self.getchild(0) ,EmptyNode):
             raise SemanticsError(self.getToken(),"Empty conditional statement not supported")
 
@@ -36,7 +35,6 @@ class ConditionNode(ASTNode):
 
         save = self.getchild(0).handle(st) #comp expression visit
 
-        print("IMPORTANT", self.getchild(0), self.getchild(0).result, self.getchild(0).name)
 
     def getCode(self):
         return self.children[0].getCode()
@@ -79,7 +77,6 @@ class ConditionalNode(ASTNode):
             ins.AddInstruction(self.ifend)
             s2 = self.children[2].symbtable.getRequiredSpace()
 
-        print(self.symbtable.getRequiredSpace())
         if(self.symbtable.getRequiredSpace() < max(s1,s2)):
             self.symbtable.maxvariablestacksize = max(s1,s2)
 
