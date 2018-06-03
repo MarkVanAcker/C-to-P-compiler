@@ -9,7 +9,6 @@ class IDNode(ASTNode):
         entry = self.symbtable.getVariableEntry(self.name)
 
 
-
         if entry is None or entry.func:
             raise SemanticsError(self.token, "Usage of undefined variable \'" + self.name + "\'")
 
@@ -49,7 +48,16 @@ class IDNode(ASTNode):
         return ins
 
     def getLValue(self):
-        return LoadConstant(AddressType(),self.symbtable.getLvalue(self.name))
+
+        glob = self.symbtable.isGlobal(Entry(self.name))
+        scopeval = 0
+        if glob:
+            scopeval = 1  # global scope
+
+        ins = InstructionList()
+        ins.maxStackSpace = 1
+        ins.AddInstruction(ProcedureLoadAddress(scopeval,self.symbtable.getLvalue(self.name)))
+        return ins
 
 
 
@@ -212,6 +220,7 @@ class FunctionCallNode(ASTNode):
 
         entry = st.getVariableEntry(self.getchild(0).name)
 
+        self.entry = entry
 
         if not entry:
             raise SemanticsError(self.getToken(), "undefined reference to '"+ self.getchild(0).name + "'")
@@ -226,6 +235,15 @@ class FunctionCallNode(ASTNode):
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
         return entry.type
+
+
+    def getCode(self):
+        ins = InstructionList()
+        ins.AddInstruction(MarkStack(1))
+        ins.AddInstruction(self.getchild(1).getCode())
+        ins.AddInstruction(CallUserProcedure(len(self.getchild(1).children),Label("function_"+str(self.entry.name))))
+
+        return ins
 
 
 
@@ -270,6 +288,15 @@ class ArgumentsNode(ASTNode):
                     raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
 
             index += 1
+
+
+    def getCode(self):
+        ins = InstructionList()
+
+        for child in self.children:
+            ins.AddInstruction(child.getCode())
+
+        return ins
 
 
 
@@ -414,7 +441,6 @@ def checkdecl(node : ASTNode, ent):
         ent.name = node.name
         ent.ptr = node.ptrog + 1
         node.ptrcount = 0
-        ent.array = True
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
             if child.name == "ExpressionNode" and child.comp == False:
@@ -518,9 +544,14 @@ class FunctionDefinitionNode(ASTNode):
 
         tempins = self.getchild(2).getCode()
 
-        ins.AddInstruction(SetPointers(tempins.maxStackSpace,newst.variablestacksize))
+        ins.AddInstruction(SetPointers(tempins.maxStackSpace,newst.getRequiredSpace()))
 
         ins.AddInstruction(tempins)
+
+        if self.funcinfo.type is None:
+            ins.AddInstruction(ReturnNoResult())
+
+        ins.AddInstruction(Halt())
 
 
         return ins
@@ -541,6 +572,10 @@ class ReturnNode(ASTNode):
 
         stParent = stFunc.parent
         funcReturnType = stParent.getVariableEntry(stFunc.name).type # scope is under global scope, can only define in global scope
+
+        #voor codegen
+        self.fr = funcReturnType
+
         funcpointer = stParent.getVariableEntry(stFunc.name).ptr
         if len(self.children) == 0:
             # void return
@@ -566,7 +601,6 @@ class ReturnNode(ASTNode):
 
                 # checking return type and retrieve entry
                 entry = self.getchild(0).handle(st, funcReturnType)
-                print("ID IN RET", self.getchild(0).name, entry.ptr)
 
                 # checking pointer levels
                 if funcpointer != entry.ptr:
@@ -622,7 +656,6 @@ class ArrayCallNode(ASTNode):
         # todo if you return an array its a pointer, if all args given its an type const value
         index = 1
         while True:
-            print(index)
             currentnode.symbtable = st
             if currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == False:
                 currentnode.getchild(1).handle(st,IntegerType()) # interger for indexing
@@ -650,6 +683,9 @@ class ArrayCallNode(ASTNode):
         return entry
 
 
+    def getCode(self):
+        pass
+
 
 class DerefNode(ASTNode):
 
@@ -671,7 +707,25 @@ class DerefNode(ASTNode):
             raise SemanticsError(self.getchild(0).getToken(),"Incorrect pointer types of assignment or in expression")
 
     def getCode(self):
-        pass
+
+        entryname = self.getchild(0).name
+
+
+        glob = self.symbtable.isGlobal(Entry(entryname))
+        scopeval = 0
+        if glob:
+            scopeval = 1  # global scope
+        entry = self.symbtable.GlobalTableLookup(Entry(entryname))
+
+        ins = InstructionList()
+        ins.AddInstruction(self.getchild(0).getCode())
+        for c in range(self.ptrcount):
+            if(c+1 == entry.ptr):
+                ins.AddInstruction(LoadIndirectly(entry.type))
+            else:
+                ins.AddInstruction(LoadIndirectly(AddressType()))
+
+        return ins
 
 
 class AddressNode(ASTNode):
@@ -696,4 +750,4 @@ class AddressNode(ASTNode):
 
 
     def getCode(self):
-        pass
+        return self.children[0].getLValue()

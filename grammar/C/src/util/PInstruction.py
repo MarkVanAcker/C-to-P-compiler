@@ -16,6 +16,10 @@ uniquelabeltracker = {}
 
 class Label(PInstruction):
     def __init__(self,name:str):
+        if "function_" in name:
+            self.name = name
+            return
+
         if name in uniquelabeltracker:
             self.name = name + str(uniquelabeltracker[name])
             uniquelabeltracker[name] += 1
@@ -101,7 +105,7 @@ class Equal(PInstruction):
         self.type = t
 
     def write(self):
-        return 'equ %s' + self.type.getType()
+        return 'equ %s' % self.type.getType()
 
 
 class GreaterOrEqual(PInstruction):
@@ -110,7 +114,7 @@ class GreaterOrEqual(PInstruction):
         self.type = t
 
     def write(self):
-        return 'geq %s' + self.type.getType()
+        return 'geq %s' % self.type.getType()
 
 
 class LesserOrEqual(PInstruction):
@@ -119,7 +123,7 @@ class LesserOrEqual(PInstruction):
         self.type = t
 
     def write(self):
-        return 'leq %s' + self.type.getType()
+        return 'leq %s' % self.type.getType()
 
 class Lesser(PInstruction):
 
@@ -127,7 +131,7 @@ class Lesser(PInstruction):
         self.type = t
 
     def write(self):
-        return 'les %s' + self.type.getType()
+        return 'les %s' % self.type.getType()
 
 class Greater(PInstruction):
 
@@ -135,7 +139,7 @@ class Greater(PInstruction):
         self.type = t
 
     def write(self):
-        return 'grt %s' + self.type.getType()
+        return 'grt %s' % self.type.getType()
 
 class NotEqual(PInstruction):
 
@@ -143,7 +147,7 @@ class NotEqual(PInstruction):
         self.type = t
 
     def write(self):
-        return 'neq %s' + self.type.getType()
+        return 'neq %s' % self.type.getType()
 
 
 

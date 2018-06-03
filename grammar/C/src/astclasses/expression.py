@@ -158,7 +158,7 @@ class ExpressionNode(ASTNode):
             node.handle(st, type)  # expression
 
         if folding == False:
-            self.t = type
+            self.type = type
             return type
 
         if (isinstance(self.getchild(0),ExpressionNode) and self.getchild(0).result is not None) or isinstance(self.getchild(0),ConstantNode): # compile time evalution of statement is possible
@@ -192,7 +192,7 @@ class ExpressionNode(ASTNode):
         else:
             self.result = None
 
-        self.t = type
+        self.type = type
 
         return type
 
@@ -236,6 +236,7 @@ class ComparisonNode(ExpressionNode):
     def getCode(self):
         inl = super().getCode()
         inl.AddInstruction(self.operator)
+        return inl
 
 
 
@@ -247,7 +248,7 @@ class AdditionNode(ExpressionNode):
     def getCode(self):
 
         inl = super().getCode()
-        inl.AddInstruction(Add(self.t))
+        inl.AddInstruction(Add(self.type))
 
         return inl
 
@@ -261,7 +262,7 @@ class SubtractionNode(ExpressionNode):
 
         inl = super().getCode()
 
-        inl.AddInstruction(Subtract(self.t))
+        inl.AddInstruction(Subtract(self.type))
 
         return inl
 
@@ -275,7 +276,7 @@ class MultiplyNode(ExpressionNode):
 
         inl = super().getCode()
 
-        inl.AddInstruction(Multiply(self.t))
+        inl.AddInstruction(Multiply(self.type))
 
         return inl
 
@@ -285,11 +286,12 @@ class DivideNode(ExpressionNode):
     def handle(self,st, type = None):
         return super(DivideNode, self).handle(st, type)
 
+
     def getCode(self):
 
         inl = super().getCode()
 
-        inl.AddInstruction(Divide(self.t))
+        inl.AddInstruction(Divide(self.type))
 
         return inl
 

@@ -2,6 +2,7 @@ from src.astclasses.AST import *
 from src.astclasses.atomictypes import *
 from src.parser.SymbolTable import *
 from src.astclasses.expression import *
+from src.astclasses.statements import *
 
 class BlockNode(ASTNode):
 
@@ -11,8 +12,9 @@ class BlockNode(ASTNode):
         self.symbtable = st
 
         returnfound = False
-
-        for child in self.children[:]:
+        childidx = 0
+        while childidx < len(self.children):
+            child = self.children[childidx]
             child.symbtable = st
             if returnfound: # removing useless or dead code after return
                 child.par = None
@@ -21,11 +23,16 @@ class BlockNode(ASTNode):
             if isinstance(child,ReturnNode):
                 returnfound = True
 
+            child.handle(self.symbtable) # should be ok or semantic will pop up
+
+            #check if the handle resulted in a fold. In case of a fold becoming a clearly useless statement we can remove it
+            child = self.children[childidx]
             if isinstance(child,IDNode) or isinstance(child,ConstantNode):
                 self.children.remove(child)
                 continue
 
-            child.handle(self.symbtable) # should be ok or semantic will pop up
+            childidx += 1
+
 
 
 
@@ -34,6 +41,13 @@ class BlockNode(ASTNode):
 
         for child in self.children:
             ins.AddInstruction(child.getCode())
+
+            #clear memory when unused
+            if isinstance(child,ExpressionNode):
+                #write garbage to address 0
+                ins.AddInstruction(StoreAbsolute(child.type,0))
+            elif isinstance(child,FunctionCallNode):
+                ins.AddInstruction(StoreAbsolute(child.entry.type,0))
 
         return ins
 
@@ -76,7 +90,7 @@ class RootNode(ASTNode):
 
     def getCode(self):
 
-        self.symbtable.variablestacksize = 0
+        self.symbtable.variablestacksize = 1
 
         code = InstructionList()
 
@@ -98,12 +112,15 @@ class RootNode(ASTNode):
             code.AddInstruction(globalvar.getCode())
 
 
+        code.AddInstruction(MarkStack(0))
+
+        code.AddInstruction(CallUserProcedure(0,Label("function_main")))
+
+        code.AddInstruction(Halt())
 
         for function in functions:
             code.AddInstruction(function.getCode())
 
-
-        code.AddInstruction(Halt())
 
         return code
 
