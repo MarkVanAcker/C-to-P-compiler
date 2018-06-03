@@ -662,7 +662,7 @@ class ReturnNode(ASTNode):
 
 
     def getCode(self):
-        if len(self.children) == 0:
+        if len(self.children) == 0 or self.fr is None:
             return ReturnNoResult()
         else:
             ins = InstructionList()

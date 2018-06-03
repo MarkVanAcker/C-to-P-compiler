@@ -263,6 +263,30 @@ class ScanfNode(ASTNode):
 
             else:
                 pass
-                #ins.AddInstruction(self.printloop(printchar))
+                ins.AddInstruction(self.printloop(printchar))
+
+        return ins
+
+    def printloop(self,arr):
+
+        self.beginloop = Label("printloopb")
+        self.endloop = Label("printloope")
+
+        ins = InstructionList()
+        ins.maxStackSpace = 4
+
+        ins.AddInstruction(arr[0].getCode()) # address
+        ins.AddInstruction(self.beginloop)
+        ins.AddInstruction(Duplicate(AddressType())) #address address
+        ins.AddInstruction(LoadIndirectly(CharacterType())) #address val(address)
+        ins.AddInstruction(LoadConstant(CharacterType(),0))#address val(address) 0
+        ins.AddInstruction(NotEqual(CharacterType())) #address bool
+        ins.AddInstruction(ConditionalJump(self.endloop))
+        ins.AddInstruction(Duplicate(AddressType())) #address address
+        ins.AddInstruction(LoadIndirectly(CharacterType())) #address val(address)
+        ins.AddInstruction(OutCharacter())
+        ins.AddInstruction(Increment(AddressType(),1)) #address + 1
+        ins.AddInstruction(UnconditionalJump(self.beginloop))
+        ins.AddInstruction(self.endloop)
 
         return ins
