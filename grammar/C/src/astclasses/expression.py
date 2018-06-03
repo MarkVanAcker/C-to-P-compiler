@@ -11,6 +11,9 @@ from src.astclasses.atomictypes import TypeCheck, ConstantNode, FunctionCallNode
 
 def fold(node1 : ASTNode,node2 : ASTNode,operant,typeval): # typecheck is already done in the expression visit returning result
 
+
+        print("FOLD WITH TYPE ",typeval)
+
         if isinstance(typeval,CharacterType):
             raise SemanticsError(node2.getToken(),"Can not operate with char values, no usefull result")
 
@@ -83,50 +86,40 @@ class ExpressionNode(ASTNode):
         if isinstance(node,AddressNode):
             raise SemanticsError(node.getToken(),"No addressing allowed in expression")
 
-        if isinstance(node,DerefNode):
-            print("out0")
-            print("out0")
-
-            node.handle(st,[None,0]) # node handled is ok (no typecheck just pointer check is it is a variable with value
-            node = node.getchild(0)
-
         node.symbtable = st
         entry = None
-        if type == None:
-            # variable
-            if node.Typedcl == 'id':
-                entry = st.getVariableEntry(node.name)
-                if entry is None:
-                    raise SemanticsError(node.token,"undeclared variable (first use in this function)")
-
-                if 0 != entry.ptr + node.ptrcount:
-                    raise SemanticsError(node.getToken(), "No addresses allowed in expression")
-                type = entry.type
-
-            # constant value (right?)
-            elif node.Typedcl is not None:
-                type = node.Typedcl
-            else:
-                type = node.handle(st, type)
+        temptype = None
 
 
+        if isinstance(node, ConstantNode) or isinstance(node, IDNode) or isinstance(node,FunctionCallNode) or isinstance(node, ArrayCallNode):
+            entry = node.handle(st,type)
+            print("1 if found ", entry.type)
+            temptype = entry.type
+
+            # checking pointer levels must be 0
+            if 0 != entry.ptr:
+                raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable in expression")
+
+        elif node.name == "ExpressionNode" and node.comp == True:
+            raise SemanticsError(node.getToken(), "No boolean types evaluated in expression")
+        elif node.name == "ExpressionNode" and node.comp == False:
+            temptype = node.handle(st, type)
+
+        elif isinstance(node, DerefNode):
+            entry = node.handle(st, [type, 0])
+            temptype = entry.type
 
 
-        else:
-            if  isinstance(node,ArrayCallNode)or isinstance(node,FunctionCallNode):
-                TypeCheck(node, st, type)
-            elif not isinstance(node,ExpressionNode):
-                ent = node.handle(st, type)  # handle calls of all sorts (idnode, const node) they return an entry with ptr
-                if 0 != ent.ptr + node.ptrcount:
-                    raise SemanticsError(node.getToken(), "No addresses allowed in expression")
-
-            else:
-                node.handle(st, type)  # expression
-
-
+        if type is None:
+            type = temptype
 
         if len(self.children) == 1:
             return type
+
+
+        print("TYPE IS NOT SET>LEFT HAND DONE ", type)
+        print("I FOUND  ", temptype)
+
 
         #
         # HANDLE RIGHT VALUE OF THE EXPRESSION
@@ -139,23 +132,25 @@ class ExpressionNode(ASTNode):
         if isinstance(node,AddressNode):
             raise SemanticsError(node.getToken(),"No addressing allowed in expression")
 
-        if isinstance(node,DerefNode):
-            node.handle(st,[type,0]) # node handled is ok (type and pointer check and check if it is a variable with value)
-            node = node.getchild(0)
-            node.symbtable = st
+        entry = None
 
-        # node.handle(st,type)
-        #TypeCheck(node, st, type)
+        if isinstance(node, ConstantNode) or isinstance(node, IDNode) or isinstance(node,FunctionCallNode) or isinstance(node, ArrayCallNode):
+            entry = node.handle(st, type)
 
-        if isinstance(node, ArrayCallNode) or isinstance(node, FunctionCallNode):
-            TypeCheck(node, st, type)
-        elif not isinstance(node, ExpressionNode): # if no exp
-            ent = node.handle(st, type)  # handle calls of all sorts (idnode, const node) they return an entry with ptr
-            if 0 != ent.ptr + node.ptrcount:
-                raise SemanticsError(node.getToken(), "No addresses allowed in expression")
+            # checking pointer levels must be 0
+            if 0 != entry.ptr:
+                raise SemanticsError(self.getchild(1).getToken(),
+                                     "Pointer referces not correct in variable in expression")
 
-        else:
-            node.handle(st, type)  # expression
+        elif node.name == "ExpressionNode" and node.comp == True:
+            raise SemanticsError(arg.getToken(), "No boolean types evaluated in expression")
+        elif node.name == "ExpressionNode" and node.comp == False:
+            node.handle(st, type)
+
+        elif isinstance(node, DerefNode):
+            entry = node.handle(st, [type, 0])
+
+
 
         if folding == False:
             self.type = type
@@ -339,7 +334,7 @@ class AssignmentNode(ASTNode):
 
         if isinstance(self.getchild(1),DerefNode) or isinstance(self.getchild(1),AddressNode):
             self.getchild(1).handle(st, [returnType,pointer])
-        elif isinstance(self.getchild(1),IDNode) or isinstance(self.getchild(1),ConstantNode):
+        elif isinstance(self.getchild(1),IDNode) or isinstance(self.getchild(1),ConstantNode) or isinstance(self.getchild(1),ArrayCallNode) or isinstance(self.getchild(1),FunctionCallNode) :
             # could also just be an idnode as rvalue of assignment which can be a counter (without * or &) such as int ** ptr2 = ptr -> ptr is pointer
 
             # checking return type and retrieve entry
@@ -350,7 +345,7 @@ class AssignmentNode(ASTNode):
                 raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable")
 
 
-        else: # expression
+        elif isinstance(self.getchild(1),ExpressionNode) : # expression
             self.getchild(1).handle(st, returnType)
 
         # useless code elimination

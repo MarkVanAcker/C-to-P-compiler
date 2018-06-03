@@ -3,7 +3,7 @@ int main(){
 
     int  *** array[10];
 
-    return  *** array;
+    return  ** array[5];
 
 
 }

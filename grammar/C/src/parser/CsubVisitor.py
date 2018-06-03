@@ -2,13 +2,14 @@ from build.CVisitor import CVisitor
 from build.CParser import CParser
 from src.astclasses import *
 
+
 class CsubVisitor(CVisitor):
 
 
     def __init__(self,name="Program"):
         self.DOT = False
         self.AST = RootNode(name)
-
+        self.longchar = False;
 
     def todot(self,node,child):
 
@@ -376,10 +377,14 @@ class CsubVisitor(CVisitor):
             tempnode = FunctionCallNode("funccall")
             paramnode = ArgumentsNode("paramlist")
             childnode = ctx.getChild(0).accept(self)
+
             if childnode.name == "printf":
+                self.longchar = True
                 tempnode = PrintfNode("printf")
             if childnode.name == "scanf":
+                self.longchar = True
                 tempnode = ScanfNode("scanf")
+            print("LONG B",  self.longchar)
             if(ctx.getChildCount() == 3):
                 tempnode.addchild(childnode)
                 tempnode.addchild(paramnode)
@@ -389,6 +394,20 @@ class CsubVisitor(CVisitor):
                 tempnode.addchild(childnode)
                 tempnode.addchild(paramnode)
                 paramnode.addchildren(ctx.getChild(2).accept(self))
+                self.longchar = False
+            print("LONGAFTER", self.longchar)
+
+            node = tempnode.getchild(0)
+            if isinstance(node,DerefNode):
+
+                id = node.getchild(0)
+                id.par = None
+                node.clearchildren()
+                node.addchild(tempnode)
+                tempnode.children.pop(0)
+                tempnode.children.insert(0,id)
+                id.par = tempnode
+                return node
 
             return tempnode
 
@@ -746,6 +765,9 @@ class CsubVisitor(CVisitor):
             elif token.type == CParser.CHARACTER:
                 n.Typedcl = CharacterType()
                 n.name = n.name[1:-1]
+                print("EVAL", self.longchar, n.name)
+                if self.longchar == False and len(n.name)> 1:
+                    raise SemanticsError(n.getToken(),"Character must have only a single value")
         #int, float, char
         elif token.type == CParser.INT or token.type == CParser.CHAR or token.type == CParser.FLOAT or token.type == CParser.VOID or token.type == CParser.CONST:
             n = TypeNode(name,token)

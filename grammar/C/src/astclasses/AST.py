@@ -27,6 +27,7 @@ class ASTNode:
         self.result = None
         self.ptrcount = 0
         self.ptrog = 0
+        self.printlist = []
 
     def todot(self,file):
 

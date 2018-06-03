@@ -84,6 +84,7 @@ class ConstantNode(ASTNode):
 
         e = Entry()
         e.ptr = 0
+        e.type = self.Typedcl
         return e
 
     def getCode(self, env:SymbolTable = None):
@@ -155,7 +156,7 @@ def TypeCheck(node : ASTNode, st, t):
 
     # other callable types, arrays and functioncalls
     elif isinstance(node,ArrayCallNode) or isinstance(node,FunctionCallNode):
-        if not isinstance(t, type(node.handle(st))): # let array return type
+        if not isinstance(t, type(node.handle(st).type)): # let array return type
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
     else:
@@ -211,7 +212,6 @@ class ParamNode(ASTNode):
 
             else:
                 # eg array
-                print("DECL NODE" , param.handle(SymbolTable()).ptr)
                 paramlist.append(param.handle(SymbolTable()))
         return paramlist
 
@@ -244,9 +244,11 @@ class FunctionCallNode(ASTNode):
         #if not entry.defined:
         #    raise SemanticsError(self.getToken(), "Calling undefined function")
 
+        print("FUNC PPAR", entry.params)
+
         self.getchild(1).handle(st,entry.params) # arguments node typechecks each parameter
 
-        return entry.type
+        return entry
 
 
     def getCode(self):
@@ -270,6 +272,7 @@ class ArgumentsNode(ASTNode):
                 ArrayCallNode checked on name return type
                 ExpressionNode
                 FunctionCallNode checked on name return type
+                Deref addres
         '''
 
         self.symbtable = st
@@ -278,28 +281,46 @@ class ArgumentsNode(ASTNode):
             return
 
 
+        # typelist are entries
+
+
         # if there are no parameters, no arguments will make a empty node
         if len(typelist) == 0 and not isinstance(self.getchild(0),EmptyNode):
             raise SemanticsError(self.getToken(),"Incorrect number of arguments given in functioncall")
 
+        if len(typelist) == 0 and len(self.children) == 1 and isinstance(self.getchild(0),EmptyNode):
+            return
+
+        if len(typelist) != len(self.children):
+            raise SemanticsError(self.getToken(), "Funcall has not the same number of arguments as declaration")
+
         index = 0
         for arg in self.children:
             arg.symbtable = st
-            if isinstance(arg,ConstantNode): # constant node handle
-                if not isinstance(arg.Typedcl, type(typelist[index].type)):
-                    raise SemanticsError(arg.getToken(),"Do not support type conversion at funccal argument")
-            elif isinstance(arg,IDNode): # IDnode handle
-                entry = st.getVariableEntry(arg.name)
-                if entry is None:
-                    raise SemanticsError(arg.getToken(), "Unknown variable")
-                if not isinstance(entry.type, type(typelist[index].type)):
-                    raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
-            elif isinstance(arg, ArrayCallNode) or isinstance(arg, FunctionCallNode) or arg.name == "ExpressionNode": # other node handles that have children to call upon
-                returntype = arg.handle(st)
-                if not isinstance(returntype,type(typelist[index].type)):
-                    raise SemanticsError(arg.getToken(), "Do not support type conversion at funccal argument")
+
+            entry = None
+
+            if isinstance(arg,ConstantNode) or isinstance(arg,IDNode) or isinstance(arg,FunctionCallNode) or isinstance(arg,ArrayCallNode): # constant node handle
+                entry = arg.handle(st,typelist[index].type)
+
+                # checking pointer levels
+                if typelist[index].ptr != entry.ptr:
+                    raise SemanticsError(self.getchild(1).getToken(), "Pointer referces not correct in variable")
+
+            elif arg.name == "ExpressionNode" and arg.comp == True:
+                raise SemanticsError(arg.getToken(), "No boolean types evaluated in funccal argument")
+            elif arg.name == "ExpressionNode" and arg.comp == False and typelist[index].ptr == 0:
+                arg.handle(st,typelist[index].type)
+            elif arg.name == "ExpressionNode" and arg.comp == False and typelist[index].ptr != 0:
+                raise SemanticsError(arg.getToken(), "Expression in funccal argument can not evaluate addresses")
+
+            elif isinstance(arg,DerefNode) or isinstance(arg,AddressNode):
+                entry = arg.handle(st, [typelist[index].type,typelist[index].ptr])
+
 
             index += 1
+
+
 
 
     def getCode(self):
@@ -536,6 +557,9 @@ class FunctionDefinitionNode(ASTNode):
             else:
                 raise SemanticsError(par.getToken(), "parameter name omitted")
 
+        for ent in newst.entries: # codegen reasons
+            ent.array = False
+
         self.getchild(2).handle(newst) # block traverse
 
         entry.defined = True
@@ -707,7 +731,6 @@ class ArrayCallNode(ASTNode):
         e.params = entry.params
         e.type = entry.type
 
-
         return e
 
 
@@ -739,10 +762,10 @@ class DerefNode(ASTNode):
 
         entry = None
         node = self.getchild(0)
-        if not isinstance(node,IDNode) and not isinstance(node,ArrayCallNode):
+        if not isinstance(node,IDNode) and not isinstance(node,ArrayCallNode) and not (node,FunctionCallNode):
             raise SemanticsError(node.getToken(),"Calling deref of address object")
         else:
-            if isinstance(node,IDNode) or isinstance(node,ArrayCallNode):
+            if isinstance(node,IDNode) or isinstance(node,ArrayCallNode) or (node,FunctionCallNode):
                 node.ptrcount = -(self.ptrcount) # setting number of pointers
                 print("Setting" , node.name ,node.ptrcount)
                 entry = node.handle(st,type[0])
@@ -750,17 +773,12 @@ class DerefNode(ASTNode):
                 node.ptrcount = -(self.ptrcount)  # setting number of pointers
                 entry = node.handle(st, type[0])
 
-    # vb
-    # int *** array[10]
-    # ** array[4]
-    # 4 - 1 -> 3
-    # -2
-    # 1 != entryptr (3) + dere -2 -> 1
-
 
         print(type[1], entry.ptr + node.ptrcount)
         if type[1] != entry.ptr + node.ptrcount:
             raise SemanticsError(node.getToken(),"Incorrect pointer types of assignment or in expression")
+
+        return entry
 
 
 
@@ -798,11 +816,19 @@ class AddressNode(ASTNode):
             # should not happen
             raise SemanticsError(self.getToken(), "Address called of non object")
 
+        entry = None
         if not isinstance(self.getchild(0),IDNode):
             raise SemanticsError(self.getchild(0).getToken(),"Calling address of non variable")
         else:
-            self.getchild(0).ptrcount = 1
-            entry = self.getchild(0).handle(st,type[0])
+            node = self.getchild(0)
+            if isinstance(node, IDNode) or isinstance(node, ArrayCallNode):
+                node.ptrcount = 1  # setting number of pointers
+                print("Setting", node.name, node.ptrcount)
+                entry = node.handle(st, type[0])
+            if isinstance(node, ArrayCallNode):
+                node.ptrcount = -(self.ptrcount)  # setting number of pointers
+                entry = node.handle(st, type[0])
+
 
         print(type[1],entry.ptr + self.getchild(0).ptrcount)
         if type[1] != entry.ptr + self.getchild(0).ptrcount:
@@ -810,6 +836,8 @@ class AddressNode(ASTNode):
 
         self.entry = entry
         self.entry.type = AddressType()
+
+        return entry
 
 
 

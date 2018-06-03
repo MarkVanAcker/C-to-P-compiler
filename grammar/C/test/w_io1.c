@@ -3,7 +3,7 @@
 
 int main(){
 
-    scanf("a");
+    scanf("aaaa");
     return 1;
 
 }

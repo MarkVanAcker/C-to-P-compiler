@@ -10,7 +10,7 @@ int main(){
     int lista [5];
     int ** pointer;
     char array [20];
-    int result = othertest(list[1],1,test(1.0,pointer,array));
+    int result = othertest(list[1],1,**pointer);
 
     return 1;
 
