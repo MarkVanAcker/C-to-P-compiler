@@ -3,7 +3,7 @@ int *** func(const int );
 int *** func(const int a){
 
         int * ptr = &a;
-        int ** ptr2 = & ptr1;
+        int ** ptr2 = & ptr;
         int *** ptr3 = &ptr2;
 
         return ptr3;

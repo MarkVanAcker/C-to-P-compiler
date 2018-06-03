@@ -24,7 +24,7 @@ def main(argv):
         ToDotAST(ast)
         ToDotST(st)
         code = ast.getCode()
-        if argv[2] != '':
+        if len(sys.argv) >=3:
             code.printProgram(argv[2])
         else:
             code.printProgram()
