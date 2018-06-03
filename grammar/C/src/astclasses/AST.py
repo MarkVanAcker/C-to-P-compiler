@@ -23,6 +23,7 @@ class ASTNode:
         self.symbtable = None
         self.isconst = False
         self.operator = None
+        self.comp = False
         self.result = None
         self.ptrcount = 0
         self.ptrog = 0

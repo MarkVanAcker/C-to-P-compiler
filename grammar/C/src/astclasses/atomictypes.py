@@ -9,11 +9,21 @@ class IDNode(ASTNode):
         entry = self.symbtable.getVariableEntry(self.name)
 
 
+
         if entry is None or entry.func:
             raise SemanticsError(self.token, "Usage of undefined variable \'" + self.name + "\'")
 
         if type is not None:
             TypeCheck(self, st, type)
+
+        if entry.array == True:
+            e = Entry()
+            e.ptr = 1
+            e.name = entry.name
+            e.params = entry.params
+            e.type = entry.type
+            entry = e
+
 
         return entry
 
@@ -104,7 +114,6 @@ def TypeCheck(node : ASTNode, st, t):
 
         if not isinstance(Ltype, type(t)): # keeping void for what it is
             print("ERROR CONV", Ltype.__class__.__name__, type(t))
-            Warning(node.getToken(),"forced type conversion")
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
 
@@ -127,7 +136,6 @@ def TypeCheck(node : ASTNode, st, t):
     # other callable types, arrays and functioncalls
     elif isinstance(node,ArrayCallNode) or isinstance(node,FunctionCallNode):
         if not isinstance(t, type(node.handle(st))): # let array return type
-            Warning(node.getToken(),"forced type conversion")
             raise SemanticsError(node.getToken(), "No dynamic conversion supported")
 
     else:
@@ -404,13 +412,16 @@ def checkdecl(node : ASTNode, ent):
     elif node.Typedcl == "array":
         ent.array = True
         ent.name = node.name
-        ent.ptr = node.ptrog
+        ent.ptr = node.ptrog + 1
         node.ptrcount = 0
+        ent.array = True
         for child in reversed(node.children): # handle each ' [ x ] '
             # todo handle constant folding at compile time for expression, if not raise IDNODE?
-            if child.name == "ExpressionNode":
+            if child.name == "ExpressionNode" and child.comp == False:
                 child.handle(node.symbtable, IntegerType())
                 ent.arrays.append(child.result)
+            elif child.name == "ExpressionNode" and child.comp == True:
+                raise SemanticsError(child.getToken(), "Array does not support boolean evaluation for array size")
             else:
                 if not isinstance(child.Typedcl,type(IntegerType())): # only constants pass here
                     raise SemanticsError(child.getToken(),"invalid array size type")
@@ -555,6 +566,7 @@ class ReturnNode(ASTNode):
 
                 # checking return type and retrieve entry
                 entry = self.getchild(0).handle(st, funcReturnType)
+                print("ID IN RET", self.getchild(0).name, entry.ptr)
 
                 # checking pointer levels
                 if funcpointer != entry.ptr:
@@ -597,7 +609,10 @@ class ArrayCallNode(ASTNode):
         entry = st.getVariableEntry(rootnode.getchild(0).name)
 
         if entry is None or entry.func or not entry.array:
-            SemanticsError(self.token,"Undefined array called")
+            raise SemanticsError(self.token,"Undefined array called")
+        if entry.ptr < 1  or entry.func:
+            raise SemanticsError(self.getToken(),"Calling array operator on invalid type")
+
 
 
 
@@ -607,9 +622,13 @@ class ArrayCallNode(ASTNode):
         # todo if you return an array its a pointer, if all args given its an type const value
         index = 1
         while True:
+            print(index)
             currentnode.symbtable = st
-            if currentnode.getchild(1).name == "ExpressionNode":
+            if currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == False:
                 currentnode.getchild(1).handle(st,IntegerType()) # interger for indexing
+            elif currentnode.getchild(1).name == "ExpressionNode" and currentnode.getchild(1).comp == True:
+                raise SemanticsError(currentnode.getchild(1).getToken(), "Array does not evaluate boolean types as argument")
+
             else:
                 # must be const of id (const will be fuckin annoying)
                 #todo const on exp and constant values  (like 5)
@@ -618,15 +637,17 @@ class ArrayCallNode(ASTNode):
 
             if currentnode != rootnode:
                 currentnode = currentnode.getchild(0) # keep going
+            if isinstance(currentnode,DerefNode) or isinstance(currentnode,AddressNode):
+                break
             else:
                 break
             index +=1
 
-        if len(entry.arrays) < index:
-            # doing array[4][5] and calling array[x][c][y]
-            raise SemanticsError(self.getToken(),'Accessing undefined memory (accessing an dimension from array that was not created')
-
-        return entry.type
+        #if len(entry.arrays) < index:
+        #    # doing array[4][5] and calling array[x][c][y]
+        #    raise SemanticsError(self.getToken(),'Accessing undefined memory (accessing an dimension from array that was not created')
+#
+        return entry
 
 
 

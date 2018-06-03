@@ -688,6 +688,7 @@ class CsubVisitor(CVisitor):
                 name = ctx.getChild(1).accept(self).name
                 exprnode = ComparisonNode("ExpressionNode")
                 exprnode.operator = name
+                exprnode.comp = True
             elif ctx.getChild(1).accept(self).name == '*':
                 exprnode = MultiplyNode("ExpressionNode")
                 exprnode.operator = "*"
