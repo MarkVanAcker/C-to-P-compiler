@@ -1,4 +1,4 @@
-int f() = 3;
+int f() = 3; // assigning to a function
 
 int main(){
 

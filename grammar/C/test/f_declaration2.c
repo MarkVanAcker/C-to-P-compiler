@@ -1,7 +1,7 @@
 void f();
 
 
-int f;
+int f; // redeclaration
 
 
 int main(){

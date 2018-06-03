@@ -24,7 +24,10 @@ def main(argv):
         ToDotAST(ast)
         ToDotST(st)
         code = ast.getCode()
-        code.printProgram()
+        if argv[2] != '':
+            code.printProgram(argv[2])
+        else:
+            code.printProgram()
     except SemanticsError as e:
         print(e)
     #except Exception as e:
