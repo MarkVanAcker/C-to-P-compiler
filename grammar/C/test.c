@@ -1,18 +1,19 @@
-#include <stdio.h>
-
-int x(int b,int c){
-
-return b;
-}
-
 int main(){
 
-    67+9;
+int  a[8];
+int * p = a;
 
-    int y = 66;
-    x(y+5,y);
-    y+5;
+p[8];
 
-    &5;
+int i;
+for(i = 0; i < 10;i = i+1){
+
+int  l = a[3];
+}
+for(i = 0; i < 10;i = i+1){
+
+int * l = a[3];
+}
+
 
 }

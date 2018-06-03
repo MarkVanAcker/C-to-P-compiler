@@ -122,7 +122,7 @@ class SymbolTable:
 
     #returns the required global space
     def getGlobalSpace(self):
-        counter = 0
+        counter = self.getRequiredSpace()
 
         for entry in self.entries:
             if entry.func:
