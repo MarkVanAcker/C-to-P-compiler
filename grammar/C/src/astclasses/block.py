@@ -84,8 +84,10 @@ class RootNode(ASTNode):
                 raise SemanticsError(None,"Linking error, function not defined: " + ent.name)
 
         for ent in st.entries:
-            if ent.func == True and ent.name == "main":
+            if ent.func == True and ent.name == "main" and ent.defined:
                 return
+            if ent.func == True and ent.name == "main" and not ent.defined:
+                raise SemanticsError(None, "Function main not defined")
         raise SemanticsError(None,"No main function found")
 
     def getCode(self):

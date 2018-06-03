@@ -189,7 +189,7 @@ class Entry:
         print(self.type,type(other.type))
         print(self.ptr, other.ptr )
         print(self.array , other.array)
-        if (isinstance(self.type,type(other.type)) and self.ptr  == other.ptr and self.array == other.array):
+        if (isinstance(self.type,type(other.type)) and self.ptr  == other.ptr):
             return True
         else:
             return False
